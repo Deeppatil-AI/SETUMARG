@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Grounded Topographic Field Palette */
+  --terrain-ink: #1C2B22;
+  --terrain-paper: #F1EDE2;
+  --terrain-paper-muted: #E5DEC9;
+  --terrain-paper-card: rgba(241, 237, 226, 0.96);
+  --terrain-paper-glass: rgba(241, 237, 226, 0.90);
+  
+  --slope-slate: #3E5C63;
+  --slope-slate-light: rgba(62, 92, 99, 0.14);
+  --slope-slate-border: rgba(62, 92, 99, 0.24);
+  
+  --monsoon-blue: #3B6EA5;
+  --monsoon-blue-light: rgba(59, 110, 165, 0.14);
+  
+  --risk-safe: #5C7A4E;
+  --risk-amber: #C77A2E;
+  --risk-red: #A63A32;
+}
+
+body {
+  margin: 0;
+  background-color: var(--terrain-ink);
+  color: var(--terrain-paper);
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Custom cartographic scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #15221b;
+}
+::-webkit-scrollbar-thumb {
+  background: #2d4538;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--slope-slate);
+}
+
+/* Leaflet Cartographic Container */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background-color: #d6cfbe !important; /* Topographic hillshade base tone */
+  font-family: 'IBM Plex Sans', sans-serif !important;
+}
+
+/* Styled Cartographic Neatline Popups */
+.leaflet-popup-content-wrapper {
+  background-color: var(--terrain-paper) !important;
+  color: var(--terrain-ink) !important;
+  box-shadow: 0 4px 16px rgba(28, 43, 34, 0.22) !important;
+  border: 1px solid var(--slope-slate-border) !important;
+  border-radius: 4px !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-tip {
+  background-color: var(--terrain-paper) !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px !important;
+  line-height: 1.4 !important;
+}
+
+/* Pulsing keyframe for severe landslide risk segment */
+@keyframes pulse-hazard-line {
+  0% {
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 1px rgba(166, 58, 50, 0.4));
+  }
+  50% {
+    stroke-opacity: 1.0;
+    filter: drop-shadow(0 0 7px rgba(166, 58, 50, 0.95));
+  }
+  100% {
+    stroke-opacity: 0.85;
+    filter: drop-shadow(0 0 1px rgba(166, 58, 50, 0.4));
+  }
+}
+
+.severe-hazard-line {
+  animation: pulse-hazard-line 2.2s infinite ease-in-out;
+}
+
+/* Subtle isochrone contour ripple */
+@keyframes isochrone-ripple {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+.isochrone-halo {
+  animation: isochrone-ripple 3.5s infinite ease-in-out;
+}
+
+/* Slide-up bottom sheet animation */
+@keyframes slideUpDrawer {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpDrawer 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
