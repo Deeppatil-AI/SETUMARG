@@ -47,10 +47,10 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
       <div className="flex flex-wrap items-end justify-between border-b border-[#3E5C63]/25 pb-3">
         <div>
           <span className="font-mono text-xs text-[#3E5C63] uppercase tracking-wider block mb-0.5">
-            Smart India Hackathon 2026 | PS SIH26002
+            National Highway &amp; Hill Road Safety Portal • North East Region
           </span>
           <h1 className="font-heading font-extrabold text-2xl text-[#1C2B22] tracking-tight">
-            Setumarg Emergency &amp; Operations Summary
+            Highway Safety &amp; Emergency Operations Status
           </h1>
         </div>
 

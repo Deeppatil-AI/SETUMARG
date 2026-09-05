@@ -1,4 +1,5 @@
 import React from 'react';
+import Logo from './Logo';
 import { 
   ShieldAlert, 
   CloudRain, 
@@ -7,7 +8,8 @@ import {
   BarChart3, 
   BookOpen, 
   Radio, 
-  AlertTriangle 
+  AlertTriangle,
+  PhoneCall
 } from 'lucide-react';
 
 export default function Navbar({ 
@@ -29,19 +31,21 @@ export default function Navbar({
 
   return (
     <header className="bg-[#142319] text-[#F1EDE2] border-b border-[#2D4535] sticky top-0 z-50 shadow-md">
-      {/* Top Cartographic Collar Strip */}
+      {/* Top Official Public Service Collar Strip */}
       <div className="border-b border-[#253A2C] px-4 py-1.5 flex flex-wrap items-center justify-between text-xs font-mono bg-[#0F1B13]">
         <div className="flex items-center gap-3">
-          <span className="bg-[#1E3827] text-[#6EE7B7] border border-[#34D399]/40 font-bold px-2 py-0.5 rounded text-[11px] tracking-wide">
-            SIH 2026 / PS SIH26002
+          <span className="bg-[#1E3827] text-[#6EE7B7] border border-[#34D399]/40 font-bold px-2.5 py-0.5 rounded text-[11px] tracking-wide flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
+            PUBLIC SAFETY SERVICE
           </span>
           <span className="text-[#3A5644]">|</span>
           <span className="text-[#E5DEC9] font-medium text-xs hidden sm:inline">
-            North East India Safe Travel &amp; Landslide Alert System
+            North East India Mountain Road Safety &amp; Emergency Travel Portal
           </span>
           <span className="text-[#3A5644] hidden md:inline">|</span>
-          <span className="bg-[#183144] text-[#93C5FD] border border-[#38BDF8]/40 px-2 py-0.5 rounded text-[11px] font-semibold hidden md:inline">
-            PM GatiShakti &amp; ULIP Connected
+          <span className="text-[#93C5FD] font-mono text-[11px] hidden md:flex items-center gap-1">
+            <PhoneCall className="w-3 h-3 text-[#38BDF8]" />
+            Helpline: 112 / 1070
           </span>
         </div>
 
@@ -56,7 +60,7 @@ export default function Navbar({
             onClick={openResearchModal}
             className="text-[#E2DAC7] hover:text-white underline decoration-[#4ADE80]/50 hover:decoration-[#4ADE80] text-xs font-sans transition"
           >
-            How It Works &amp; Research Citations
+            Safety Handbook &amp; Scientific Basis
           </button>
         </div>
       </div>
@@ -65,20 +69,18 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-4">
         {/* Brand & Designation */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded bg-[#203628] border border-[#4ADE80]/40 flex items-center justify-center font-heading font-extrabold text-sm text-[#F1EDE2] shadow-sm">
-            SM
-          </div>
+          <Logo size={42} />
           <div>
             <div className="flex items-center gap-2">
               <span className="font-heading text-xl font-bold tracking-tight text-[#FFFFFF]">
                 SETUMARG
               </span>
-              <span className="font-mono text-[10px] tracking-widest text-[#6EE7B7] bg-[#1E3827] px-2 py-0.5 rounded border border-[#34D399]/30 font-bold">
-                ROAD SAFETY &amp; TERRAIN ASSISTANT
+              <span className="font-mono text-[10px] tracking-wider text-[#6EE7B7] bg-[#1E3827] px-2 py-0.5 rounded border border-[#34D399]/30 font-bold">
+                MOUNTAIN ROAD SAFETY PORTAL
               </span>
             </div>
             <p className="text-xs text-[#E5DEC9] font-sans mt-0.5 font-normal">
-              Live Landslide Warnings, Village Hospital Access &amp; Safe Travel Routes
+              Live Landslide Warnings, Village Hospital Access &amp; Safe Route Navigation
             </p>
           </div>
         </div>
