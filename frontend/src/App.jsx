@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import HazardMap from './components/HazardMap';
 import AccessibilityView from './components/AccessibilityView';
 import RouteOptimizerView from './components/RouteOptimizerView';
-import FreightPlannerView from './components/FreightPlannerView';
 import DashboardView from './components/DashboardView';
 import ReportModal from './components/ReportModal';
 import ResearchModal from './components/ResearchModal';
@@ -131,16 +130,6 @@ export default function App() {
     return await res.json();
   };
 
-  // Handler for Freight Planner
-  const handleCalculateFreight = async (specs) => {
-    const res = await fetch(`${API_BASE}/api/freight/plan`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(specs)
-    });
-    return await res.json();
-  };
-
   return (
     <div className="min-h-screen bg-[#1C2B22] text-[#F1EDE2] flex flex-col">
       {/* Global Navigation & Monsoon Scrubber Bar */}
@@ -182,12 +171,6 @@ export default function App() {
         {activeTab === 'routing' && (
           <RouteOptimizerView
             onOptimizeRoute={handleOptimizeRoute}
-          />
-        )}
-
-        {activeTab === 'freight' && (
-          <FreightPlannerView
-            onCalculateFreight={handleCalculateFreight}
           />
         )}
 

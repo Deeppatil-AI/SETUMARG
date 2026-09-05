@@ -4,7 +4,6 @@ import {
   CloudRain, 
   MapPin, 
   Route, 
-  Ship, 
   BarChart3, 
   BookOpen, 
   Radio, 
@@ -169,7 +168,6 @@ export default function Navbar({
           { id: 'map', label: 'Live Road & Landslide Map', icon: MapPin },
           { id: 'accessibility', label: 'Village Hospital Access', icon: ShieldAlert },
           { id: 'routing', label: 'Safe Route Finder', icon: Route },
-          { id: 'freight', label: 'Cargo Transport (Truck, Train, Boat)', icon: Ship },
           { id: 'dashboard', label: 'Emergency & Status Summary', icon: BarChart3 },
         ].map((tab) => {
           const Icon = tab.icon;

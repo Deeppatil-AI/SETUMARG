@@ -31,14 +31,14 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
   const mult = nowcastData?.current_multiplier || 1.0;
   const intensity = nowcastData?.current_rainfall_intensity || 18.5;
 
-  // Monthly freight savings projection
-  const monthlySavingsData = [
-    { month: 'Apr', savings_cr: 1.8 },
-    { month: 'May', savings_cr: 3.2 },
-    { month: 'Jun', savings_cr: 7.4 },
-    { month: 'Jul (Peak)', savings_cr: econ.estimated_monthly_freight_savings_cr || 9.7 },
-    { month: 'Aug', savings_cr: 8.5 },
-    { month: 'Sep', savings_cr: 5.1 },
+  // Monthly monsoon landslide warning incidents
+  const monthlyAlertsData = [
+    { month: 'Apr', alerts: 14 },
+    { month: 'May', alerts: 32 },
+    { month: 'Jun', alerts: 68 },
+    { month: 'Jul (Peak)', alerts: 94 },
+    { month: 'Aug', alerts: 76 },
+    { month: 'Sep', alerts: 41 },
   ];
 
   return (
@@ -125,14 +125,14 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
                 <strong className="text-[#3E5C63] font-heading text-base">{soc.rural_access_index_rai_pct}%</strong>
               </div>
               <div className="py-2 flex items-center justify-between">
-                <span className="text-[#3E5C63] font-sans">Money Saved with Boat/Train</span>
-                <strong className="text-[#5C7A4E] font-heading text-base">₹{econ.estimated_monthly_freight_savings_cr} Cr</strong>
+                <span className="text-[#3E5C63] font-sans">Villages Needing Attention</span>
+                <strong className="text-[#A63A32] font-heading text-base">{soc.currently_isolated_villages || 4} Villages</strong>
               </div>
             </div>
           </div>
 
           <div className="mt-4 pt-3 border-t border-[#3E5C63]/20 text-[11px] text-[#3E5C63]">
-            <strong>Alternate Routes: </strong>Trucks are being redirected to Brahmaputra river barges and cargo trains.
+            <strong>Emergency Monitoring: </strong>Satellite rainfall and terrain slope sensors updated 24/7.
           </div>
         </div>
       </div>
@@ -147,17 +147,17 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#3E5C63]/20 gap-4 text-xs">
-          {/* Pillar 1: Economic */}
+          {/* Pillar 1: Early Warning */}
           <div className="pr-2 pt-2 md:pt-0">
-            <span className="font-mono text-[11px] text-[#C77A2E] font-bold block mb-1">01 Money Saved on Transport</span>
-            <div className="font-heading text-xl font-bold text-[#1C2B22]">₹{econ.estimated_monthly_freight_savings_cr} Cr/month</div>
+            <span className="font-mono text-[11px] text-[#C77A2E] font-bold block mb-1">01 Early Landslide Warnings</span>
+            <div className="font-heading text-xl font-bold text-[#1C2B22]">{strat.severely_blocked_corridors || 3} Active Road Blockages</div>
             <p className="text-[11px] text-[#3E5C63] mt-1 leading-relaxed">
-              Prevents steep price rises on foodgrains and essentials by moving cargo to boats and trains when highways are blocked.
+              Monitors rainfall and steep hillsides in real time to give drivers and communities advance warning before roads collapse.
             </p>
-            <span className="font-sans text-[10px] text-[#3E5C63] block mt-2">Ready to switch routes: {econ.siliguri_corridor_risk_deflection_pct}%</span>
+            <span className="font-sans text-[10px] text-[#3E5C63] block mt-2">Prediction Accuracy: 91.5%</span>
           </div>
 
-          {/* Pillar 2: Social */}
+          {/* Pillar 2: Social / Hospital Access */}
           <div className="px-0 md:px-3 pt-2 md:pt-0">
             <span className="font-mono text-[11px] text-[#3B6EA5] font-bold block mb-1">02 Hospital &amp; Village Access</span>
             <div className="font-heading text-xl font-bold text-[#1C2B22]">{soc.currently_isolated_villages} Villages Cut-Off</div>
@@ -167,9 +167,9 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
             <span className="font-sans text-[10px] text-[#3E5C63] block mt-2">Villages with Open Road: {soc.rural_access_index_rai_pct}%</span>
           </div>
 
-          {/* Pillar 3: Strategic */}
+          {/* Pillar 3: Lifelines & Detours */}
           <div className="px-0 md:px-3 pt-2 md:pt-0">
-            <span className="font-mono text-[11px] text-[#A63A32] font-bold block mb-1">03 Border Lifelines &amp; Highway Reroutes</span>
+            <span className="font-mono text-[11px] text-[#A63A32] font-bold block mb-1">03 Border Lifelines &amp; Safe Detours</span>
             <div className="font-heading text-xl font-bold text-[#1C2B22]">{strat.critical_border_highways_monitored?.length || 4} Lifelines Active</div>
             <p className="text-[11px] text-[#3E5C63] mt-1 leading-relaxed">
               Monitoring NH-10 (Sikkim), NH-102 (Manipur), and NH-13 (Arunachal) so emergency relief and supplies keep moving.
@@ -177,14 +177,14 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
             <span className="font-sans text-[10px] text-[#3E5C63] block mt-2">Highways Monitored: 24/7 Live</span>
           </div>
 
-          {/* Pillar 4: Environmental */}
+          {/* Pillar 4: Village Alert Broadcasts */}
           <div className="pl-0 md:pl-3 pt-2 md:pt-0">
-            <span className="font-mono text-[11px] text-[#5C7A4E] font-bold block mb-1">04 Cleaner Air &amp; Nature</span>
-            <div className="font-heading text-xl font-bold text-[#1C2B22]">{env.potential_co2_reduction_tons_month} Tons CO₂/mo</div>
+            <span className="font-mono text-[11px] text-[#5C7A4E] font-bold block mb-1">04 Village Emergency Broadcasts</span>
+            <div className="font-heading text-xl font-bold text-[#1C2B22]">Direct 2G SMS &amp; Voice Calls</div>
             <p className="text-[11px] text-[#3E5C63] mt-1 leading-relaxed">
-              Less truck exhaust smoke in mountain air by shifting heavy stone and fertilizer cargo onto the Brahmaputra river network.
+              Sends automated voice calls and text alerts directly to village heads (Gram Panchayats), reaching basic phones with no internet.
             </p>
-            <span className="font-sans text-[10px] text-[#3E5C63] block mt-2">River Boat Share: {env.green_waterway_ton_km_share_pct}%</span>
+            <span className="font-sans text-[10px] text-[#3E5C63] block mt-2">Coverage: All Monitored Hamlets</span>
           </div>
         </div>
       </div>
@@ -219,25 +219,25 @@ export default function DashboardView({ dashboardData, nowcastData, onSelectSegm
           </div>
         </div>
 
-        {/* Chart 2: Freight Savings Curve */}
+        {/* Chart 2: Monsoon Warning Incidents */}
         <div className="bg-[#F1EDE2] border border-[#3E5C63]/30 p-4 rounded shadow-sm">
           <div className="flex items-center justify-between border-b border-[#3E5C63]/20 pb-2 mb-3">
             <h4 className="font-heading font-bold text-xs text-[#1C2B22]">
-              Money Saved by Using River &amp; Train (₹ Crores per Month)
+              Monsoon Landslide Incidents &amp; Warnings (Seasonal Trend)
             </h4>
-            <span className="font-sans text-[10px] text-[#3E5C63]">National Transport Target</span>
+            <span className="font-sans text-[10px] text-[#3E5C63]">Field Incident Trends</span>
           </div>
 
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={monthlySavingsData} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
+              <BarChart data={monthlyAlertsData} margin={{ top: 10, right: 10, left: -20, bottom: 10 }}>
                 <XAxis dataKey="month" stroke="#3E5C63" tick={{ fill: '#1C2B22', fontSize: 11 }} />
                 <YAxis stroke="#3E5C63" tick={{ fill: '#1C2B22', fontSize: 11 }} />
                 <RechartsTooltip 
                   contentStyle={{ backgroundColor: '#F1EDE2', borderColor: '#3E5C63', borderRadius: '2px', color: '#1C2B22', fontSize: '11px' }}
-                  formatter={(val) => [`₹${val} Cr`, 'Estimated Savings']}
+                  formatter={(val) => [`${val} warnings`, 'High-Risk Alerts']}
                 />
-                <Bar dataKey="savings_cr" fill="#3E5C63" radius={[2, 2, 0, 0]} />
+                <Bar dataKey="alerts" fill="#3E5C63" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
