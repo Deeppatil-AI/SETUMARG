@@ -196,12 +196,12 @@ export default function HazardMap({
                     {seg.highway} — {seg.name}
                   </div>
                   <div className="text-[11px] text-[#3E5C63] mt-0.5">
-                    Alert Level: <strong style={{ color: strokeColor }}>{seg.dynamic_alert_tier}</strong> (Risk Index: {seg.dynamic_risk_score})
+                    Danger Level: <strong style={{ color: strokeColor }}>{seg.dynamic_alert_tier}</strong> (Danger Score: {Math.round(seg.dynamic_risk_score * 100)}%)
                   </div>
                   {seg.is_blocked && (
-                    <div className="text-[#A63A32] font-semibold text-[11px] mt-0.5">Confirmed Road Cut / Impassable</div>
+                    <div className="text-[#A63A32] font-semibold text-[11px] mt-0.5">Road Completely Blocked by Mudslide / Debris</div>
                   )}
-                  <div className="text-[10px] text-[#3E5C63] opacity-80 mt-1">Click to open geotechnical telemetry sheet</div>
+                  <div className="text-[10px] text-[#3E5C63] opacity-80 mt-1">Click road for full safety details &amp; ground conditions</div>
                 </div>
               </Tooltip>
             </Polyline>
@@ -222,12 +222,12 @@ export default function HazardMap({
             <Tooltip>
               <div className="text-xs p-1 text-[#1C2B22]">
                 <div className="font-heading font-bold">{vil.name}</div>
-                <div className="text-[11px] text-[#3E5C63]">Population: {vil.population.toLocaleString()}</div>
+                <div className="text-[11px] text-[#3E5C63]">Population: {vil.population.toLocaleString()} people</div>
                 <div className="text-[11px] font-mono">
-                  Hospital Travel: <strong>{vil.effective_travel_hospital_min}m</strong> (Base: {vil.base_travel_hospital_min}m)
+                  Travel Time to Hospital: <strong>{vil.effective_travel_hospital_min} mins</strong> (Normally: {vil.base_travel_hospital_min} mins)
                 </div>
-                <div className="text-[10px] text-[#3E5C63] mt-0.5 font-mono">
-                  Isochrone status: {vil.cutoff_severity}
+                <div className="text-[10px] text-[#3E5C63] mt-0.5 font-sans">
+                  Status: <strong>{vil.is_cut_off ? 'Cut-off from main highway' : (vil.effective_travel_hospital_min > 90 ? 'Delayed hospital access' : 'Open road')}</strong>
                 </div>
               </div>
             </Tooltip>
@@ -265,7 +265,7 @@ export default function HazardMap({
       {/* Floating Header Instruction when Pin-Drop Mode is Active */}
       {isPinDropping && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-[#F1EDE2] text-[#1C2B22] border border-[#3E5C63] px-4 py-2 rounded shadow-lg flex items-center gap-3 text-xs font-heading font-bold animate-pulse">
-          <span>Click anywhere along a highway to place an on-ground hazard report</span>
+          <span>Click anywhere on a highway to report a landslide or blocked section</span>
           <button 
             onClick={() => setIsPinDropping(false)}
             className="text-[#3E5C63] hover:text-[#1C2B22] p-0.5"
@@ -276,19 +276,26 @@ export default function HazardMap({
       )}
 
       {/* Map Filter Neatline Panel (Top Left) */}
-      <div className="absolute top-4 left-4 z-10 bg-[#F1EDE2]/92 backdrop-blur-md border border-[#3E5C63]/30 px-3 py-2 rounded shadow-sm text-xs flex items-center gap-2">
-        <span className="text-[#3E5C63] font-medium text-[11px]">Filter Risk Tier:</span>
-        {['ALL', 'Severe', 'Very High', 'High', 'Moderate', 'Low'].map((tier) => (
+      <div className="absolute top-4 left-4 z-10 bg-[#F1EDE2]/92 backdrop-blur-md border border-[#3E5C63]/30 px-3 py-2 rounded shadow-sm text-xs flex flex-wrap items-center gap-2">
+        <span className="text-[#3E5C63] font-medium text-[11px]">Show Roads:</span>
+        {[
+          { id: 'ALL', label: 'All Roads' },
+          { id: 'Severe', label: 'Blocked / Severe' },
+          { id: 'Very High', label: 'High Danger' },
+          { id: 'High', label: 'Warning' },
+          { id: 'Moderate', label: 'Watch' },
+          { id: 'Low', label: 'Safe / Clear' }
+        ].map((item) => (
           <button
-            key={tier}
-            onClick={() => setFilterTier(tier)}
-            className={`px-2 py-0.5 text-[11px] font-mono rounded transition ${
-              filterTier === tier
+            key={item.id}
+            onClick={() => setFilterTier(item.id)}
+            className={`px-2 py-0.5 text-[11px] font-sans rounded transition ${
+              filterTier === item.id
                 ? 'bg-[#1C2B22] text-[#F1EDE2] font-semibold'
                 : 'text-[#1C2B22] hover:bg-[#3E5C63]/10'
             }`}
           >
-            {tier}
+            {item.label}
           </button>
         ))}
       </div>
@@ -296,37 +303,37 @@ export default function HazardMap({
       {/* Integrated Cartographic Neatline Legend (Bottom Left) */}
       <div className="absolute bottom-6 left-4 z-10 bg-[#F1EDE2]/94 backdrop-blur-md border border-[#3E5C63]/35 p-3 rounded shadow-md max-w-xs text-[#1C2B22]">
         <div className="font-heading font-bold text-xs mb-1.5 pb-1 border-b border-[#3E5C63]/25 flex items-center justify-between">
-          <span>Topographic Risk & Isochrone Key</span>
-          <span className="text-[10px] font-mono text-[#3E5C63]">LHASA Matrix</span>
+          <span>Road Safety &amp; Access Guide</span>
+          <span className="text-[10px] font-mono text-[#3E5C63]">Live Status</span>
         </div>
         
         <div className="space-y-1.5 text-[11px]">
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <span className="w-4 h-1.5 rounded-sm bg-[#A63A32]"></span>
-              <strong className="text-[#A63A32]">Severe / Blocked</strong>
+              <strong className="text-[#A63A32]">Blocked / Extreme Danger</strong>
             </span>
-            <span className="font-mono text-[10px] text-[#3E5C63]">0.82 – 1.00</span>
+            <span className="font-mono text-[10px] text-[#3E5C63]">Do not travel</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <span className="w-3.5 h-1 rounded-sm bg-[#C77A2E]"></span>
-              <span className="text-[#C77A2E] font-medium">Moderate to High</span>
+              <span className="text-[#C77A2E] font-medium">Warning / High Caution</span>
             </span>
-            <span className="font-mono text-[10px] text-[#3E5C63]">0.28 – 0.82</span>
+            <span className="font-mono text-[10px] text-[#3E5C63]">Risk of slides</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <span className="w-3 h-0.5 rounded-sm bg-[#5C7A4E]"></span>
-              <span className="text-[#5C7A4E] font-medium">Stable All-Weather</span>
+              <span className="text-[#5C7A4E] font-medium">Clear / All-Weather Open</span>
             </span>
-            <span className="font-mono text-[10px] text-[#3E5C63]">0.00 – 0.28</span>
+            <span className="font-mono text-[10px] text-[#3E5C63]">Safe to drive</span>
           </div>
         </div>
 
-        <div className="mt-2 pt-1.5 border-t border-[#3E5C63]/20 flex items-center justify-between text-[10px] text-[#3E5C63] font-mono">
-          <span>O Village nodes: Population sized</span>
-          <span>Isochrones: 30m / 60m</span>
+        <div className="mt-2 pt-1.5 border-t border-[#3E5C63]/20 flex items-center justify-between text-[10px] text-[#3E5C63] font-sans">
+          <span>Circles = Villages &amp; Towns</span>
+          <span>Rings = 30m / 60m travel range</span>
         </div>
       </div>
 
@@ -342,10 +349,10 @@ export default function HazardMap({
                     className="font-mono text-[10px] font-bold px-2 py-0.5 rounded text-white" 
                     style={{ backgroundColor: getTierColor(selectedSegment.dynamic_alert_tier, selectedSegment.is_blocked) }}
                   >
-                    {selectedSegment.dynamic_alert_tier} ALERT
+                    {selectedSegment.dynamic_alert_tier.toUpperCase()} DANGER
                   </span>
                   <span className="font-mono text-xs text-[#3E5C63]">{selectedSegment.segment_id}</span>
-                  <span className="text-xs text-[#3E5C63] font-medium">{selectedSegment.highway} • {selectedSegment.state} • {selectedSegment.length_km} km</span>
+                  <span className="text-xs text-[#3E5C63] font-medium">{selectedSegment.highway} • {selectedSegment.state} • {selectedSegment.length_km} km section</span>
                 </div>
                 <h3 className="font-heading font-bold text-base text-[#1C2B22] mt-0.5">
                   {selectedSegment.name}
@@ -364,8 +371,8 @@ export default function HazardMap({
             {/* Impassable Warning if flagged */}
             {selectedSegment.is_blocked && (
               <div className="bg-[#A63A32]/10 border-l-4 border-[#A63A32] p-2.5 mb-3 text-xs text-[#A63A32]">
-                <strong className="font-heading">Active Highway Obstruction: </strong>
-                {selectedSegment.blockage_reason || 'Debris flow across carriageway.'}
+                <strong className="font-heading">Road Is Blocked: </strong>
+                {selectedSegment.blockage_reason || 'Mudslide and falling rocks across both lanes.'}
               </div>
             )}
 
@@ -374,16 +381,16 @@ export default function HazardMap({
               {/* XAI Narrative */}
               <div className="bg-[#E5DEC9]/50 border border-[#3E5C63]/25 p-3 rounded">
                 <h4 className="font-heading font-bold text-xs text-[#1C2B22] mb-1">
-                  Explainable AI Susceptibility Diagnostic
+                  Why is this road at risk of landslides?
                 </h4>
                 <p className="text-[11px] text-[#3E5C63] leading-relaxed">
-                  Scored at <strong>{selectedSegment.dynamic_risk_score}</strong> dynamic hazard level (Static RF Susceptibility: {selectedSegment.static_risk_score}).
+                  Calculated at <strong>{Math.round(selectedSegment.dynamic_risk_score * 100)}%</strong> overall danger today based on live rainfall and hill slope steepness (Base slope weakness: {Math.round(selectedSegment.static_risk_score * 100)}%).
                 </p>
                 <div className="mt-2 space-y-1">
-                  <span className="font-mono text-[10px] text-[#1C2B22] font-semibold block uppercase">Dominant Contributing Factors:</span>
+                  <span className="font-sans text-[11px] text-[#1C2B22] font-semibold block">Main Danger Triggers:</span>
                   {selectedSegment.top_drivers?.map((driver, i) => (
                     <div key={i} className="text-[11px] text-[#A63A32] font-medium">
-                      — {driver}
+                      • {driver}
                     </div>
                   ))}
                 </div>
@@ -392,39 +399,39 @@ export default function HazardMap({
               {/* 12 Factors Telemetry */}
               <div className="lg:col-span-2 bg-[#E5DEC9]/50 border border-[#3E5C63]/25 p-3 rounded">
                 <h4 className="font-heading font-bold text-xs text-[#1C2B22] mb-2 flex items-center justify-between">
-                  <span>Himalayan Geotechnical Matrix (12 Conditioning Factors)</span>
-                  <span className="font-mono text-[10px] text-[#3E5C63]">Dibang Valley Study Replica</span>
+                  <span>Ground &amp; Hillside Conditions (Terrain Factors)</span>
+                  <span className="font-sans text-[10px] text-[#3E5C63]">Live Terrain Analysis</span>
                 </h4>
                 
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 text-center font-mono">
                   <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
-                    <span className="text-[9px] text-[#3E5C63] block">Slope</span>
-                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.slope_deg}°</strong>
+                    <span className="text-[9px] text-[#3E5C63] block font-sans">Hill Slope</span>
+                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.slope_deg}° steep</strong>
                   </div>
                   <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
-                    <span className="text-[9px] text-[#3E5C63] block">Aspect</span>
+                    <span className="text-[9px] text-[#3E5C63] block font-sans">Slope Facing</span>
                     <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.aspect_deg}°</strong>
                   </div>
                   <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
-                    <span className="text-[9px] text-[#3E5C63] block">Fault Dist</span>
-                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.dist_to_fault_m}m</strong>
+                    <span className="text-[9px] text-[#3E5C63] block font-sans">Fault Line</span>
+                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.dist_to_fault_m}m away</strong>
                   </div>
                   <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
-                    <span className="text-[9px] text-[#3E5C63] block">Drainage</span>
-                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.dist_to_drainage_m}m</strong>
+                    <span className="text-[9px] text-[#3E5C63] block font-sans">River / Stream</span>
+                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.dist_to_drainage_m}m away</strong>
                   </div>
                   <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
-                    <span className="text-[9px] text-[#3E5C63] block">NDVI Veg</span>
-                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.ndvi}</strong>
+                    <span className="text-[9px] text-[#3E5C63] block font-sans">Tree Cover</span>
+                    <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.ndvi > 0.6 ? 'Dense' : 'Sparse'} ({selectedSegment.factors.ndvi})</strong>
                   </div>
                   <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
-                    <span className="text-[9px] text-[#3E5C63] block">Rain Base</span>
+                    <span className="text-[9px] text-[#3E5C63] block font-sans">Recent Rain</span>
                     <strong className="text-xs text-[#1C2B22]">{selectedSegment.factors.base_rainfall_mm}mm</strong>
                   </div>
                 </div>
 
                 <div className="mt-2 pt-2 border-t border-[#3E5C63]/20 text-[11px] text-[#3E5C63]">
-                  <strong>Strategic Role: </strong>{selectedSegment.strategic_importance}
+                  <strong>Road Importance: </strong>{selectedSegment.strategic_importance}
                 </div>
               </div>
             </div>

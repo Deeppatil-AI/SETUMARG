@@ -68,10 +68,10 @@ export default function ReportModal({
           </div>
           <div>
             <h3 className="font-heading font-bold text-base text-[#1C2B22]">
-              Log Road Breach or Hazard Incident
+              Report a Blocked Road or Landslide
             </h3>
             <p className="text-[#3E5C63] text-[11px]">
-              Field Verification for NASA LHASA Nowcasting System
+              Helps drivers, ambulances, and village teams know immediately
             </p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function ReportModal({
           <div className="py-8 text-center space-y-2">
             <CheckCircle2 className="w-10 h-10 text-[#5C7A4E] mx-auto" />
             <h4 className="font-heading font-bold text-sm text-[#1C2B22]">{successMessage}</h4>
-            <p className="text-[#3E5C63] text-[11px]">Connected highway vector updated with live impassable status.</p>
+            <p className="text-[#3E5C63] text-[11px]">Warning flags added to this highway section immediately.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -88,7 +88,7 @@ export default function ReportModal({
             <div className="bg-[#E5DEC9] p-3 rounded border border-[#3E5C63]/25">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-heading font-bold text-[#1C2B22] text-xs">
-                  Incident Coordinates (NER Highway)
+                  Road Location Coordinates
                 </span>
                 <button
                   type="button"
@@ -96,9 +96,9 @@ export default function ReportModal({
                     onClose();
                     onStartPinDrop();
                   }}
-                  className="text-[11px] font-mono text-[#3B6EA5] hover:underline font-semibold"
+                  className="text-[11px] font-sans text-[#3B6EA5] hover:underline font-semibold"
                 >
-                  Pick on Topographic Map
+                  Click on Map to Pick Location
                 </button>
               </div>
               <div className="grid grid-cols-2 gap-2 font-mono">
@@ -130,42 +130,42 @@ export default function ReportModal({
             {/* Hazard Type & Severity */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[#1C2B22] font-semibold text-xs block mb-1">Hazard Nature</label>
+                <label className="text-[#1C2B22] font-semibold text-xs block mb-1">What is blocking the road?</label>
                 <select
                   value={hazardType}
                   onChange={(e) => setHazardType(e.target.value)}
-                  className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none"
+                  className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none font-sans"
                 >
-                  <option value="Debris Flow / Mudslide">Debris Flow / Mudslide</option>
-                  <option value="Rockfall & Boulder Hazard">Rockfall & Boulder Hazard</option>
-                  <option value="Flash Flood / Road Submergence">Flash Flood / Road Submergence</option>
-                  <option value="Road Subsidence / Slip">Road Subsidence / Slip</option>
-                  <option value="Bridge Approach Washout">Bridge Approach Washout</option>
+                  <option value="Mudslide / Landslide">Mudslide / Landslide</option>
+                  <option value="Falling Rocks / Boulders">Falling Rocks / Boulders</option>
+                  <option value="Flooding / Road Submerged">Flooding / Water Over Road</option>
+                  <option value="Road Cracked / Sinking">Road Cracked / Sinking</option>
+                  <option value="Broken Bridge / Approach Washout">Broken Bridge / Approach Washout</option>
                 </select>
               </div>
               <div>
-                <label className="text-[#1C2B22] font-semibold text-xs block mb-1">Severity / Clearance</label>
+                <label className="text-[#1C2B22] font-semibold text-xs block mb-1">Can vehicles pass through?</label>
                 <select
                   value={severity}
                   onChange={(e) => setSeverity(e.target.value)}
-                  className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none font-semibold text-[#A63A32]"
+                  className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none font-sans font-semibold text-[#A63A32]"
                 >
-                  <option value="Impassable">Impassable (Total Traffic Halved)</option>
-                  <option value="Critical">Critical (Severe Bottleneck)</option>
-                  <option value="Moderate">Moderate (Single Lane Escort)</option>
-                  <option value="Minor">Minor (Passable with Caution)</option>
+                  <option value="Impassable">Completely Blocked (No Vehicles)</option>
+                  <option value="Critical">Heavy Blockage (Severe Danger)</option>
+                  <option value="Moderate">One Lane Only (Slow Passing)</option>
+                  <option value="Minor">Small Stones / Drive Carefully</option>
                 </select>
               </div>
             </div>
 
             {/* Description */}
             <div>
-              <label className="text-[#1C2B22] font-semibold text-xs block mb-1">On-Ground Situation Report</label>
+              <label className="text-[#1C2B22] font-semibold text-xs block mb-1">Describe What Happened</label>
               <textarea
                 rows="3"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="e.g. Sonapur tunnel portal blocked by 40m debris fan following intense morning rain. BRO bulldozers mobilizing."
+                placeholder="e.g. Sonapur tunnel entrance blocked by mud and rocks after morning rain. Vehicles cannot pass."
                 className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none"
                 required
               ></textarea>
@@ -173,12 +173,13 @@ export default function ReportModal({
 
             {/* Reporter Name */}
             <div>
-              <label className="text-[#1C2B22] font-semibold text-xs block mb-1">Reporter Affiliation</label>
+              <label className="text-[#1C2B22] font-semibold text-xs block mb-1">Your Name / Role (Optional)</label>
               <input
                 type="text"
                 value={reporterName}
                 onChange={(e) => setReporterName(e.target.value)}
-                className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none"
+                placeholder="e.g. Local Driver / Village Resident / BRO Officer"
+                className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 rounded p-2 text-[#1C2B22] text-xs outline-none font-sans"
               />
             </div>
 
@@ -190,7 +191,7 @@ export default function ReportModal({
                 className="w-full bg-[#A63A32] hover:bg-[#8F2F28] text-[#F1EDE2] font-heading font-bold py-2.5 rounded transition flex items-center justify-center gap-2"
               >
                 <Send className="w-4 h-4" />
-                {isSubmitting ? 'Logging Incident...' : 'Log Road Incident & Elevate Alert'}
+                {isSubmitting ? 'Submitting Report...' : 'Submit Road Block Report Now'}
               </button>
             </div>
           </form>

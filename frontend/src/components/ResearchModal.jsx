@@ -53,10 +53,10 @@ export default function ResearchModal({ isOpen, onClose }) {
             </div>
             <div>
               <h3 className="font-heading font-bold text-base text-[#1C2B22]">
-                Scientific References & Design Foundations
+                How It Works — Scientific Research &amp; Official Standards
               </h3>
               <p className="text-[11px] text-[#3E5C63]">
-                Grounded in Published Himalayan Geotechnical Research and National Logistics Standards
+                Grounded in published Himalayan terrain research, NASA satellite rainfall models, and national transport networks
               </p>
             </div>
           </div>

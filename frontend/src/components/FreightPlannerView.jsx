@@ -56,13 +56,13 @@ export default function FreightPlannerView({ onCalculateFreight }) {
       <div className="bg-[#F1EDE2] p-5 rounded border border-[#3E5C63]/30 shadow-sm flex flex-wrap items-start justify-between gap-4">
         <div>
           <span className="font-mono text-xs text-[#3E5C63] uppercase tracking-wider block mb-1">
-            PM GatiShakti National Master Plan & ULIP Specialized NER Layer
+            Smart Goods &amp; Cargo Transport Planner
           </span>
           <h2 className="font-heading font-bold text-xl text-[#1C2B22]">
-            Multi-Modal Freight Planner & Hazard Arbitrage Engine
+            Cargo &amp; Goods Transport: Trucks, Trains &amp; River Boats
           </h2>
           <p className="text-xs text-[#3E5C63] max-w-3xl mt-1 leading-relaxed">
-            Freight through the Siliguri corridor carries an acute 30–40% premium due to recurrent monsoon bottlenecks. Setumarg compares Road, Rail, and Inland Waterway 2 (Brahmaputra), deflecting vulnerable road freight to multi-modal river routes.
+            During heavy rains, highway trucks through North Bengal often get trapped by landslides, causing food and fuel prices to jump. Setumarg compares Trucks, Cargo Trains, and River Boats (Brahmaputra River) to find the cheapest, fastest, and safest way to move supplies.
           </p>
         </div>
 
@@ -71,54 +71,54 @@ export default function FreightPlannerView({ onCalculateFreight }) {
           className="flex items-center gap-1.5 bg-[#1C2B22] hover:bg-[#2A4033] text-[#F1EDE2] text-xs font-heading font-semibold px-3.5 py-2 rounded transition"
         >
           <FileCode className="w-4 h-4 text-[#3B6EA5]" />
-          View ULIP Contract JSON
+          View Government Shipping Contract (ULIP)
         </button>
       </div>
 
       {/* Shipment Input Controls */}
       <div className="bg-[#F1EDE2] p-4 rounded border border-[#3E5C63]/30 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div>
-          <label className="text-[10px] text-[#3E5C63] font-mono block mb-1">Origin Freight Terminal</label>
+          <label className="text-[10px] text-[#3E5C63] font-sans font-semibold block mb-1">Shipping From (Starting Hub)</label>
           <select
             value={originHub}
             onChange={(e) => setOriginHub(e.target.value)}
             className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 text-[#1C2B22] rounded p-2 text-xs font-semibold outline-none"
           >
-            <option value="HUB-SIL-01">Siliguri Gateway (NJP Terminal)</option>
-            <option value="HUB-GHY-01">Guwahati (Pandu Port & Jogighopa MMLP)</option>
-            <option value="HUB-DHU-01">Dhubri River Port (IWAI Terminal)</option>
+            <option value="HUB-SIL-01">Siliguri Goods Terminal (NJP)</option>
+            <option value="HUB-GHY-01">Guwahati (Pandu River Port)</option>
+            <option value="HUB-DHU-01">Dhubri River Port (Brahmaputra)</option>
           </select>
         </div>
 
         <div>
-          <label className="text-[10px] text-[#3E5C63] font-mono block mb-1">Destination Freight Node</label>
+          <label className="text-[10px] text-[#3E5C63] font-sans font-semibold block mb-1">Shipping To (Destination Hub)</label>
           <select
             value={destHub}
             onChange={(e) => setDestHub(e.target.value)}
             className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 text-[#1C2B22] rounded p-2 text-xs font-semibold outline-none"
           >
-            <option value="HUB-DBR-01">Dibrugarh / Neamati Port (Upper Assam)</option>
-            <option value="HUB-SCL-01">Silchar Logistics Hub (Barak Valley)</option>
-            <option value="HUB-DMV-01">Dimapur Depot (Nagaland Spine)</option>
+            <option value="HUB-DBR-01">Dibrugarh River Port (Upper Assam)</option>
+            <option value="HUB-SCL-01">Silchar Goods Depot (Barak Valley)</option>
+            <option value="HUB-DMV-01">Dimapur Railway Depot (Nagaland)</option>
           </select>
         </div>
 
         <div>
-          <label className="text-[10px] text-[#3E5C63] font-mono block mb-1">Consignment Category</label>
+          <label className="text-[10px] text-[#3E5C63] font-sans font-semibold block mb-1">Type of Cargo / Goods</label>
           <select
             value={cargoType}
             onChange={(e) => setCargoType(e.target.value)}
             className="w-full bg-[#E5DEC9] border border-[#3E5C63]/30 text-[#1C2B22] rounded p-2 text-xs font-semibold outline-none"
           >
-            <option value="essential_foodgrains_fertilizer">Foodgrains & Fertilizer (PDS Lifeline)</option>
-            <option value="tea_horticulture">Tea & Agricultural Exports</option>
-            <option value="construction_steel">Construction Steel & Structural</option>
-            <option value="fmcg_pharmaceuticals">Cold-Chain Pharmaceuticals & FMCG</option>
+            <option value="essential_foodgrains_fertilizer">Ration Foodgrains &amp; Fertilizer</option>
+            <option value="tea_horticulture">Tea &amp; Farm Harvest</option>
+            <option value="construction_steel">Building Steel &amp; Cement</option>
+            <option value="fmcg_pharmaceuticals">Medicines &amp; Daily Supplies</option>
           </select>
         </div>
 
         <div>
-          <label className="text-[10px] text-[#3E5C63] font-mono block mb-1">Consignment Weight (Tons)</label>
+          <label className="text-[10px] text-[#3E5C63] font-sans font-semibold block mb-1">Weight of Goods (Tons)</label>
           <input
             type="number"
             min="1"
@@ -136,7 +136,7 @@ export default function FreightPlannerView({ onCalculateFreight }) {
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <span className="font-mono text-xs font-bold text-[#5C7A4E] uppercase">
-                AI Optimal Modality:
+                Best Recommended Option:
               </span>
               <strong className="font-heading text-base text-[#1C2B22]">{freightData.optimal_mode}</strong>
             </div>
@@ -145,15 +145,15 @@ export default function FreightPlannerView({ onCalculateFreight }) {
 
           <div className="flex items-center gap-4 font-mono text-xs">
             <div className="bg-[#E5DEC9] px-3 py-1.5 rounded border border-[#3E5C63]/20 text-right">
-              <span className="text-[10px] text-[#3E5C63] block font-sans">Est. Freight Savings</span>
+              <span className="text-[10px] text-[#3E5C63] block font-sans">Estimated Money Saved</span>
               <strong className="font-heading text-base text-[#5C7A4E]">
                 ₹{freightData.ulip_gatishakti_contract.estimated_freight_savings_inr.toLocaleString()}
               </strong>
             </div>
             <div className="bg-[#E5DEC9] px-3 py-1.5 rounded border border-[#3E5C63]/20 text-right">
-              <span className="text-[10px] text-[#3E5C63] block font-sans">CO₂ Abatement</span>
+              <span className="text-[10px] text-[#3E5C63] block font-sans">Pollution Reduced</span>
               <strong className="font-heading text-base text-[#3B6EA5]">
-                {freightData.ulip_gatishakti_contract.co2_reduction_kg} kg
+                {freightData.ulip_gatishakti_contract.co2_reduction_kg} kg CO₂
               </strong>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default function FreightPlannerView({ onCalculateFreight }) {
                 <div>
                   <div className="flex items-center justify-between border-b border-[#3E5C63]/20 pb-2 mb-3">
                     <span className="font-mono text-xs font-bold text-[#1C2B22]">
-                      {isWater ? 'Inland Waterway (NW-2)' : (isRail ? 'Rail Freight (NFR)' : 'Road Freight')}
+                      {isWater ? 'River Cargo Boat (Brahmaputra NW-2)' : (isRail ? 'Cargo Train (Indian Railways NFR)' : 'Truck on Highway')}
                     </span>
                     <span className="font-mono text-[10px] text-[#3E5C63]">{opt.distance_km} km</span>
                   </div>
@@ -193,36 +193,36 @@ export default function FreightPlannerView({ onCalculateFreight }) {
 
                   <div className="grid grid-cols-2 gap-2 mb-4 font-mono text-xs">
                     <div className="bg-[#E5DEC9] p-2 rounded border border-[#3E5C63]/20">
-                      <span className="text-[9px] text-[#3E5C63] block font-sans">Total Freight Cost</span>
+                      <span className="text-[9px] text-[#3E5C63] block font-sans">Total Transport Cost</span>
                       <strong className="font-heading text-base text-[#1C2B22]">₹{opt.cost_inr.toLocaleString()}</strong>
                       <span className="text-[9px] text-[#3E5C63] block font-sans">₹{opt.cost_per_ton_inr}/ton</span>
                     </div>
 
                     <div className="bg-[#E5DEC9] p-2 rounded border border-[#3E5C63]/20">
-                      <span className="text-[9px] text-[#3E5C63] block font-sans">Transit Duration</span>
+                      <span className="text-[9px] text-[#3E5C63] block font-sans">Travel Time</span>
                       <strong className={`font-heading text-base ${isSevere ? 'text-[#A63A32]' : 'text-[#1C2B22]'}`}>
                         {opt.estimated_transit_hours} h
                       </strong>
                       <span className="text-[9px] text-[#3E5C63] block font-sans">
-                        {isSevere ? 'Delayed' : 'Scheduled'}
+                        {isSevere ? 'Delayed by slides' : 'On time'}
                       </span>
                     </div>
 
                     <div className="bg-[#E5DEC9] p-2 rounded border border-[#3E5C63]/20">
-                      <span className="text-[9px] text-[#3E5C63] block font-sans">CO₂ Footprint</span>
+                      <span className="text-[9px] text-[#3E5C63] block font-sans">Pollution (CO₂)</span>
                       <strong className="font-heading text-base text-[#1C2B22]">{opt.co2_emissions_kg} kg</strong>
                       <span className="text-[9px] text-[#5C7A4E] block font-sans">
-                        {isWater ? '75% greener' : (isRail ? '64% greener' : 'Baseline')}
+                        {isWater ? '75% cleaner' : (isRail ? '64% cleaner' : 'Baseline')}
                       </span>
                     </div>
 
                     <div className="bg-[#E5DEC9] p-2 rounded border border-[#3E5C63]/20">
-                      <span className="text-[9px] text-[#3E5C63] block font-sans">Landslide Hazard</span>
+                      <span className="text-[9px] text-[#3E5C63] block font-sans">Landslide Danger</span>
                       <strong className={`font-heading text-base ${opt.landslide_risk_index > 50 ? 'text-[#A63A32]' : 'text-[#5C7A4E]'}`}>
                         {opt.landslide_risk_index}%
                       </strong>
                       <span className="text-[9px] text-[#3E5C63] block font-sans">
-                        {opt.landslide_risk_index > 50 ? 'Severe Vulnerability' : 'Protected'}
+                        {opt.landslide_risk_index > 50 ? 'High Danger of Landslide' : 'Safe From Landslides'}
                       </span>
                     </div>
                   </div>
@@ -249,10 +249,10 @@ export default function FreightPlannerView({ onCalculateFreight }) {
             <div className="flex items-center justify-between border-b border-[#3E5C63]/25 pb-3 mb-3">
               <div>
                 <h3 className="font-heading font-bold text-base text-[#1C2B22]">
-                  ULIP Integration Payload (JSON Contract v2.4)
+                  Government Digital Shipping Record (ULIP Contract)
                 </h3>
                 <p className="text-[11px] text-[#3E5C63]">
-                  Conforms to Ministry of Commerce ULIP API & PM GatiShakti GIS Layer
+                  Conforms to Ministry of Commerce ULIP standards &amp; PM GatiShakti National Portal
                 </p>
               </div>
               <button
@@ -264,7 +264,7 @@ export default function FreightPlannerView({ onCalculateFreight }) {
             </div>
 
             <div className="flex items-center justify-between bg-[#E5DEC9] px-3 py-1.5 rounded mb-3 border border-[#3E5C63]/20 font-mono text-[11px]">
-              <span>Consignment: {freightData.ulip_gatishakti_contract.consignment_id}</span>
+              <span>Consignment ID: {freightData.ulip_gatishakti_contract.consignment_id}</span>
               <button
                 onClick={copyToClipboard}
                 className="bg-[#1C2B22] text-[#F1EDE2] px-3 py-1 rounded font-semibold transition"
@@ -278,7 +278,7 @@ export default function FreightPlannerView({ onCalculateFreight }) {
             </div>
 
             <div className="pt-2 text-[#3E5C63] text-[10px] font-mono text-right">
-              Ready for production webhook dispatch to National Logistics Portal (NLP Marine).
+              Compatible with Indian Ports &amp; Ministry of Commerce Logistics Portal.
             </div>
           </div>
         </div>

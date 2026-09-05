@@ -38,11 +38,11 @@ export default function Navbar({
           </span>
           <span className="text-[#3A5644]">|</span>
           <span className="text-[#E5DEC9] font-medium text-xs hidden sm:inline">
-            Eastern Himalaya Logistics &amp; Terrain Intelligence
+            North East India Safe Travel &amp; Landslide Alert System
           </span>
           <span className="text-[#3A5644] hidden md:inline">|</span>
           <span className="bg-[#183144] text-[#93C5FD] border border-[#38BDF8]/40 px-2 py-0.5 rounded text-[11px] font-semibold hidden md:inline">
-            PM GatiShakti &amp; ULIP Compatible
+            PM GatiShakti &amp; ULIP Connected
           </span>
         </div>
 
@@ -50,14 +50,14 @@ export default function Navbar({
           {blockedCount > 0 && (
             <span className="flex items-center gap-1.5 bg-[#5C1914] border border-[#EF4444]/60 text-[#FECACA] px-2.5 py-0.5 rounded text-xs font-bold shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#EF4444] animate-ping"></span>
-              {blockedCount} Critical Corridor{blockedCount > 1 ? 's' : ''} Blocked
+              {blockedCount} Road{blockedCount > 1 ? 's' : ''} Completely Blocked
             </span>
           )}
           <button 
             onClick={openResearchModal}
             className="text-[#E2DAC7] hover:text-white underline decoration-[#4ADE80]/50 hover:decoration-[#4ADE80] text-xs font-sans transition"
           >
-            Research Foundations &amp; Citations
+            How It Works &amp; Research Citations
           </button>
         </div>
       </div>
@@ -75,11 +75,11 @@ export default function Navbar({
                 SETUMARG
               </span>
               <span className="font-mono text-[10px] tracking-widest text-[#6EE7B7] bg-[#1E3827] px-2 py-0.5 rounded border border-[#34D399]/30 font-bold">
-                NER TERRAIN INTELLIGENCE
+                ROAD SAFETY &amp; TERRAIN ASSISTANT
               </span>
             </div>
             <p className="text-xs text-[#E5DEC9] font-sans mt-0.5 font-normal">
-              Landslide Nowcasting, Isochrone Accessibility &amp; Multi-Modal Freight
+              Live Landslide Warnings, Village Hospital Access &amp; Safe Travel Routes
             </p>
           </div>
         </div>
@@ -90,11 +90,11 @@ export default function Navbar({
             <CloudRain className="w-4 h-4 shrink-0" style={{ color: scrubberColor }} />
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-[#E5DEC9] font-medium">Monsoon Nowcast:</span>
-                <span className="font-mono font-bold text-white text-sm">{intensity} mm/h</span>
+                <span className="text-xs text-[#E5DEC9] font-medium">Rainfall:</span>
+                <span className="font-mono font-bold text-white text-sm">{intensity} mm/hr</span>
               </div>
               <span className="font-mono text-[11px] text-[#A7F3D0] block">
-                Multiplier: <strong className="font-bold text-sm" style={{ color: scrubberColor }}>{mult.toFixed(1)}x</strong>
+                Rain Level: <strong className="font-bold text-sm" style={{ color: scrubberColor }}>{mult.toFixed(1)}x {mult > 2.0 ? '(Heavy Storm)' : mult > 1.2 ? '(Active Rain)' : '(Normal)'}</strong>
               </span>
             </div>
           </div>
@@ -109,12 +109,12 @@ export default function Navbar({
               value={mult}
               onChange={(e) => onSliderChange(parseFloat(e.target.value))}
               className="w-full h-1.5 bg-[#253A2C] rounded-lg appearance-none cursor-pointer accent-[#FBBF24]"
-              title="Scrub to update real-time satellite rainfall multiplier"
+              title="Change rainfall level to test road danger"
             />
             <div className="flex justify-between text-[9px] font-mono mt-1">
-              <span className="text-[#CBD5E1]">0.2x Dry</span>
-              <span className="text-[#E2E8F0]">1.0x</span>
-              <span className="text-[#F87171] font-semibold">3.5x Storm</span>
+              <span className="text-[#CBD5E1]">Dry</span>
+              <span className="text-[#E2E8F0]">Normal</span>
+              <span className="text-[#F87171] font-semibold">Heavy Storm</span>
             </div>
           </div>
 
@@ -128,7 +128,7 @@ export default function Navbar({
                   : 'bg-[#1F2937]/70 text-[#CBD5E1] hover:bg-[#374151] border-gray-600/40'
               }`}
             >
-              Dry
+              Dry Weather
             </button>
             <button
               onClick={() => onScenarioChange('monsoon_moderate')}
@@ -138,7 +138,7 @@ export default function Navbar({
                   : 'bg-[#1E3A5F]/70 text-[#93C5FD] hover:bg-[#2563EB]/80 border-blue-700/40'
               }`}
             >
-              Monsoon
+              Normal Monsoon
             </button>
             <button
               onClick={() => onScenarioChange('cloudburst_extreme')}
@@ -148,7 +148,7 @@ export default function Navbar({
                   : 'bg-[#7F1D1D]/70 text-[#FCA5A5] hover:bg-[#DC2626]/80 border-red-700/40'
               }`}
             >
-              Cloudburst
+              Heavy Cloudburst
             </button>
           </div>
         </div>
@@ -159,18 +159,18 @@ export default function Navbar({
           className="flex items-center gap-2 bg-[#B91C1C] hover:bg-[#DC2626] border border-[#F87171]/50 text-white font-heading font-bold text-xs px-4 py-2 rounded-md shadow hover:shadow-md transition"
         >
           <Radio className="w-3.5 h-3.5 text-white" />
-          Log Road Breach
+          Report Blocked Road
         </button>
       </div>
 
       {/* Navigation Ledger Tabs (Cartographic Tabs) */}
       <div className="max-w-7xl mx-auto px-4 border-t border-[#253A2C] bg-[#101E15] flex items-center overflow-x-auto no-scrollbar gap-1.5 py-1.5 font-sans text-xs">
         {[
-          { id: 'map', label: 'Topographic Hazard Map', icon: MapPin },
-          { id: 'accessibility', label: 'Accessibility Ledger (RAI)', icon: ShieldAlert },
-          { id: 'routing', label: 'Hazard Avoidance Router', icon: Route },
-          { id: 'freight', label: 'Multi-Modal Freight (NW-2)', icon: Ship },
-          { id: 'dashboard', label: 'Executive Operations Dashboard', icon: BarChart3 },
+          { id: 'map', label: 'Live Road & Landslide Map', icon: MapPin },
+          { id: 'accessibility', label: 'Village Hospital Access', icon: ShieldAlert },
+          { id: 'routing', label: 'Safe Route Finder', icon: Route },
+          { id: 'freight', label: 'Cargo Transport (Truck, Train, Boat)', icon: Ship },
+          { id: 'dashboard', label: 'Emergency & Status Summary', icon: BarChart3 },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
