@@ -1,0 +1,2468 @@
+{
+  "26.13889,91.74024": {
+    "elevation_m": 50.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11187,91.74944": {
+    "elevation_m": 60.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11574,91.81186": {
+    "elevation_m": 65.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11142,91.84000": {
+    "elevation_m": 137.0,
+    "slope_deg": 7.6,
+    "aspect_deg": 257.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10168,91.88069": {
+    "elevation_m": 110.0,
+    "slope_deg": 13.4,
+    "aspect_deg": 156.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10018,91.87905": {
+    "elevation_m": 96.0,
+    "slope_deg": 10.4,
+    "aspect_deg": 156.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.05569,91.87037": {
+    "elevation_m": 69.0,
+    "slope_deg": 6.5,
+    "aspect_deg": 95.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.01715,91.86642": {
+    "elevation_m": 143.0,
+    "slope_deg": 20.7,
+    "aspect_deg": 282.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.98781,91.85971": {
+    "elevation_m": 338.0,
+    "slope_deg": 12.3,
+    "aspect_deg": 25.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.95702,91.85324": {
+    "elevation_m": 392.0,
+    "slope_deg": 20.4,
+    "aspect_deg": 349.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.94610,91.87145": {
+    "elevation_m": 518.0,
+    "slope_deg": 3.8,
+    "aspect_deg": 250.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.90561,91.88321": {
+    "elevation_m": 566.0,
+    "slope_deg": 20.6,
+    "aspect_deg": 66.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.87088,91.88091": {
+    "elevation_m": 530.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.83264,91.87549": {
+    "elevation_m": 578.0,
+    "slope_deg": 3.9,
+    "aspect_deg": 33.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.80205,91.87495": {
+    "elevation_m": 595.0,
+    "slope_deg": 13.2,
+    "aspect_deg": 316.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.76920,91.87612": {
+    "elevation_m": 708.0,
+    "slope_deg": 9.2,
+    "aspect_deg": 253.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.76119,91.89972": {
+    "elevation_m": 765.0,
+    "slope_deg": 4.5,
+    "aspect_deg": 135.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.77761,91.91720": {
+    "elevation_m": 748.0,
+    "slope_deg": 11.3,
+    "aspect_deg": 136.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.79642,91.93280": {
+    "elevation_m": 751.0,
+    "slope_deg": 13.9,
+    "aspect_deg": 217.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.76918,91.90718": {
+    "elevation_m": 732.0,
+    "slope_deg": 10.6,
+    "aspect_deg": 111.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.75112,91.88507": {
+    "elevation_m": 785.0,
+    "slope_deg": 8.6,
+    "aspect_deg": 182.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.71259,91.88895": {
+    "elevation_m": 810.0,
+    "slope_deg": 8.9,
+    "aspect_deg": 261.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.69199,91.90642": {
+    "elevation_m": 884.0,
+    "slope_deg": 17.0,
+    "aspect_deg": 268.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.66717,91.90048": {
+    "elevation_m": 998.0,
+    "slope_deg": 9.0,
+    "aspect_deg": 28.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.64989,91.89333": {
+    "elevation_m": 1134.0,
+    "slope_deg": 24.3,
+    "aspect_deg": 290.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.62029,91.88134": {
+    "elevation_m": 1294.0,
+    "slope_deg": 6.8,
+    "aspect_deg": 81.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.59049,91.87772": {
+    "elevation_m": 1413.0,
+    "slope_deg": 3.5,
+    "aspect_deg": 336.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.57128,91.89725": {
+    "elevation_m": 1536.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 241.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.55498,91.91688": {
+    "elevation_m": 1621.0,
+    "slope_deg": 5.7,
+    "aspect_deg": 70.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.52492,91.93290": {
+    "elevation_m": 1749.0,
+    "slope_deg": 7.8,
+    "aspect_deg": 169.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.53677,91.96068": {
+    "elevation_m": 1590.0,
+    "slope_deg": 5.9,
+    "aspect_deg": 349.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.53851,91.99806": {
+    "elevation_m": 1584.0,
+    "slope_deg": 9.3,
+    "aspect_deg": 82.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.53993,92.01337": {
+    "elevation_m": 1395.0,
+    "slope_deg": 4.3,
+    "aspect_deg": 215.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.55025,92.04862": {
+    "elevation_m": 1339.0,
+    "slope_deg": 4.5,
+    "aspect_deg": 156.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.54703,92.07969": {
+    "elevation_m": 1245.0,
+    "slope_deg": 4.0,
+    "aspect_deg": 26.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.53605,92.10559": {
+    "elevation_m": 1203.0,
+    "slope_deg": 11.8,
+    "aspect_deg": 239.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.52728,92.12839": {
+    "elevation_m": 1350.0,
+    "slope_deg": 2.9,
+    "aspect_deg": 29.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.50693,92.17053": {
+    "elevation_m": 1371.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 331.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.47023,92.18392": {
+    "elevation_m": 1399.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 73.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.44395,92.18973": {
+    "elevation_m": 1295.0,
+    "slope_deg": 15.9,
+    "aspect_deg": 204.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.45258,92.20179": {
+    "elevation_m": 1391.0,
+    "slope_deg": 2.6,
+    "aspect_deg": 75.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.46716,92.24647": {
+    "elevation_m": 1360.0,
+    "slope_deg": 2.9,
+    "aspect_deg": 151.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.46810,92.27462": {
+    "elevation_m": 1389.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 336.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.44555,92.29107": {
+    "elevation_m": 1373.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 54.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.42009,92.28532": {
+    "elevation_m": 1313.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 132.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.39237,92.31885": {
+    "elevation_m": 1310.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 169.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.36857,92.32963": {
+    "elevation_m": 1214.0,
+    "slope_deg": 8.4,
+    "aspect_deg": 67.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.35199,92.36805": {
+    "elevation_m": 1157.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 132.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.31767,92.37594": {
+    "elevation_m": 1048.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 241.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.28958,92.38644": {
+    "elevation_m": 877.0,
+    "slope_deg": 15.0,
+    "aspect_deg": 125.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.25842,92.38500": {
+    "elevation_m": 826.0,
+    "slope_deg": 10.1,
+    "aspect_deg": 211.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.22338,92.37846": {
+    "elevation_m": 689.0,
+    "slope_deg": 2.5,
+    "aspect_deg": 121.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.19569,92.37742": {
+    "elevation_m": 704.0,
+    "slope_deg": 6.1,
+    "aspect_deg": 125.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.17627,92.37479": {
+    "elevation_m": 547.0,
+    "slope_deg": 6.1,
+    "aspect_deg": 83.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.16171,92.38574": {
+    "elevation_m": 390.0,
+    "slope_deg": 21.4,
+    "aspect_deg": 133.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.14400,92.37455": {
+    "elevation_m": 245.0,
+    "slope_deg": 15.4,
+    "aspect_deg": 357.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.11879,92.37798": {
+    "elevation_m": 68.0,
+    "slope_deg": 11.2,
+    "aspect_deg": 104.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.09211,92.35326": {
+    "elevation_m": 115.0,
+    "slope_deg": 33.2,
+    "aspect_deg": 264.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.08093,92.36005": {
+    "elevation_m": 212.0,
+    "slope_deg": 23.4,
+    "aspect_deg": 102.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.07087,92.37666": {
+    "elevation_m": 44.0,
+    "slope_deg": 14.8,
+    "aspect_deg": 192.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.05277,92.39757": {
+    "elevation_m": 71.0,
+    "slope_deg": 15.9,
+    "aspect_deg": 229.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.04228,92.41533": {
+    "elevation_m": 116.0,
+    "slope_deg": 22.7,
+    "aspect_deg": 207.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.03682,92.43713": {
+    "elevation_m": 345.0,
+    "slope_deg": 20.2,
+    "aspect_deg": 282.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.03302,92.45197": {
+    "elevation_m": 146.0,
+    "slope_deg": 29.0,
+    "aspect_deg": 209.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.02139,92.47380": {
+    "elevation_m": 44.0,
+    "slope_deg": 4.0,
+    "aspect_deg": 164.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.00241,92.50695": {
+    "elevation_m": 50.0,
+    "slope_deg": 11.1,
+    "aspect_deg": 55.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.98435,92.50393": {
+    "elevation_m": 21.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 192.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.98497,92.50259": {
+    "elevation_m": 21.0,
+    "slope_deg": 1.2,
+    "aspect_deg": 238.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.97330,92.55375": {
+    "elevation_m": 23.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 286.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.96957,92.56730": {
+    "elevation_m": 25.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.95630,92.60886": {
+    "elevation_m": 35.0,
+    "slope_deg": 6.0,
+    "aspect_deg": 50.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.92878,92.64720": {
+    "elevation_m": 22.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.90531,92.67635": {
+    "elevation_m": 24.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 73.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.90011,92.72029": {
+    "elevation_m": 20.0,
+    "slope_deg": 2.1,
+    "aspect_deg": 41.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.86424,92.74575": {
+    "elevation_m": 26.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 227.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.84188,92.77956": {
+    "elevation_m": 25.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.89637,88.47352": {
+    "elevation_m": 204.0,
+    "slope_deg": 35.9,
+    "aspect_deg": 90.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.92554,88.45051": {
+    "elevation_m": 189.0,
+    "slope_deg": 18.6,
+    "aspect_deg": 148.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.95533,88.43585": {
+    "elevation_m": 259.0,
+    "slope_deg": 18.7,
+    "aspect_deg": 61.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.96915,88.41876": {
+    "elevation_m": 298.0,
+    "slope_deg": 21.5,
+    "aspect_deg": 278.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.99243,88.42524": {
+    "elevation_m": 263.0,
+    "slope_deg": 20.5,
+    "aspect_deg": 133.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.01639,88.43543": {
+    "elevation_m": 246.0,
+    "slope_deg": 35.1,
+    "aspect_deg": 46.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.04253,88.42850": {
+    "elevation_m": 228.0,
+    "slope_deg": 25.7,
+    "aspect_deg": 111.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.06358,88.43145": {
+    "elevation_m": 443.0,
+    "slope_deg": 27.9,
+    "aspect_deg": 270.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.05599,88.43927": {
+    "elevation_m": 703.0,
+    "slope_deg": 10.6,
+    "aspect_deg": 289.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.06552,88.43098": {
+    "elevation_m": 392.0,
+    "slope_deg": 25.6,
+    "aspect_deg": 302.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.08621,88.45425": {
+    "elevation_m": 241.0,
+    "slope_deg": 14.5,
+    "aspect_deg": 301.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.09041,88.45539": {
+    "elevation_m": 294.0,
+    "slope_deg": 32.7,
+    "aspect_deg": 134.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.10765,88.46756": {
+    "elevation_m": 319.0,
+    "slope_deg": 35.9,
+    "aspect_deg": 263.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.12243,88.49743": {
+    "elevation_m": 299.0,
+    "slope_deg": 28.9,
+    "aspect_deg": 327.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.14259,88.51947": {
+    "elevation_m": 295.0,
+    "slope_deg": 26.5,
+    "aspect_deg": 308.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.17048,88.52603": {
+    "elevation_m": 316.0,
+    "slope_deg": 14.6,
+    "aspect_deg": 255.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.18086,88.50878": {
+    "elevation_m": 411.0,
+    "slope_deg": 43.7,
+    "aspect_deg": 223.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.20434,88.48627": {
+    "elevation_m": 371.0,
+    "slope_deg": 35.5,
+    "aspect_deg": 276.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.23279,88.49945": {
+    "elevation_m": 381.0,
+    "slope_deg": 19.0,
+    "aspect_deg": 158.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.25235,88.54130": {
+    "elevation_m": 561.0,
+    "slope_deg": 26.7,
+    "aspect_deg": 138.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.26769,88.57593": {
+    "elevation_m": 703.0,
+    "slope_deg": 23.6,
+    "aspect_deg": 118.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.27229,88.58315": {
+    "elevation_m": 940.0,
+    "slope_deg": 17.5,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.30230,88.58823": {
+    "elevation_m": 989.0,
+    "slope_deg": 31.9,
+    "aspect_deg": 229.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.31069,88.59755": {
+    "elevation_m": 1298.0,
+    "slope_deg": 19.7,
+    "aspect_deg": 298.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.32719,88.61031": {
+    "elevation_m": 1582.0,
+    "slope_deg": 18.1,
+    "aspect_deg": 299.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.90687,93.74487": {
+    "elevation_m": 148.0,
+    "slope_deg": 1.2,
+    "aspect_deg": 36.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.87129,93.76512": {
+    "elevation_m": 171.0,
+    "slope_deg": 2.1,
+    "aspect_deg": 200.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.82912,93.77783": {
+    "elevation_m": 184.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 257.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.79451,93.77788": {
+    "elevation_m": 198.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 312.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.79905,93.78314": {
+    "elevation_m": 201.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 280.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.78817,93.80004": {
+    "elevation_m": 249.0,
+    "slope_deg": 19.2,
+    "aspect_deg": 252.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.76721,93.82245": {
+    "elevation_m": 274.0,
+    "slope_deg": 9.2,
+    "aspect_deg": 205.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.76204,93.86675": {
+    "elevation_m": 404.0,
+    "slope_deg": 17.6,
+    "aspect_deg": 331.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.75723,93.86752": {
+    "elevation_m": 461.0,
+    "slope_deg": 8.7,
+    "aspect_deg": 16.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.75707,93.87024": {
+    "elevation_m": 460.0,
+    "slope_deg": 9.1,
+    "aspect_deg": 348.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.76997,93.90117": {
+    "elevation_m": 574.0,
+    "slope_deg": 9.1,
+    "aspect_deg": 110.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.77392,93.93291": {
+    "elevation_m": 772.0,
+    "slope_deg": 30.0,
+    "aspect_deg": 284.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.75565,93.95429": {
+    "elevation_m": 915.0,
+    "slope_deg": 14.0,
+    "aspect_deg": 283.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.73862,93.98581": {
+    "elevation_m": 937.0,
+    "slope_deg": 15.4,
+    "aspect_deg": 44.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.73440,94.01741": {
+    "elevation_m": 979.0,
+    "slope_deg": 14.6,
+    "aspect_deg": 6.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.70849,94.04161": {
+    "elevation_m": 982.0,
+    "slope_deg": 17.0,
+    "aspect_deg": 88.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.68923,94.05647": {
+    "elevation_m": 1067.0,
+    "slope_deg": 12.7,
+    "aspect_deg": 314.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.67555,94.08581": {
+    "elevation_m": 1289.0,
+    "slope_deg": 6.3,
+    "aspect_deg": 16.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.66828,94.10477": {
+    "elevation_m": 1446.0,
+    "slope_deg": 5.5,
+    "aspect_deg": 45.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.65274,94.09911": {
+    "elevation_m": 1517.0,
+    "slope_deg": 7.0,
+    "aspect_deg": 59.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.63440,94.10610": {
+    "elevation_m": 1483.0,
+    "slope_deg": 22.2,
+    "aspect_deg": 161.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.61316,94.11384": {
+    "elevation_m": 1693.0,
+    "slope_deg": 39.1,
+    "aspect_deg": 81.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.60225,94.12522": {
+    "elevation_m": 1660.0,
+    "slope_deg": 18.6,
+    "aspect_deg": 85.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.57199,94.12381": {
+    "elevation_m": 1618.0,
+    "slope_deg": 19.5,
+    "aspect_deg": 2.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.55212,94.13828": {
+    "elevation_m": 1673.0,
+    "slope_deg": 23.4,
+    "aspect_deg": 124.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.53294,94.13290": {
+    "elevation_m": 1706.0,
+    "slope_deg": 17.6,
+    "aspect_deg": 135.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.50984,94.13653": {
+    "elevation_m": 1728.0,
+    "slope_deg": 16.4,
+    "aspect_deg": 111.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.48081,94.13340": {
+    "elevation_m": 1688.0,
+    "slope_deg": 19.0,
+    "aspect_deg": 352.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.45682,94.14134": {
+    "elevation_m": 1519.0,
+    "slope_deg": 11.8,
+    "aspect_deg": 183.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.43605,94.12548": {
+    "elevation_m": 1415.0,
+    "slope_deg": 15.4,
+    "aspect_deg": 62.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.43377,94.10526": {
+    "elevation_m": 1316.0,
+    "slope_deg": 16.1,
+    "aspect_deg": 62.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.41059,94.09553": {
+    "elevation_m": 1393.0,
+    "slope_deg": 20.1,
+    "aspect_deg": 90.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.37999,94.08446": {
+    "elevation_m": 1271.0,
+    "slope_deg": 14.3,
+    "aspect_deg": 314.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.35136,94.06424": {
+    "elevation_m": 1214.0,
+    "slope_deg": 24.3,
+    "aspect_deg": 313.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.32329,94.04846": {
+    "elevation_m": 1085.0,
+    "slope_deg": 24.3,
+    "aspect_deg": 303.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.29737,94.04211": {
+    "elevation_m": 1019.0,
+    "slope_deg": 15.5,
+    "aspect_deg": 326.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.26357,94.02182": {
+    "elevation_m": 1050.0,
+    "slope_deg": 9.3,
+    "aspect_deg": 288.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.26427,94.01791": {
+    "elevation_m": 1073.0,
+    "slope_deg": 12.0,
+    "aspect_deg": 154.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.22669,94.00074": {
+    "elevation_m": 1156.0,
+    "slope_deg": 24.6,
+    "aspect_deg": 140.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.18262,93.97644": {
+    "elevation_m": 1175.0,
+    "slope_deg": 6.4,
+    "aspect_deg": 243.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.14929,93.97103": {
+    "elevation_m": 1056.0,
+    "slope_deg": 4.9,
+    "aspect_deg": 149.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.12336,93.96300": {
+    "elevation_m": 1008.0,
+    "slope_deg": 12.8,
+    "aspect_deg": 124.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.08389,93.93826": {
+    "elevation_m": 959.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 79.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.05248,93.92648": {
+    "elevation_m": 927.0,
+    "slope_deg": 13.0,
+    "aspect_deg": 97.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "25.01437,93.91892": {
+    "elevation_m": 891.0,
+    "slope_deg": 12.6,
+    "aspect_deg": 151.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.98652,93.89158": {
+    "elevation_m": 893.0,
+    "slope_deg": 3.0,
+    "aspect_deg": 166.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.94190,93.88191": {
+    "elevation_m": 823.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 20.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.90150,93.88491": {
+    "elevation_m": 798.0,
+    "slope_deg": 2.4,
+    "aspect_deg": 342.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.88421,93.91244": {
+    "elevation_m": 800.0,
+    "slope_deg": 16.2,
+    "aspect_deg": 50.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.82872,93.94462": {
+    "elevation_m": 785.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 114.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.73235,88.40786": {
+    "elevation_m": 121.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 106.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.69875,88.41155": {
+    "elevation_m": 118.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 294.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.66417,88.41547": {
+    "elevation_m": 115.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.63158,88.43602": {
+    "elevation_m": 104.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 131.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.61391,88.47674": {
+    "elevation_m": 105.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58516,88.50950": {
+    "elevation_m": 98.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 65.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57133,88.54376": {
+    "elevation_m": 99.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55438,88.58398": {
+    "elevation_m": 93.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 131.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.54157,88.62901": {
+    "elevation_m": 88.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.53514,88.68635": {
+    "elevation_m": 90.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.53795,88.71246": {
+    "elevation_m": 86.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55999,88.73273": {
+    "elevation_m": 87.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 48.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55650,88.78057": {
+    "elevation_m": 85.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.54751,88.81874": {
+    "elevation_m": 85.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 339.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.56202,88.85751": {
+    "elevation_m": 87.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 339.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55868,88.90318": {
+    "elevation_m": 83.0,
+    "slope_deg": 1.2,
+    "aspect_deg": 216.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57422,88.94784": {
+    "elevation_m": 79.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58194,88.99915": {
+    "elevation_m": 77.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 61.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.59903,89.00828": {
+    "elevation_m": 81.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57268,89.03496": {
+    "elevation_m": 76.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 73.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55273,89.07520": {
+    "elevation_m": 72.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 150.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.54516,89.11865": {
+    "elevation_m": 64.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.52602,89.15620": {
+    "elevation_m": 61.0,
+    "slope_deg": 0.0,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.52630,89.19465": {
+    "elevation_m": 64.0,
+    "slope_deg": 1.7,
+    "aspect_deg": 236.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.51530,89.21095": {
+    "elevation_m": 68.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.50950,89.26440": {
+    "elevation_m": 64.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.50109,89.29511": {
+    "elevation_m": 59.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 48.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49945,89.34862": {
+    "elevation_m": 61.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 347.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48853,89.38057": {
+    "elevation_m": 58.0,
+    "slope_deg": 2.3,
+    "aspect_deg": 9.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47072,89.43175": {
+    "elevation_m": 57.0,
+    "slope_deg": 1.2,
+    "aspect_deg": 216.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49865,89.46698": {
+    "elevation_m": 55.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48340,89.50774": {
+    "elevation_m": 51.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 12.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49095,89.52722": {
+    "elevation_m": 52.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47321,89.54384": {
+    "elevation_m": 49.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49123,89.59269": {
+    "elevation_m": 54.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 209.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48637,89.63646": {
+    "elevation_m": 47.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 300.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49455,89.69062": {
+    "elevation_m": 54.0,
+    "slope_deg": 1.2,
+    "aspect_deg": 323.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48730,89.70897": {
+    "elevation_m": 54.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47705,89.75090": {
+    "elevation_m": 51.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47118,89.81441": {
+    "elevation_m": 54.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 48.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.46019,89.85103": {
+    "elevation_m": 51.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.43784,89.89960": {
+    "elevation_m": 53.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.44552,89.93269": {
+    "elevation_m": 48.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 131.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.44603,89.97739": {
+    "elevation_m": 51.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48504,90.01724": {
+    "elevation_m": 53.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 257.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.51482,90.02639": {
+    "elevation_m": 55.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.53163,90.04094": {
+    "elevation_m": 55.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55917,90.08594": {
+    "elevation_m": 58.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.53621,90.10993": {
+    "elevation_m": 55.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55327,90.15574": {
+    "elevation_m": 63.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 150.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.56923,90.19334": {
+    "elevation_m": 66.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 192.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.56661,90.21813": {
+    "elevation_m": 71.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 245.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55994,90.28477": {
+    "elevation_m": 66.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55458,90.33253": {
+    "elevation_m": 64.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.54846,90.36570": {
+    "elevation_m": 64.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55212,90.40592": {
+    "elevation_m": 65.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.53366,90.45057": {
+    "elevation_m": 62.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 282.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.51811,90.50391": {
+    "elevation_m": 64.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.50367,90.55271": {
+    "elevation_m": 61.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48301,90.56225": {
+    "elevation_m": 60.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48975,90.59052": {
+    "elevation_m": 60.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 209.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48737,90.64315": {
+    "elevation_m": 56.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 344.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48508,90.66759": {
+    "elevation_m": 56.0,
+    "slope_deg": 2.4,
+    "aspect_deg": 323.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47574,90.71455": {
+    "elevation_m": 47.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.46649,90.75236": {
+    "elevation_m": 50.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.46997,90.80016": {
+    "elevation_m": 50.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 190.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48402,90.82987": {
+    "elevation_m": 45.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 257.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47969,90.88328": {
+    "elevation_m": 46.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 131.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49445,90.91020": {
+    "elevation_m": 52.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 253.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48764,90.96627": {
+    "elevation_m": 50.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 77.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.45508,90.96614": {
+    "elevation_m": 50.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 120.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.42285,90.97560": {
+    "elevation_m": 48.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.42223,91.02249": {
+    "elevation_m": 38.0,
+    "slope_deg": 2.5,
+    "aspect_deg": 120.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.45976,91.06233": {
+    "elevation_m": 46.0,
+    "slope_deg": 2.5,
+    "aspect_deg": 277.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.48162,91.11524": {
+    "elevation_m": 46.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49955,91.13750": {
+    "elevation_m": 46.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.50987,91.18118": {
+    "elevation_m": 47.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 61.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.50596,91.23477": {
+    "elevation_m": 51.0,
+    "slope_deg": 1.7,
+    "aspect_deg": 320.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.51329,91.26496": {
+    "elevation_m": 52.0,
+    "slope_deg": 2.6,
+    "aspect_deg": 137.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.52101,91.32452": {
+    "elevation_m": 55.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 259.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.52407,91.35560": {
+    "elevation_m": 57.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.47939,91.37049": {
+    "elevation_m": 52.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 65.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.45605,91.40372": {
+    "elevation_m": 53.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 200.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.46133,91.44816": {
+    "elevation_m": 56.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.43471,91.43608": {
+    "elevation_m": 54.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 77.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.38826,91.44478": {
+    "elevation_m": 55.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 245.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.35273,91.44966": {
+    "elevation_m": 54.0,
+    "slope_deg": 2.4,
+    "aspect_deg": 36.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.31714,91.47056": {
+    "elevation_m": 53.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 48.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.28545,91.50543": {
+    "elevation_m": 49.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 48.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.25789,91.52202": {
+    "elevation_m": 56.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.25344,91.56427": {
+    "elevation_m": 55.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 65.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.23431,91.59553": {
+    "elevation_m": 52.0,
+    "slope_deg": 2.6,
+    "aspect_deg": 42.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.21486,91.63474": {
+    "elevation_m": 53.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 228.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.18550,91.65765": {
+    "elevation_m": 50.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.16279,91.67073": {
+    "elevation_m": 55.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 294.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.13046,91.67437": {
+    "elevation_m": 54.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 48.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12199,91.71833": {
+    "elevation_m": 54.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 131.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.14587,91.72853": {
+    "elevation_m": 58.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 131.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10161,91.88058": {
+    "elevation_m": 110.0,
+    "slope_deg": 13.7,
+    "aspect_deg": 157.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11800,91.89488": {
+    "elevation_m": 77.0,
+    "slope_deg": 1.7,
+    "aspect_deg": 140.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11871,91.95245": {
+    "elevation_m": 63.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 213.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11881,91.99751": {
+    "elevation_m": 61.0,
+    "slope_deg": 10.1,
+    "aspect_deg": 347.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12344,92.03369": {
+    "elevation_m": 61.0,
+    "slope_deg": 1.7,
+    "aspect_deg": 56.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.11498,92.07453": {
+    "elevation_m": 61.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 159.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10818,92.11774": {
+    "elevation_m": 61.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10848,92.16621": {
+    "elevation_m": 70.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12096,92.20682": {
+    "elevation_m": 62.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12593,92.22424": {
+    "elevation_m": 66.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 347.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12108,92.20826": {
+    "elevation_m": 61.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 245.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12401,92.25834": {
+    "elevation_m": 60.0,
+    "slope_deg": 8.7,
+    "aspect_deg": 7.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10990,92.27982": {
+    "elevation_m": 64.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 311.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.10249,92.32445": {
+    "elevation_m": 72.0,
+    "slope_deg": 7.4,
+    "aspect_deg": 313.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.12978,92.35301": {
+    "elevation_m": 62.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 344.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.17089,92.35474": {
+    "elevation_m": 58.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.19323,92.38592": {
+    "elevation_m": 60.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 169.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.20706,92.43234": {
+    "elevation_m": 62.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 150.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.20655,92.48501": {
+    "elevation_m": 64.0,
+    "slope_deg": 2.5,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.22778,92.51190": {
+    "elevation_m": 66.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 204.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.24521,92.54002": {
+    "elevation_m": 63.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.26717,92.58482": {
+    "elevation_m": 66.0,
+    "slope_deg": 2.8,
+    "aspect_deg": 117.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.29368,92.61885": {
+    "elevation_m": 69.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 294.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.32283,92.65446": {
+    "elevation_m": 67.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 73.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.34806,92.68379": {
+    "elevation_m": 72.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.34598,92.71876": {
+    "elevation_m": 67.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 114.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.34983,92.75950": {
+    "elevation_m": 72.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 280.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.36820,92.79266": {
+    "elevation_m": 74.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 114.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.40293,92.80955": {
+    "elevation_m": 71.0,
+    "slope_deg": 2.3,
+    "aspect_deg": 350.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.42420,92.84906": {
+    "elevation_m": 74.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.43813,92.88151": {
+    "elevation_m": 79.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 282.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.46137,92.92481": {
+    "elevation_m": 71.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 300.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.49283,92.94961": {
+    "elevation_m": 72.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 294.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.52845,92.94896": {
+    "elevation_m": 75.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.55118,92.93447": {
+    "elevation_m": 76.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 48.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57563,92.97122": {
+    "elevation_m": 75.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.59780,92.98669": {
+    "elevation_m": 71.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 48.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58451,92.99987": {
+    "elevation_m": 72.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58868,92.98498": {
+    "elevation_m": 75.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 294.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.56839,93.02259": {
+    "elevation_m": 76.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.56830,93.07034": {
+    "elevation_m": 85.0,
+    "slope_deg": 6.3,
+    "aspect_deg": 193.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57366,93.10334": {
+    "elevation_m": 104.0,
+    "slope_deg": 12.7,
+    "aspect_deg": 356.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57611,93.15249": {
+    "elevation_m": 80.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57405,93.18711": {
+    "elevation_m": 84.0,
+    "slope_deg": 5.0,
+    "aspect_deg": 154.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57590,93.24762": {
+    "elevation_m": 81.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.57683,93.28056": {
+    "elevation_m": 84.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 195.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58485,93.33205": {
+    "elevation_m": 88.0,
+    "slope_deg": 5.3,
+    "aspect_deg": 37.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58773,93.36476": {
+    "elevation_m": 83.0,
+    "slope_deg": 3.8,
+    "aspect_deg": 319.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58590,93.41157": {
+    "elevation_m": 89.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 282.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.59344,93.44070": {
+    "elevation_m": 79.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 48.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.61286,93.49840": {
+    "elevation_m": 97.0,
+    "slope_deg": 11.2,
+    "aspect_deg": 325.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.62326,93.52597": {
+    "elevation_m": 92.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.64127,93.58751": {
+    "elevation_m": 87.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.62336,93.60168": {
+    "elevation_m": 88.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 209.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.63486,93.61894": {
+    "elevation_m": 89.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.63048,93.66622": {
+    "elevation_m": 88.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.63231,93.71202": {
+    "elevation_m": 97.0,
+    "slope_deg": 3.4,
+    "aspect_deg": 106.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.60510,93.73079": {
+    "elevation_m": 102.0,
+    "slope_deg": 2.9,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58639,93.75124": {
+    "elevation_m": 83.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 294.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.60037,93.77247": {
+    "elevation_m": 88.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 79.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.59783,93.77158": {
+    "elevation_m": 84.0,
+    "slope_deg": 1.7,
+    "aspect_deg": 140.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.58887,93.74365": {
+    "elevation_m": 98.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.61294,93.72990": {
+    "elevation_m": 100.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 167.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.64360,93.74789": {
+    "elevation_m": 91.0,
+    "slope_deg": 1.8,
+    "aspect_deg": 24.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.64335,93.78064": {
+    "elevation_m": 84.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 164.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.66103,93.83586": {
+    "elevation_m": 87.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.66372,93.86807": {
+    "elevation_m": 92.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 311.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.67675,93.91670": {
+    "elevation_m": 87.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.69990,93.94960": {
+    "elevation_m": 85.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 167.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.71504,93.97264": {
+    "elevation_m": 85.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.72149,94.01290": {
+    "elevation_m": 87.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 330.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.72434,94.06196": {
+    "elevation_m": 90.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 294.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.71735,94.08906": {
+    "elevation_m": 86.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 300.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.73146,94.14622": {
+    "elevation_m": 90.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 339.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.75047,94.18059": {
+    "elevation_m": 91.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.75368,94.21846": {
+    "elevation_m": 98.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 120.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.76909,94.23813": {
+    "elevation_m": 97.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.77761,94.26431": {
+    "elevation_m": 98.0,
+    "slope_deg": 2.0,
+    "aspect_deg": 190.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.79785,94.32672": {
+    "elevation_m": 98.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.81587,94.38181": {
+    "elevation_m": 93.0,
+    "slope_deg": 0.4,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.83201,94.41667": {
+    "elevation_m": 93.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.83741,94.44597": {
+    "elevation_m": 96.0,
+    "slope_deg": 1.4,
+    "aspect_deg": 311.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.84915,94.49414": {
+    "elevation_m": 91.0,
+    "slope_deg": 2.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.88455,94.51068": {
+    "elevation_m": 94.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 114.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.91991,94.51649": {
+    "elevation_m": 93.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 12.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.94933,94.54308": {
+    "elevation_m": 95.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 213.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.98315,94.57954": {
+    "elevation_m": 95.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 131.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.99382,94.62471": {
+    "elevation_m": 93.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 150.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "26.98938,94.63751": {
+    "elevation_m": 98.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 131.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.02201,94.66751": {
+    "elevation_m": 95.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 70.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.05850,94.68188": {
+    "elevation_m": 93.0,
+    "slope_deg": 2.9,
+    "aspect_deg": 141.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.10310,94.71539": {
+    "elevation_m": 98.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 29.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.13056,94.75418": {
+    "elevation_m": 97.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.12566,94.78566": {
+    "elevation_m": 96.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.12729,94.82311": {
+    "elevation_m": 102.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 253.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.13322,94.86653": {
+    "elevation_m": 103.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.16170,94.86756": {
+    "elevation_m": 105.0,
+    "slope_deg": 2.2,
+    "aspect_deg": 261.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.19646,94.86271": {
+    "elevation_m": 105.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 253.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.23101,94.88773": {
+    "elevation_m": 103.0,
+    "slope_deg": 1.3,
+    "aspect_deg": 120.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.26195,94.89774": {
+    "elevation_m": 102.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.30609,94.89858": {
+    "elevation_m": 106.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.33071,94.86868": {
+    "elevation_m": 103.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.36906,94.87054": {
+    "elevation_m": 107.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 48.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.39609,94.88365": {
+    "elevation_m": 105.0,
+    "slope_deg": 3.4,
+    "aspect_deg": 319.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.43143,94.92009": {
+    "elevation_m": 107.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 311.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.46244,94.91451": {
+    "elevation_m": 107.0,
+    "slope_deg": 0.0,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.79721,93.94098": {
+    "elevation_m": 780.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 65.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.77084,93.93776": {
+    "elevation_m": 779.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.72074,93.94089": {
+    "elevation_m": 777.0,
+    "slope_deg": 1.2,
+    "aspect_deg": 238.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.68138,93.95512": {
+    "elevation_m": 782.0,
+    "slope_deg": 9.8,
+    "aspect_deg": 249.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.66027,93.98284": {
+    "elevation_m": 779.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 102.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.63669,94.00376": {
+    "elevation_m": 778.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 132.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.59728,94.03680": {
+    "elevation_m": 783.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.56006,94.03189": {
+    "elevation_m": 782.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 312.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.53085,94.02577": {
+    "elevation_m": 774.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 227.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.48048,94.01379": {
+    "elevation_m": 787.0,
+    "slope_deg": 2.9,
+    "aspect_deg": 321.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.45711,94.04155": {
+    "elevation_m": 800.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.45589,94.04405": {
+    "elevation_m": 806.0,
+    "slope_deg": 7.6,
+    "aspect_deg": 303.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.43386,94.02869": {
+    "elevation_m": 960.0,
+    "slope_deg": 18.6,
+    "aspect_deg": 224.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.41629,94.05644": {
+    "elevation_m": 1123.0,
+    "slope_deg": 14.3,
+    "aspect_deg": 46.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.39531,94.07966": {
+    "elevation_m": 1328.0,
+    "slope_deg": 26.2,
+    "aspect_deg": 54.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.40057,94.11088": {
+    "elevation_m": 1512.0,
+    "slope_deg": 19.5,
+    "aspect_deg": 60.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.38887,94.13896": {
+    "elevation_m": 1437.0,
+    "slope_deg": 22.1,
+    "aspect_deg": 138.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.40328,94.15669": {
+    "elevation_m": 1278.0,
+    "slope_deg": 23.4,
+    "aspect_deg": 58.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.41859,94.18614": {
+    "elevation_m": 1318.0,
+    "slope_deg": 19.4,
+    "aspect_deg": 89.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.42223,94.18668": {
+    "elevation_m": 1318.0,
+    "slope_deg": 21.9,
+    "aspect_deg": 86.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.40965,94.15833": {
+    "elevation_m": 1284.0,
+    "slope_deg": 22.0,
+    "aspect_deg": 150.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.38894,94.14661": {
+    "elevation_m": 1367.0,
+    "slope_deg": 24.3,
+    "aspect_deg": 10.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.37289,94.16184": {
+    "elevation_m": 1244.0,
+    "slope_deg": 12.7,
+    "aspect_deg": 29.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.36403,94.18473": {
+    "elevation_m": 1009.0,
+    "slope_deg": 25.6,
+    "aspect_deg": 36.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.34165,94.21018": {
+    "elevation_m": 710.0,
+    "slope_deg": 18.9,
+    "aspect_deg": 152.1,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.33288,94.23533": {
+    "elevation_m": 478.0,
+    "slope_deg": 14.5,
+    "aspect_deg": 87.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.31201,94.23375": {
+    "elevation_m": 535.0,
+    "slope_deg": 27.5,
+    "aspect_deg": 218.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.30593,94.24946": {
+    "elevation_m": 751.0,
+    "slope_deg": 20.6,
+    "aspect_deg": 193.3,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.28927,94.27806": {
+    "elevation_m": 616.0,
+    "slope_deg": 17.5,
+    "aspect_deg": 150.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "24.25691,94.29021": {
+    "elevation_m": 294.0,
+    "slope_deg": 6.2,
+    "aspect_deg": 167.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.07924,95.31637": {
+    "elevation_m": 184.0,
+    "slope_deg": 3.9,
+    "aspect_deg": 41.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.10921,95.30825": {
+    "elevation_m": 171.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 90.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.14487,95.35430": {
+    "elevation_m": 269.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.15162,95.37985": {
+    "elevation_m": 267.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 150.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.16099,95.40505": {
+    "elevation_m": 323.0,
+    "slope_deg": 2.5,
+    "aspect_deg": 205.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.11538,95.44058": {
+    "elevation_m": 217.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 150.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.08944,95.46222": {
+    "elevation_m": 172.0,
+    "slope_deg": 1.9,
+    "aspect_deg": 260.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.05649,95.47049": {
+    "elevation_m": 157.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 228.6,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.00875,95.46469": {
+    "elevation_m": 146.0,
+    "slope_deg": 3.1,
+    "aspect_deg": 44.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.99020,95.48472": {
+    "elevation_m": 136.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.95339,95.47946": {
+    "elevation_m": 137.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.89857,95.50129": {
+    "elevation_m": 134.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 311.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.89009,95.52007": {
+    "elevation_m": 134.0,
+    "slope_deg": 0.5,
+    "aspect_deg": 48.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.94602,95.56231": {
+    "elevation_m": 140.0,
+    "slope_deg": 0.8,
+    "aspect_deg": 66.2,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "27.96462,95.57035": {
+    "elevation_m": 136.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 131.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.00530,95.56904": {
+    "elevation_m": 156.0,
+    "slope_deg": 0.6,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.03891,95.59683": {
+    "elevation_m": 166.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 286.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.04653,95.61790": {
+    "elevation_m": 165.0,
+    "slope_deg": 1.5,
+    "aspect_deg": 209.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.10301,95.59637": {
+    "elevation_m": 210.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 209.5,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.12542,95.60605": {
+    "elevation_m": 219.0,
+    "slope_deg": 1.0,
+    "aspect_deg": 20.7,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.14340,95.65352": {
+    "elevation_m": 219.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 0.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.15962,95.66527": {
+    "elevation_m": 212.0,
+    "slope_deg": 0.7,
+    "aspect_deg": 150.4,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.13627,95.72523": {
+    "elevation_m": 195.0,
+    "slope_deg": 0.3,
+    "aspect_deg": 180.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.11401,95.76731": {
+    "elevation_m": 227.0,
+    "slope_deg": 1.1,
+    "aspect_deg": 270.0,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.11161,95.81007": {
+    "elevation_m": 270.0,
+    "slope_deg": 2.1,
+    "aspect_deg": 297.9,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  },
+  "28.13584,95.84288": {
+    "elevation_m": 371.0,
+    "slope_deg": 1.6,
+    "aspect_deg": 192.8,
+    "source": "OpenTopoData (NASA SRTM 30m)"
+  }
+}

@@ -101,11 +101,21 @@ export default function ResearchModal({ isOpen, onClose }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
               <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
                 <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
-                  <span>12 Conditioning Factors &amp; Faults</span>
-                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded / Synthetic</span>
+                  <span>Slope, Aspect &amp; Elevation</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Real NASA SRTM 30m Stencil</span>
                 </div>
                 <p className="text-[#3E5C63] leading-tight">
-                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>GSI Bhukosh</strong> (NLSM 1:50k slope/geology) &amp; <strong>ISRO Bhuvan</strong> (30m CartoDEM elevation, NDVI)
+                  <strong className="text-[#1C2B22]">Derived:</strong> Computed from real 5-point elevation differences via OpenTopoData/SRTM 30m across all 415 segments (cached locally).
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Faults, Drainage &amp; Soil</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded / In Progress</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>GSI Bhukosh</strong> (NLSM 1:50k geology) &amp; GSI Seismo-Tectonic Atlas fault lineaments.
                 </p>
               </div>
 
