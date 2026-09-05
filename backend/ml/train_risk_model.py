@@ -2,9 +2,18 @@
 Setumarg: AI-based Smart Logistics and Accessibility Intelligence Platform (NER)
 Landslide Susceptibility Machine Learning Pipeline.
 
-Model design based on peer-reviewed Eastern Himalaya studies:
-- Dibang Valley, Arunachal Pradesh landslide susceptibility modeling (AUC ~0.89-0.94)
-- NE India-Bhutan corridor conditioning factor analysis (Random Forest / XGBoost)
+Model design & feature calibration based on peer-reviewed Eastern Himalaya studies:
+- Dibang Valley, Arunachal Pradesh landslide susceptibility modeling (Random Forest & XGBoost)
+- NE India-Bhutan corridor conditioning factor analysis
+
+IMPORTANT METHODOLOGICAL NOTE:
+The ROC-AUC and accuracy metrics produced by this pipeline represent an internal-consistency
+check on a synthetic dataset calibrated to match published Eastern Himalaya feature-importance
+patterns (specifically the Dibang Valley Random Forest study), rather than validated accuracy
+on real-world historical landslide inventory records. The synthetic dataset labels are derived
+from empirical geotechnical weights to verify that the Random Forest architecture correctly
+recovers the expected multi-factor risk hierarchy before live field telemetry ingestion.
+
 Features (12 conditioning factors):
 1. slope_deg: Slope inclination in degrees
 2. aspect_deg: Slope orientation (azimuth 0-360)
@@ -64,6 +73,14 @@ MODEL_PATH = os.path.join(os.path.dirname(__file__), "risk_rf_model.joblib")
 def generate_synthetic_himalayan_dataset(n_samples: int = 3500, random_state: int = 42) -> pd.DataFrame:
     """
     Generates a physically consistent synthetic dataset modeling Eastern Himalayan geotechnical conditions.
+    
+    Calibration Context:
+    The features and latent risk formula are calibrated to reflect the empirical feature importance
+    patterns documented in published Eastern Himalaya literature (specifically the Dibang Valley,
+    Arunachal Pradesh Random Forest susceptibility study). This synthetic dataset serves as an
+    internal-consistency benchmark to verify that the ML training pipeline correctly learns and
+    ranks the underlying geotechnical relationships, rather than claiming validated accuracy
+    against historical landslide inventories.
     """
     rng = np.random.RandomState(random_state)
 
@@ -151,6 +168,13 @@ def generate_synthetic_himalayan_dataset(n_samples: int = 3500, random_state: in
 def train_and_save_model() -> dict:
     """
     Trains the Random Forest Landslide Susceptibility model and saves to disk.
+    
+    Evaluation Context:
+    The computed metrics (ROC-AUC and accuracy) evaluate internal consistency on a synthetic
+    dataset calibrated to match published Eastern Himalaya feature-importance patterns
+    (citing the Dibang Valley RF susceptibility study). They serve as a verification check
+    that the classifier architecture accurately recovers the multi-factor geotechnical
+    relationships, rather than validated accuracy on empirical landslide inventory records.
     """
     df = generate_synthetic_himalayan_dataset(n_samples=3500)
     X = df[FEATURE_NAMES]
@@ -193,11 +217,12 @@ def train_and_save_model() -> dict:
             "accuracy": float(report["accuracy"]),
             "weighted_f1": float(report["weighted avg"]["f1-score"])
         },
-        "feature_importances": feature_importances
+        "feature_importances": feature_importances,
+        "evaluation_context": "Internal-consistency check on a synthetic dataset calibrated to match published Eastern Himalaya feature-importance patterns (Dibang Valley RF study), not validated accuracy on real landslide records."
     }
 
     joblib.dump(artifact, MODEL_PATH)
-    print(f"Setumarg Landslide RF Model trained successfully. ROC-AUC: {auc:.4f}, Accuracy: {report['accuracy']:.4f}")
+    print(f"Setumarg Landslide RF Model calibrated successfully (Synthetic Consistency ROC-AUC: {auc:.4f}, Accuracy: {report['accuracy']:.4f})")
     return artifact
 
 

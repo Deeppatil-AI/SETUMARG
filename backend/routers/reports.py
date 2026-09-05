@@ -67,6 +67,7 @@ class HazardReportCreate(BaseModel):
     severity: str    # Minor, Moderate, Critical, Impassable
     description: str
     reported_by: Optional[str] = "Citizen / Commercial Driver"
+    photo_url: Optional[str] = None
 
 
 @router.get("")
@@ -124,7 +125,7 @@ def submit_hazard_report(report: HazardReportCreate):
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "status": "Verified" if is_impassable else "Pending BRO Inspection",
         "is_impassable": is_impassable,
-        "photo_url": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80"
+        "photo_url": report.photo_url if report.photo_url else "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80"
     }
 
     HAZARD_REPORTS.append(new_entry)

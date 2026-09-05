@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
-import HazardMap from './components/HazardMap';
-import AccessibilityView from './components/AccessibilityView';
-import RouteOptimizerView from './components/RouteOptimizerView';
-import DashboardView from './components/DashboardView';
 import ReportModal from './components/ReportModal';
 import ResearchModal from './components/ResearchModal';
 
-const API_BASE = window.location.hostname === '127.0.0.1' ? 'http://127.0.0.1:8000' : 'http://localhost:8000';
+const HazardMap = lazy(() => import('./components/HazardMap'));
+const AccessibilityView = lazy(() => import('./components/AccessibilityView'));
+const RouteOptimizerView = lazy(() => import('./components/RouteOptimizerView'));
+const DashboardView = lazy(() => import('./components/DashboardView'));
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('map');
@@ -27,10 +26,10 @@ export default function App() {
   const fetchAllData = async () => {
     try {
       const [segRes, accRes, dashRes, repRes] = await Promise.all([
-        fetch(`${API_BASE}/api/risk/segments`).then(r => r.json()),
-        fetch(`${API_BASE}/api/accessibility/villages`).then(r => r.json()),
-        fetch(`${API_BASE}/api/dashboard/stats`).then(r => r.json()),
-        fetch(`${API_BASE}/api/reports`).then(r => r.json())
+        fetch('/api/risk/segments').then(r => r.json()),
+        fetch('/api/accessibility/villages').then(r => r.json()),
+        fetch('/api/dashboard/stats').then(r => r.json()),
+        fetch('/api/reports').then(r => r.json())
       ]);
 
       setNowcastData(segRes);
@@ -53,7 +52,7 @@ export default function App() {
   // Handler for Rainfall Scenarios (Dry, Monsoon, Cloudburst)
   const handleScenarioChange = async (scenarioKey) => {
     try {
-      const res = await fetch(`${API_BASE}/api/risk/nowcast`, {
+      const res = await fetch('/api/risk/nowcast', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ scenario_key: scenarioKey })
@@ -63,8 +62,8 @@ export default function App() {
 
       // Refresh dashboard & accessibility
       const [accRes, dashRes] = await Promise.all([
-        fetch(`${API_BASE}/api/accessibility/villages`).then(r => r.json()),
-        fetch(`${API_BASE}/api/dashboard/stats`).then(r => r.json())
+        fetch('/api/accessibility/villages').then(r => r.json()),
+        fetch('/api/dashboard/stats').then(r => r.json())
       ]);
       setAccessibilityData(accRes);
       setDashboardData(dashRes);
@@ -76,7 +75,7 @@ export default function App() {
   // Handler for Live Rainfall Scrubber Slider
   const handleSliderChange = async (multiplier) => {
     try {
-      const res = await fetch(`${API_BASE}/api/risk/nowcast`, {
+      const res = await fetch('/api/risk/nowcast', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ custom_multiplier: multiplier })
@@ -86,8 +85,8 @@ export default function App() {
 
       // Keep dashboard in sync
       const [accRes, dashRes] = await Promise.all([
-        fetch(`${API_BASE}/api/accessibility/villages`).then(r => r.json()),
-        fetch(`${API_BASE}/api/dashboard/stats`).then(r => r.json())
+        fetch('/api/accessibility/villages').then(r => r.json()),
+        fetch('/api/dashboard/stats').then(r => r.json())
       ]);
       setAccessibilityData(accRes);
       setDashboardData(dashRes);
@@ -98,7 +97,7 @@ export default function App() {
 
   // Handler for Submitting Crowdsourced Hazard Report
   const handleSubmitReport = async (payload) => {
-    const res = await fetch(`${API_BASE}/api/reports`, {
+    const res = await fetch('/api/reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -112,7 +111,7 @@ export default function App() {
 
   // Handler for Triggering Emergency SMS/IVR
   const handleTriggerAlert = async (villageId) => {
-    const res = await fetch(`${API_BASE}/api/accessibility/trigger-sms-ivr`, {
+    const res = await fetch('/api/accessibility/trigger-sms-ivr', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ village_id: villageId })
@@ -122,7 +121,7 @@ export default function App() {
 
   // Handler for Route Optimizer
   const handleOptimizeRoute = async (origin, destination, vehicleType) => {
-    const res = await fetch(`${API_BASE}/api/routing/optimize`, {
+    const res = await fetch('/api/routing/optimize', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ origin, destination, vehicle_type: vehicleType })
@@ -145,41 +144,48 @@ export default function App() {
 
       {/* Main View Area */}
       <main className="flex-1">
-        {activeTab === 'map' && (
-          <HazardMap
-            segmentsData={nowcastData}
-            accessibilityData={accessibilityData}
-            hazardReports={hazardReports}
-            selectedSegment={selectedSegment}
-            setSelectedSegment={setSelectedSegment}
-            isPinDropping={isPinDropping}
-            setIsPinDropping={setIsPinDropping}
-            onPinDropSelect={(lat, lng) => {
-              setPinnedLocation({ lat, lng });
-              setIsReportModalOpen(true);
-            }}
-          />
-        )}
+        <Suspense fallback={
+          <div className="p-12 text-center text-[#E5DEC9] font-mono text-xs flex flex-col items-center justify-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-[#6EE7B7] animate-ping"></span>
+            <span>Loading Setumarg view module...</span>
+          </div>
+        }>
+          {activeTab === 'map' && (
+            <HazardMap
+              segmentsData={nowcastData}
+              accessibilityData={accessibilityData}
+              hazardReports={hazardReports}
+              selectedSegment={selectedSegment}
+              setSelectedSegment={setSelectedSegment}
+              isPinDropping={isPinDropping}
+              setIsPinDropping={setIsPinDropping}
+              onPinDropSelect={(lat, lng) => {
+                setPinnedLocation({ lat, lng });
+                setIsReportModalOpen(true);
+              }}
+            />
+          )}
 
-        {activeTab === 'accessibility' && (
-          <AccessibilityView
-            accessibilityData={accessibilityData}
-            onTriggerAlert={handleTriggerAlert}
-          />
-        )}
+          {activeTab === 'accessibility' && (
+            <AccessibilityView
+              accessibilityData={accessibilityData}
+              onTriggerAlert={handleTriggerAlert}
+            />
+          )}
 
-        {activeTab === 'routing' && (
-          <RouteOptimizerView
-            onOptimizeRoute={handleOptimizeRoute}
-          />
-        )}
+          {activeTab === 'routing' && (
+            <RouteOptimizerView
+              onOptimizeRoute={handleOptimizeRoute}
+            />
+          )}
 
-        {activeTab === 'dashboard' && (
-          <DashboardView
-            dashboardData={dashboardData}
-            nowcastData={nowcastData}
-          />
-        )}
+          {activeTab === 'dashboard' && (
+            <DashboardView
+              dashboardData={dashboardData}
+              nowcastData={nowcastData}
+            />
+          )}
+        </Suspense>
       </main>
 
       {/* Modals */}

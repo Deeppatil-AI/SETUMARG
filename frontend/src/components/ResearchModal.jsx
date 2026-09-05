@@ -1,16 +1,16 @@
 import React from 'react';
-import { BookOpen, X, Check, Shield, PhoneCall, CloudRain, MapPin } from 'lucide-react';
+import { BookOpen, X, Check, Shield, PhoneCall, CloudRain, MapPin, Database, Info } from 'lucide-react';
 
 export default function ResearchModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const citations = [
     {
-      title: "How Setumarg Predicts Road Landslides",
-      authors: "Geological Survey of India (GSI) & Himalayan Geotechnical Research",
-      framework: "12 Terrain Conditioning Factors + Machine Learning (91.5% Accuracy)",
-      auc: "Rock & Soil Stability Model",
-      description: "Rather than guessing, Setumarg analyzes 12 real factors along every kilometer of highway: how steep the hillside is (slope), rock fault lines, distance to mountain streams, forest tree cover, and historical soil weakness to spot dangerous spots before they collapse."
+      title: "Himalayan Landslide Susceptibility Modeling",
+      authors: "Geological Survey of India (GSI) & Published Himalayan Research",
+      framework: "12-Factor Conditioning Methodology (Slope, Faults, Drainage, Lithology, Soil, NDVI)",
+      auc: "Model Self-Consistency: 91.5%",
+      description: "GSI and peer-reviewed Eastern Himalaya research (such as the Dibang Valley study) define the geotechnical methodology: 12 conditioning factors including slope inclination, proximity to active thrust faults (MCT/MBT/Dauki), stream drainage incision, and lithology. Note on 91.5% accuracy: This 91.5% score (0.91 AUC) is our own machine learning model's internal self-consistency result on a synthetic dataset calibrated to match those published feature-importance patterns. It is an engineering verification that our algorithm learned the factors correctly, NOT a GSI-validated field accuracy figure on real disaster records."
     },
     {
       title: "Real-Time Satellite Rain Early Warning",
@@ -55,16 +55,16 @@ export default function ResearchModal({ isOpen, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="text-[#3E5C63] hover:text-[#1C2B22] p-1 font-mono font-bold"
+            className="text-[#3E5C63] hover:text-[#1C2B22] p-1 font-mono font-bold text-sm"
           >
             ✕
           </button>
         </div>
 
-        {/* Citations List */}
+        {/* Scrollable Body: Citations + Data Provenance */}
         <div className="space-y-3 overflow-y-auto pr-1">
           {citations.map((c, i) => (
-            <div key={i} className="bg-[#E5DEC9]/60 p-3.5 rounded border border-[#3E5C63]/25 space-y-1">
+            <div key={i} className="bg-[#E5DEC9]/60 p-3 rounded border border-[#3E5C63]/25 space-y-1">
               <div className="flex items-start justify-between gap-2">
                 <h4 className="font-heading font-bold text-xs text-[#1C2B22]">
                   {c.title}
@@ -74,23 +74,92 @@ export default function ResearchModal({ isOpen, onClose }) {
                 </span>
               </div>
               <div className="text-[11px] text-[#3E5C63]">
-                <strong>Source: </strong>{c.authors} | <span className="font-mono text-[10px]">{c.framework}</span>
+                <strong>Methodology: </strong>{c.authors} | <span className="font-mono text-[10px]">{c.framework}</span>
               </div>
               <p className="text-[#1C2B22] text-[11px] leading-relaxed pt-0.5">
                 {c.description}
               </p>
             </div>
           ))}
+
+          {/* Visible Data Provenance Section (from docs/data-sources.md) */}
+          <div className="bg-[#E2DAC7] p-3.5 rounded border border-[#3E5C63]/30 space-y-2.5 mt-2">
+            <div className="flex items-center gap-2">
+              <Database className="w-4 h-4 text-[#1C2B22]" />
+              <h4 className="font-heading font-bold text-xs text-[#1C2B22]">
+                Data Provenance &amp; National Production API Mapping
+              </h4>
+              <span className="ml-auto text-[10px] font-mono bg-[#1C2B22] text-[#F1EDE2] px-2 py-0.5 rounded font-medium">
+                Prototype: Seeded &amp; Synthetic
+              </span>
+            </div>
+            
+            <p className="text-[11px] text-[#3E5C63] leading-snug">
+              Per <code>docs/data-sources.md</code>, this prototype operates on realistic seeded datasets and real OpenStreetMap road paths. In a live national deployment, each prototype layer maps directly into official government geospatial APIs:
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>12 Conditioning Factors &amp; Faults</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded / Synthetic</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>GSI Bhukosh</strong> (NLSM 1:50k slope/geology) &amp; <strong>ISRO Bhuvan</strong> (30m CartoDEM elevation, NDVI)
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Rainfall Scenarios &amp; Nowcast</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded Multipliers</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>IMD Doppler Weather Radar</strong> (Cherrapunji/Agartala) &amp; <strong>NASA GPM IMERG</strong> (30-min rolling precipitation)
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Road Segments &amp; Geometries</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Real OSM Highway Paths</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>MoRTH GIS Portal</strong> &amp; <strong>PM GatiShakti NMP</strong> (1,600+ unified geospatial layers)
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Villages &amp; Hospital Access</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">25 Seeded Settlements</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>PMGSY Rural Roads Geoportal</strong> &amp; <strong>Census 2011 Village Directory</strong> (World Bank RAI isochrones)
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20 sm:col-span-2">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Multi-Modal Freight &amp; Waterway Deflection</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded Hubs &amp; Tariffs</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>ULIP</strong> (Unified Logistics Interface Platform v2.4 contracts) &amp; <strong>IWAI</strong> National Waterway 2 Brahmaputra Terminal APIs
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Footer Note */}
-        <div className="mt-4 pt-3 border-t border-[#3E5C63]/20 flex items-center justify-between text-[11px] text-[#3E5C63]">
-          <span className="font-mono">Detailed in /docs/research-references.md and /docs/data-sources.md</span>
+        <div className="mt-3 pt-2.5 border-t border-[#3E5C63]/20 flex items-center justify-between text-[11px] text-[#3E5C63]">
+          <span className="font-mono">Detailed technical documentation: /docs/data-sources.md</span>
           <button
             onClick={onClose}
-            className="bg-[#1C2B22] text-[#F1EDE2] px-4 py-1.5 rounded font-heading font-semibold transition"
+            className="bg-[#1C2B22] hover:bg-[#2A3F33] text-[#F1EDE2] px-4 py-1.5 rounded font-heading font-semibold transition shadow-sm"
           >
-            Close Reference Sheet
+            Close Guide
           </button>
         </div>
       </div>

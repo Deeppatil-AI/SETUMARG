@@ -285,6 +285,13 @@ export default function HazardMap({
                   </span>
                 </div>
                 <p className="text-[11px] text-[#1C2B22] mb-1 font-medium">{rep.description}</p>
+                {rep.photo_url && (
+                  <img 
+                    src={rep.photo_url} 
+                    alt="Hazard ground evidence" 
+                    className="w-full h-28 object-cover rounded my-1.5 border border-[#3E5C63]/30 shadow-xs" 
+                  />
+                )}
                 <div className="text-[10px] text-[#3E5C63] font-mono space-y-0.5">
                   <div>Corridor: {rep.highway}</div>
                   <div>Reported: {rep.reported_by}</div>

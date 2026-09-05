@@ -8,6 +8,7 @@ Main FastAPI Application Entrypoint.
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime, timezone
 import os
 import sys
 from pathlib import Path
@@ -96,7 +97,7 @@ def get_executive_kpi_dashboard():
     estimated_freight_savings_cr = round(1.2 + (blocked_count * 0.85), 2)
 
     return {
-        "timestamp_now": "2026-09-04T18:30:00Z",
+        "timestamp_now": datetime.utcnow().isoformat() + "Z",
         "active_rainfall_scenario": CURRENT_RAINFALL_STATE["active_scenario_key"],
         "rainfall_multiplier": mult,
         "rainfall_intensity_mm_hr": CURRENT_RAINFALL_STATE["rainfall_intensity_mm_hr"],

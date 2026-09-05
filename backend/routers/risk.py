@@ -198,19 +198,26 @@ def get_rainfall_scenarios():
 @router.get("/model-info")
 def get_model_telemetry():
     """
-    Returns Random Forest metrics, feature weights, and peer-reviewed scientific citations.
+    Returns Random Forest metrics, feature weights, and scientific calibration citations.
+    
+    Framing Note:
+    The ROC-AUC and accuracy metrics represent an internal-consistency check on a synthetic
+    dataset calibrated to match published Eastern Himalaya feature-importance patterns
+    (citing the Dibang Valley RF study), not validated accuracy on real landslide records.
     """
     art = get_model()
     return {
         "model_architecture": "scikit-learn RandomForestClassifier (100 estimators, max_depth=10)",
         "evaluation_metrics": art["metrics"],
+        "evaluation_context": "Internal-consistency check on a synthetic dataset calibrated to match published Eastern Himalaya feature-importance patterns (Dibang Valley RF study), not validated accuracy on real landslide records.",
         "feature_importances": art["feature_importances"],
         "conditioning_factors_count": len(art["feature_names"]),
         "scientific_citations": [
             {
                 "region": "Dibang Valley, Arunachal Pradesh (Eastern Himalaya)",
                 "methodology": "Random Forest and XGBoost Landslide Susceptibility zonation with 14 conditioning factors",
-                "reported_auc": "0.89 - 0.94"
+                "reported_literature_auc": "0.89 - 0.94",
+                "calibration_note": "Synthetic dataset feature-importance patterns are calibrated against this published empirical study. Metrics represent internal consistency of the calibrated benchmark rather than validated accuracy on historical landslide inventories."
             },
             {
                 "system": "NASA LHASA (Landslide Hazard Assessment for Situational Awareness)",
