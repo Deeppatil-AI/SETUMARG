@@ -87,6 +87,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from starlette.requests import Request
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+FRONTEND_DIST = ROOT_DIR / "frontend" / "dist"
+
 # Register routers
 app.include_router(risk.router)
 app.include_router(reports.router)
@@ -95,9 +102,22 @@ app.include_router(routing.router)
 app.include_router(freight.router)
 app.include_router(fleet.router)
 
+# Mount frontend assets if compiled
+if (FRONTEND_DIST / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="assets")
+
 
 @app.get("/")
-def health_check():
+def health_check(request: Request):
+    """
+    Serves the React frontend SPA to browser requests,
+    or the operational health JSON to programmatic API/test clients.
+    """
+    accept = request.headers.get("accept", "")
+    index_file = FRONTEND_DIST / "index.html"
+    if "text/html" in accept and index_file.exists():
+        return FileResponse(str(index_file))
+
     return {
         "platform": "Setumarg",
         "tagline": "AI-based Smart Logistics and Accessibility Intelligence for the North Eastern Region",
@@ -106,6 +126,14 @@ def health_check():
         "status": "OPERATIONAL",
         "interoperability": "PM GatiShakti National Master Plan & ULIP Compatible"
     }
+
+
+@app.get("/favicon.svg", include_in_schema=False)
+def serve_favicon():
+    fav = FRONTEND_DIST / "favicon.svg"
+    if fav.exists():
+        return FileResponse(str(fav))
+    raise StarletteHTTPException(status_code=404, detail="Favicon not found")
 
 
 @app.get("/api/dashboard/stats")
@@ -202,6 +230,26 @@ def get_executive_kpi_dashboard():
             {"name": "Severe", "count": tier_counts["Severe"], "fill": "#991b1b"}
         ]
     }
+
+
+@app.get("/{full_path:path}", include_in_schema=False)
+async def serve_spa_fallback(request: Request, full_path: str):
+    """
+    SPA client-side routing fallback:
+    Routes all non-API paths to the React index.html.
+    """
+    if full_path.startswith("api/") or full_path in ["docs", "redoc", "openapi.json"]:
+        raise StarletteHTTPException(status_code=404, detail="API route not found")
+
+    target = FRONTEND_DIST / full_path
+    if target.is_file():
+        return FileResponse(str(target))
+
+    index_file = FRONTEND_DIST / "index.html"
+    if index_file.exists():
+        return FileResponse(str(index_file))
+
+    raise StarletteHTTPException(status_code=404, detail="Page not found")
 
 
 if __name__ == "__main__":

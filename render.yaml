@@ -1,0 +1,15 @@
+﻿services:
+  - type: web
+    name: setumarg
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "uvicorn backend.main:app --host 0.0.0.0 --port \"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: NODE_VERSION
+        value: 20.12.0
+      - key: WEATHER_RECOMPUTE_INTERVAL_SECONDS
+        value: 900
+    plan: free
+    autoDeploy: true
