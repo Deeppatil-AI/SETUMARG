@@ -205,7 +205,7 @@ export default function ResearchModal({ isOpen, onClose, currentLanguage = 'en' 
                   <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Simulated Fleet (7 Convoys)</span>
                 </div>
                 <p className="text-[#3E5C63] leading-tight">
-                  <strong className="text-[#1C2B22]">Prototype Status:</strong> Fleet movement is <strong>simulated</strong> along real OpenStreetMap highway corridors with server-side waypoint progression. Convoys dynamically become <strong>stranded</strong> when their current road segment enters High or Severe landslide risk. <em>Not from real GPS hardware.</em>
+                  <strong className="text-[#1C2B22]">Prototype Status:</strong> Fleet movement is <strong>simulated</strong> along real OpenStreetMap highway corridors with server-side waypoint progression. Convoys dynamically become <strong>stranded</strong> when their current road segment is blocked, enters Severe alert tiers, or encounters critical canyon hazard conditions. <em>Not from real GPS hardware.</em>
                   <br />
                   <strong className="text-[#1C2B22]">Production Integration Architecture:</strong> In a production deployment, vehicles would stream coordinates via a <strong>driver mobile app pinging GPS telemetry every 30 seconds</strong>, or enterprise telematics gateways such as <strong>MoRTH AIS-140 VLTD</strong> onboard units, <strong>NETC FASTag toll plaza pings</strong>, and <strong>NIC Vahan / E-Way Bill</strong> feeds.
                 </p>

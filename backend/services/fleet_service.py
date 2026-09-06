@@ -2,7 +2,7 @@
 Setumarg: Fleet Tracking Service (GPS Telematics Simulation)
 Simulates real-time commercial & relief fleet movements across NER corridors.
 Directly linked to dynamic road segment risk: vehicles become 'stranded'
-if their current road segment enters High or Severe alert tiers, or is blocked.
+if their current road segment is blocked, enters Severe alert tiers, or encounters critical canyon hazard conditions.
 """
 
 from typing import List, Dict, Any, Optional
@@ -174,7 +174,7 @@ class FleetSimulationManager:
     def advance_positions(self, step_delta_pct: Optional[float] = None):
         """
         Advances the route progress of vehicles that are NOT stranded.
-        If a vehicle is stranded (High/Severe risk or blocked), it does not move.
+        If a vehicle is stranded (Severe risk, steep canyon rockfall, or blocked), it does not move.
         """
         now = time.time()
         elapsed = now - self.last_update_ts
@@ -248,26 +248,49 @@ class FleetSimulationManager:
         # Evaluate risk of this segment
         seg_risk = compute_dynamic_risk_fn(curr_seg) if curr_seg else {}
         tier = seg_risk.get("dynamic_alert_tier", "Low")
+        dynamic_score = float(seg_risk.get("dynamic_risk_score", 0.0))
         is_blocked = bool(seg_risk.get("is_blocked", False))
 
-        # Status determination according to PS requirements:
-        # "stranded if it's on a segment whose risk tier just became High/Severe"
-        if is_blocked or tier in ["High", "Very High", "Severe"]:
+        # Cross-reference traffic congestion and terrain characteristics
+        from backend.services.congestion_service import evaluate_segment_congestion
+        cong_info = evaluate_segment_congestion(curr_seg, self.vehicles) if curr_seg else {}
+        cong_tier = cong_info.get("congestion_tier", "Low Traffic / Free Flow")
+        is_congested = cong_info.get("congestion_index", 0.0) >= 0.35 or cong_tier in ["Heavy Congestion", "Severe Gridlock"]
+
+        slope_deg = float(curr_seg.get("slope_deg", 0.0)) if curr_seg else 0.0
+        cargo_tons = float(v.get("cargo_weight_tons", 0.0))
+
+        # Status determination according to PS requirements & realistic mountain highway operations:
+        # 1. STRANDED: Physical roadblock/debris obstruction OR Severe catastrophic alert tier
+        #    OR Very High alert on steep canyon slopes (e.g. NH-10 Teesta Gorge rockfall danger)
+        if is_blocked or tier == "Severe" or (tier == "Very High" and slope_deg >= 25.0):
             status = "stranded"
-            status_reason = f"Stranded on {curr_seg.get('name', 'Segment')}: {tier} landslide hazard risk"
+            status_reason = f"Stranded on {curr_seg.get('name', 'Segment')}: {tier} landslide hazard{' (Active Blockage)' if is_blocked else ''}"
             speed = 0.0
-            # ETA delayed by stranded backlog
+            # ETA delayed by stranded backlog (+6 hours stranding delay)
             rem_km = (1.0 - prog / 100.0) * 150.0
-            eta_mins = int((rem_km / 35.0) * 60.0 + 360) # +6 hours stranding delay
-        elif tier == "Moderate":
+            eta_mins = int((rem_km / 35.0) * 60.0 + 360)
+
+        # 2. DELAYED: Slowed down by high hazard caution, steep gradient speed limits, heavy freight, or traffic congestion
+        elif tier == "Very High" or (tier == "High" and (slope_deg >= 12.0 or cargo_tons >= 12.0 or is_congested or dynamic_score >= 0.65)):
             status = "delayed"
-            status_reason = f"Weather slowdown on {curr_seg.get('name', 'Segment')}: Moderate caution tier"
-            speed = round(v.get("base_speed_kmh", 45.0) * 0.55, 1)
+            if is_congested:
+                status_reason = f"Traffic congestion on {curr_seg.get('name', 'Segment')}: {cong_tier}"
+            elif cargo_tons >= 12.0:
+                status_reason = f"Heavy freight crawl on {curr_seg.get('name', 'Segment')}: {cargo_tons}T payload under {tier} risk advisory"
+            else:
+                status_reason = f"Hazard caution slowdown on {curr_seg.get('name', 'Segment')}: {tier} tier speed restriction"
+            speed = round(v.get("base_speed_kmh", 45.0) * 0.50, 1)
             rem_km = (1.0 - prog / 100.0) * 150.0
             eta_mins = int((rem_km / max(15.0, speed)) * 60.0 + 45)
+
+        # 3. MOVING: Normal on-route transit
         else:
             status = "moving"
-            status_reason = "On-route normal transit: clear corridor"
+            if tier in ["Moderate", "High"]:
+                status_reason = f"On-route normal transit: {tier} tier caution advisory in effect"
+            else:
+                status_reason = "On-route normal transit: clear corridor"
             speed = float(v.get("base_speed_kmh", 48.0))
             rem_km = (1.0 - prog / 100.0) * 150.0
             eta_mins = int((rem_km / max(25.0, speed)) * 60.0)

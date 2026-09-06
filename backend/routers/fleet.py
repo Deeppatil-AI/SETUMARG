@@ -42,7 +42,7 @@ def list_fleet_vehicles(advance: bool = Query(True, description="Whether to adva
     Returns real-time GPS tracking snapshot for the simulated fleet.
     Each vehicle includes ID, cargo type, category, weight, route, origin, destination,
     current lat/lng, speed, ETA, and status (moving / delayed / stranded).
-    Stranded status is dynamically triggered when a vehicle enters a High or Severe landslide risk segment.
+    Stranded status is dynamically triggered when a vehicle encounters a physically blocked segment, Severe alert tier, or critical canyon hazard.
     """
     try:
         data = get_fleet_vehicles(auto_advance=advance)

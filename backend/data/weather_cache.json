@@ -1,6 +1,6 @@
 {
   "status": "LIVE_SYNCHRONIZED",
-  "timestamp": "2026-09-06T19:13:38.129381+00:00",
+  "timestamp": "2026-09-06T19:22:01.001243+00:00",
   "source": "Open-Meteo Live API",
   "total_districts": 33,
   "districts": {
@@ -11,9 +11,9 @@
       "lat": 26.18,
       "lng": 91.75,
       "current_rain_mm": 0.0,
-      "current_precipitation_mm": 0.1,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_precipitation_mm": 0.0,
+      "weather_code": 3,
+      "weather_description": "Overcast",
       "forecast_next_6h_mm": 0.5,
       "forecast_next_24h_mm": 7.8,
       "forecast_next_48h_mm": 33.2,
@@ -139,7 +139,7 @@
           "rain_mm": 0.2
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Ri-Bhoi (Nongpoh)": {
@@ -150,8 +150,8 @@
       "lng": 91.88,
       "current_rain_mm": 0.0,
       "current_precipitation_mm": 0.0,
-      "weather_code": 2,
-      "weather_description": "Partly cloudy",
+      "weather_code": 1,
+      "weather_description": "Mainly clear",
       "forecast_next_6h_mm": 0.1,
       "forecast_next_24h_mm": 6.7,
       "forecast_next_48h_mm": 30.2,
@@ -277,7 +277,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "East Khasi Hills (Shillong)": {
@@ -415,7 +415,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "West Jaintia Hills (Jowai)": {
@@ -553,7 +553,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "East Jaintia Hills (Sonapur)": {
@@ -562,10 +562,10 @@
       "state": "Meghalaya",
       "lat": 25.11,
       "lng": 92.39,
-      "current_rain_mm": 0.0,
-      "current_precipitation_mm": 0.7,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_rain_mm": 0.2,
+      "current_precipitation_mm": 0.2,
+      "weather_code": 53,
+      "weather_description": "Moderate drizzle",
       "forecast_next_6h_mm": 4.3,
       "forecast_next_24h_mm": 14.6,
       "forecast_next_48h_mm": 28.4,
@@ -691,7 +691,7 @@
           "rain_mm": 0.6
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Cachar (Silchar)": {
@@ -700,10 +700,10 @@
       "state": "Assam",
       "lat": 24.83,
       "lng": 92.8,
-      "current_rain_mm": 0.2,
-      "current_precipitation_mm": 0.6,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_rain_mm": 0.1,
+      "current_precipitation_mm": 0.2,
+      "weather_code": 53,
+      "weather_description": "Moderate drizzle",
       "forecast_next_6h_mm": 4.1,
       "forecast_next_24h_mm": 22.3,
       "forecast_next_48h_mm": 47.4,
@@ -829,7 +829,7 @@
           "rain_mm": 1.7
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Darjeeling (Siliguri)": {
@@ -839,9 +839,9 @@
       "lat": 26.72,
       "lng": 88.42,
       "current_rain_mm": 0.0,
-      "current_precipitation_mm": 0.0,
-      "weather_code": 2,
-      "weather_description": "Partly cloudy",
+      "current_precipitation_mm": 0.1,
+      "weather_code": 95,
+      "weather_description": "Thunderstorm",
       "forecast_next_6h_mm": 2.9,
       "forecast_next_24h_mm": 13.1,
       "forecast_next_48h_mm": 28.2,
@@ -967,7 +967,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Jalpaiguri (Sevoke)": {
@@ -1105,7 +1105,7 @@
           "rain_mm": 0.1
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Kalimpong": {
@@ -1243,7 +1243,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Pakyong (Rangpo)": {
@@ -1381,7 +1381,7 @@
           "rain_mm": 0.1
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "East Sikkim (Gangtok)": {
@@ -1390,7 +1390,7 @@
       "state": "Sikkim",
       "lat": 27.33,
       "lng": 88.61,
-      "current_rain_mm": 0.1,
+      "current_rain_mm": 0.0,
       "current_precipitation_mm": 0.1,
       "weather_code": 51,
       "weather_description": "Light drizzle",
@@ -1519,7 +1519,7 @@
           "rain_mm": 0.7
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Dimapur": {
@@ -1528,10 +1528,10 @@
       "state": "Nagaland",
       "lat": 25.91,
       "lng": 93.73,
-      "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.1,
-      "weather_code": 51,
-      "weather_description": "Light drizzle",
+      "current_rain_mm": 0.0,
+      "current_precipitation_mm": 0.0,
+      "weather_code": 1,
+      "weather_description": "Mainly clear",
       "forecast_next_6h_mm": 0.6,
       "forecast_next_24h_mm": 13.9,
       "forecast_next_48h_mm": 22.7,
@@ -1657,7 +1657,7 @@
           "rain_mm": 0.5
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Chumukedima": {
@@ -1795,7 +1795,7 @@
           "rain_mm": 0.3
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Kohima": {
@@ -1804,10 +1804,10 @@
       "state": "Nagaland",
       "lat": 25.67,
       "lng": 94.11,
-      "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.1,
-      "weather_code": 51,
-      "weather_description": "Light drizzle",
+      "current_rain_mm": 0.0,
+      "current_precipitation_mm": 0.0,
+      "weather_code": 1,
+      "weather_description": "Mainly clear",
       "forecast_next_6h_mm": 0.5,
       "forecast_next_24h_mm": 18.2,
       "forecast_next_48h_mm": 34.1,
@@ -1933,7 +1933,7 @@
           "rain_mm": 0.3
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Senapati": {
@@ -2071,7 +2071,7 @@
           "rain_mm": 0.1
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Kangpokpi": {
@@ -2209,7 +2209,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Imphal West (Imphal)": {
@@ -2347,7 +2347,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Thoubal": {
@@ -2485,7 +2485,7 @@
           "rain_mm": 0.1
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Kakching": {
@@ -2623,7 +2623,7 @@
           "rain_mm": 0.3
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Tengnoupal": {
@@ -2761,7 +2761,7 @@
           "rain_mm": 0.1
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Chandel (Moreh)": {
@@ -2899,7 +2899,7 @@
           "rain_mm": 0.8
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Alipurduar": {
@@ -2909,9 +2909,9 @@
       "lat": 26.49,
       "lng": 89.53,
       "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.4,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_precipitation_mm": 0.2,
+      "weather_code": 53,
+      "weather_description": "Moderate drizzle",
       "forecast_next_6h_mm": 8.3,
       "forecast_next_24h_mm": 18.3,
       "forecast_next_48h_mm": 36.4,
@@ -3037,7 +3037,7 @@
           "rain_mm": 0.6
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Kokrajhar": {
@@ -3047,9 +3047,9 @@
       "lat": 26.4,
       "lng": 90.27,
       "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.2,
-      "weather_code": 53,
-      "weather_description": "Moderate drizzle",
+      "current_precipitation_mm": 0.1,
+      "weather_code": 51,
+      "weather_description": "Light drizzle",
       "forecast_next_6h_mm": 5.6,
       "forecast_next_24h_mm": 7.4,
       "forecast_next_48h_mm": 33.4,
@@ -3175,7 +3175,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Bongaigaon": {
@@ -3184,10 +3184,10 @@
       "state": "Assam",
       "lat": 26.5,
       "lng": 90.56,
-      "current_rain_mm": 0.0,
-      "current_precipitation_mm": 0.0,
-      "weather_code": 2,
-      "weather_description": "Partly cloudy",
+      "current_rain_mm": 0.1,
+      "current_precipitation_mm": 0.4,
+      "weather_code": 95,
+      "weather_description": "Thunderstorm",
       "forecast_next_6h_mm": 6.5,
       "forecast_next_24h_mm": 10.4,
       "forecast_next_48h_mm": 29.7,
@@ -3313,7 +3313,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Barpeta": {
@@ -3451,7 +3451,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Nagaon": {
@@ -3460,10 +3460,10 @@
       "state": "Assam",
       "lat": 26.35,
       "lng": 92.68,
-      "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.1,
-      "weather_code": 51,
-      "weather_description": "Light drizzle",
+      "current_rain_mm": 0.0,
+      "current_precipitation_mm": 0.2,
+      "weather_code": 95,
+      "weather_description": "Thunderstorm",
       "forecast_next_6h_mm": 1.9,
       "forecast_next_24h_mm": 12.9,
       "forecast_next_48h_mm": 32.9,
@@ -3589,7 +3589,7 @@
           "rain_mm": 2.2
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Golaghat (Kaziranga)": {
@@ -3598,10 +3598,10 @@
       "state": "Assam",
       "lat": 26.52,
       "lng": 93.97,
-      "current_rain_mm": 0.3,
-      "current_precipitation_mm": 0.3,
-      "weather_code": 55,
-      "weather_description": "Dense drizzle",
+      "current_rain_mm": 0.1,
+      "current_precipitation_mm": 0.1,
+      "weather_code": 51,
+      "weather_description": "Light drizzle",
       "forecast_next_6h_mm": 2.5,
       "forecast_next_24h_mm": 21.5,
       "forecast_next_48h_mm": 29.5,
@@ -3727,7 +3727,7 @@
           "rain_mm": 0.7
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Jorhat": {
@@ -3736,10 +3736,10 @@
       "state": "Assam",
       "lat": 26.75,
       "lng": 94.22,
-      "current_rain_mm": 0.2,
-      "current_precipitation_mm": 0.2,
-      "weather_code": 53,
-      "weather_description": "Moderate drizzle",
+      "current_rain_mm": 0.0,
+      "current_precipitation_mm": 0.1,
+      "weather_code": 51,
+      "weather_description": "Light drizzle",
       "forecast_next_6h_mm": 4.1,
       "forecast_next_24h_mm": 16.8,
       "forecast_next_48h_mm": 28.4,
@@ -3865,7 +3865,7 @@
           "rain_mm": 0.6
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Sivasagar": {
@@ -3874,10 +3874,10 @@
       "state": "Assam",
       "lat": 26.98,
       "lng": 94.63,
-      "current_rain_mm": 0.0,
-      "current_precipitation_mm": 0.4,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_rain_mm": 0.2,
+      "current_precipitation_mm": 1.2,
+      "weather_code": 96,
+      "weather_description": "Thunderstorm with slight hail",
       "forecast_next_6h_mm": 14.2,
       "forecast_next_24h_mm": 25.8,
       "forecast_next_48h_mm": 36.0,
@@ -4003,7 +4003,7 @@
           "rain_mm": 0.3
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Dibrugarh": {
@@ -4013,9 +4013,9 @@
       "lat": 27.48,
       "lng": 94.91,
       "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.1,
-      "weather_code": 51,
-      "weather_description": "Light drizzle",
+      "current_precipitation_mm": 0.4,
+      "weather_code": 95,
+      "weather_description": "Thunderstorm",
       "forecast_next_6h_mm": 14.2,
       "forecast_next_24h_mm": 20.1,
       "forecast_next_48h_mm": 30.9,
@@ -4141,7 +4141,7 @@
           "rain_mm": 0.7
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Tinsukia": {
@@ -4150,10 +4150,10 @@
       "state": "Assam",
       "lat": 27.5,
       "lng": 95.36,
-      "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.4,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_rain_mm": 0.2,
+      "current_precipitation_mm": 1.4,
+      "weather_code": 96,
+      "weather_description": "Thunderstorm with slight hail",
       "forecast_next_6h_mm": 18.4,
       "forecast_next_24h_mm": 24.3,
       "forecast_next_48h_mm": 44.1,
@@ -4279,7 +4279,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "East Siang (Pasighat)": {
@@ -4288,10 +4288,10 @@
       "state": "Arunachal Pradesh",
       "lat": 28.07,
       "lng": 95.33,
-      "current_rain_mm": 0.1,
-      "current_precipitation_mm": 0.6,
-      "weather_code": 95,
-      "weather_description": "Thunderstorm",
+      "current_rain_mm": 0.2,
+      "current_precipitation_mm": 0.2,
+      "weather_code": 53,
+      "weather_description": "Moderate drizzle",
       "forecast_next_6h_mm": 10.0,
       "forecast_next_24h_mm": 12.8,
       "forecast_next_48h_mm": 17.3,
@@ -4417,7 +4417,7 @@
           "rain_mm": 0.0
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     },
     "Lower Dibang Valley (Roing)": {
@@ -4555,7 +4555,7 @@
           "rain_mm": 0.6
         }
       ],
-      "timestamp": "2026-09-06T19:13:38.129381+00:00",
+      "timestamp": "2026-09-06T19:22:01.001243+00:00",
       "source": "Open-Meteo Live API"
     }
   }
