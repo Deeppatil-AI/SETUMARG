@@ -16,7 +16,8 @@ from backend.services.weather_service import (
     fetch_live_weather,
     get_weather_for_coordinate
 )
-from backend.services.historical_prediction import estimate_near_term_disruption
+from backend.services.historical_prediction import estimate_near_term_disruption, GSI_HISTORICAL_LANDSLIDES
+from backend.services.congestion_service import evaluate_segment_congestion
 
 from datetime import datetime, timezone
 import logging
@@ -131,6 +132,15 @@ def compute_segment_dynamic_risk(seg: dict, rainfall_mult: float = None, overrid
         static_score=static_score
     )
 
+    # 6. Traffic Congestion & Delay Attribution (PS26002 point b)
+    congestion_info = evaluate_segment_congestion(seg)
+    if is_blocked or tier in ["Severe", "Very High"]:
+        primary_delay_cause = "GEOTECHNICAL_HAZARD"
+    elif congestion_info["congestion_index"] >= 0.50:
+        primary_delay_cause = "TRAFFIC_CONGESTION"
+    else:
+        primary_delay_cause = "NOMINAL_TRANSIT"
+
     return {
         "segment_id": seg["id"],
         "highway": seg["highway"],
@@ -149,6 +159,18 @@ def compute_segment_dynamic_risk(seg: dict, rainfall_mult: float = None, overrid
         "disruption_prediction_text": disruption_profile["disruption_prediction_text"],
         "disruption_risk_level": disruption_profile["disruption_risk_level"],
         "historical_incident_profile": disruption_profile,
+        "congestion_index": congestion_info["congestion_index"],
+        "congestion_tier": congestion_info["congestion_tier"],
+        "congestion_delay_min": congestion_info["congestion_delay_min"],
+        "congestion_delay_hrs": congestion_info["congestion_delay_hrs"],
+        "primary_delay_cause": primary_delay_cause,
+        "delay_attribution": {
+            "primary_cause": primary_delay_cause,
+            "primary_delay_cause": primary_delay_cause,
+            "congestion_delay_min": congestion_info["congestion_delay_min"],
+            "hazard_tier": tier,
+            "is_blocked": is_blocked
+        },
         "color": color,
         "is_blocked": is_blocked,
         "blockage_reason": blockage_reason,
@@ -167,8 +189,10 @@ def compute_segment_dynamic_risk(seg: dict, rainfall_mult: float = None, overrid
             "lulc_class": seg["lulc_class"],
             "lithology_class": seg["lithology_class"],
             "soil_texture": seg["soil_texture"],
+            "soil_profile": seg.get("soil_profile"),
             "base_rainfall_mm": seg["base_rainfall_mm"]
-        }
+        },
+        "soil_profile": seg.get("soil_profile")
     }
 
 
@@ -245,6 +269,39 @@ def get_all_road_segments():
         "blocked_segments_count": blocked_count,
         "total_monitored_km": sum(s["length_km"] for s in scored_segments),
         "segments": scored_segments
+    }
+
+
+@router.get("/weather/districts")
+def get_districts_weather():
+    """
+    Returns live meteorological observations and 24h forecasts across all 33 monitored
+    district centroids in the North Eastern Region from Open-Meteo.
+    """
+    weather_state = get_current_weather()
+    districts = list(weather_state.get("districts", {}).values())
+    summary = get_weather_summary()
+    return {
+        "status": weather_state.get("status", "OK"),
+        "timestamp": weather_state.get("timestamp"),
+        "source": weather_state.get("source", "Open-Meteo Live API"),
+        "districts_count": len(districts),
+        "summary": summary,
+        "districts": districts
+    }
+
+
+@router.get("/historical-landslides")
+def get_historical_landslides():
+    """
+    Returns verified Geological Survey of India (GSI) Bhukosh / National Landslide Susceptibility Mapping (NLSM)
+    historical landslide inventory points across the North Eastern Region road network.
+    """
+    return {
+        "status": "OK",
+        "source": "Geological Survey of India (GSI) Bhukosh & NLSM Portal",
+        "total_incidents": len(GSI_HISTORICAL_LANDSLIDES),
+        "incidents": GSI_HISTORICAL_LANDSLIDES
     }
 
 

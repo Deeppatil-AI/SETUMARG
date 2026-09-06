@@ -22,8 +22,9 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from backend.routers import risk, reports, accessibility, routing, freight
+from backend.routers import risk, reports, accessibility, routing, freight, fleet
 from backend.routers.risk import CURRENT_RAINFALL_STATE, compute_segment_dynamic_risk, recompute_live_risks
+from backend.services.fleet_service import advance_fleet_tick
 from backend.routers.accessibility import calculate_village_accessibility
 from backend.data.seed_ner_data import ROAD_SEGMENTS, VILLAGES
 
@@ -43,6 +44,7 @@ async def live_weather_recompute_worker(interval_seconds: int = 900):
             if CURRENT_RAINFALL_STATE.get("is_live_mode", True):
                 logger.info("Executing scheduled periodic live weather ingestion & risk recompute...")
                 recompute_live_risks()
+            advance_fleet_tick()
         except asyncio.CancelledError:
             logger.info("Live weather auto-recompute scheduler terminated cleanly.")
             break
@@ -91,6 +93,7 @@ app.include_router(reports.router)
 app.include_router(accessibility.router)
 app.include_router(routing.router)
 app.include_router(freight.router)
+app.include_router(fleet.router)
 
 
 @app.get("/")

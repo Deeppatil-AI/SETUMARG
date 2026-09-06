@@ -2,6 +2,8 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import ReportModal from './components/ReportModal';
 import ResearchModal from './components/ResearchModal';
+import AboutModal from './components/AboutModal';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const HazardMap = lazy(() => import('./components/HazardMap'));
 const AccessibilityView = lazy(() => import('./components/AccessibilityView'));
@@ -21,6 +23,19 @@ export default function App() {
   const [pinnedLocation, setPinnedLocation] = useState(null);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [isResearchModalOpen, setIsResearchModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+
+  // Show About Setumarg intro on first visit for evaluators & judges
+  useEffect(() => {
+    try {
+      const hasSeenAbout = localStorage.getItem('setumarg_about_seen');
+      if (!hasSeenAbout) {
+        setIsAboutModalOpen(true);
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   // Initial Data Load
   const fetchAllData = async () => {
@@ -68,7 +83,31 @@ export default function App() {
       }
     }, 30000);
 
-    return () => clearInterval(pollInterval);
+    // Auto-sync offline reports if connectivity is re-established (PS26002 point h)
+    const handleGlobalOnline = async () => {
+      try {
+        const stored = JSON.parse(localStorage.getItem('setumarg_offline_reports') || '[]');
+        if (stored.length > 0) {
+          const res = await fetch('/api/reports/sync-offline', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reports: stored })
+          });
+          if (res.ok) {
+            localStorage.removeItem('setumarg_offline_reports');
+            await fetchAllData();
+          }
+        }
+      } catch (e) {
+        console.error('Offline auto-sync failed:', e);
+      }
+    };
+    window.addEventListener('online', handleGlobalOnline);
+
+    return () => {
+      clearInterval(pollInterval);
+      window.removeEventListener('online', handleGlobalOnline);
+    };
   }, []);
 
   // Handler for Rainfall Scenarios (Dry, Monsoon, Cloudburst)
@@ -117,8 +156,12 @@ export default function App() {
     }
   };
 
-  // Handler for Submitting Crowdsourced Hazard Report
-  const handleSubmitReport = async (payload) => {
+  // Handler for Submitting Crowdsourced Hazard Report (with offline refresh support)
+  const handleSubmitReport = async (payload, isRefreshOnly = false) => {
+    if (isRefreshOnly) {
+      await fetchAllData();
+      return { success: true };
+    }
     const res = await fetch('/api/reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -131,12 +174,15 @@ export default function App() {
     return data;
   };
 
+  // Multilingual state (PS26002 point h: en, hi, as, bn)
+  const [currentLanguage, setCurrentLanguage] = useState('en');
+
   // Handler for Triggering Emergency SMS/IVR
-  const handleTriggerAlert = async (villageId) => {
+  const handleTriggerAlert = async (villageId, customText = null, lang = currentLanguage) => {
     const res = await fetch('/api/accessibility/trigger-sms-ivr', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ village_id: villageId })
+      body: JSON.stringify({ village_id: villageId, custom_text: customText, language: lang })
     });
     return await res.json();
   };
@@ -162,6 +208,9 @@ export default function App() {
         onSliderChange={handleSliderChange}
         openReportModal={() => setIsReportModalOpen(true)}
         openResearchModal={() => setIsResearchModalOpen(true)}
+        openAboutModal={() => setIsAboutModalOpen(true)}
+        currentLanguage={currentLanguage}
+        onLanguageChange={setCurrentLanguage}
       />
 
       {/* Main View Area */}
@@ -173,38 +222,47 @@ export default function App() {
           </div>
         }>
           {activeTab === 'map' && (
-            <HazardMap
-              segmentsData={nowcastData}
-              accessibilityData={accessibilityData}
-              hazardReports={hazardReports}
-              selectedSegment={selectedSegment}
-              setSelectedSegment={setSelectedSegment}
-              isPinDropping={isPinDropping}
-              setIsPinDropping={setIsPinDropping}
-              onPinDropSelect={(lat, lng) => {
-                setPinnedLocation({ lat, lng });
-                setIsReportModalOpen(true);
-              }}
-            />
+            <ErrorBoundary title="Live Hazard Map Error" onReset={fetchAllData}>
+              <HazardMap
+                segmentsData={nowcastData}
+                accessibilityData={accessibilityData}
+                hazardReports={hazardReports}
+                selectedSegment={selectedSegment}
+                setSelectedSegment={setSelectedSegment}
+                isPinDropping={isPinDropping}
+                setIsPinDropping={setIsPinDropping}
+                onPinDropSelect={(lat, lng) => {
+                  setPinnedLocation({ lat, lng });
+                  setIsReportModalOpen(true);
+                }}
+                currentLanguage={currentLanguage}
+              />
+            </ErrorBoundary>
           )}
 
           {activeTab === 'accessibility' && (
             <AccessibilityView
               accessibilityData={accessibilityData}
               onTriggerAlert={handleTriggerAlert}
+              currentLanguage={currentLanguage}
             />
           )}
 
           {activeTab === 'routing' && (
-            <RouteOptimizerView
-              onOptimizeRoute={handleOptimizeRoute}
-            />
+            <ErrorBoundary title="Route Optimizer Error">
+              <RouteOptimizerView
+                onOptimizeRoute={handleOptimizeRoute}
+                currentLanguage={currentLanguage}
+                nowcastData={nowcastData}
+              />
+            </ErrorBoundary>
           )}
 
           {activeTab === 'dashboard' && (
             <DashboardView
               dashboardData={dashboardData}
               nowcastData={nowcastData}
+              currentLanguage={currentLanguage}
             />
           )}
         </Suspense>
@@ -220,11 +278,23 @@ export default function App() {
           setIsPinDropping(true);
         }}
         onSubmitReport={handleSubmitReport}
+        currentLanguage={currentLanguage}
       />
 
       <ResearchModal
         isOpen={isResearchModalOpen}
         onClose={() => setIsResearchModalOpen(false)}
+        currentLanguage={currentLanguage}
+      />
+
+      <AboutModal
+        isOpen={isAboutModalOpen}
+        onClose={() => setIsAboutModalOpen(false)}
+        onOpenResearch={() => {
+          setIsAboutModalOpen(false);
+          setIsResearchModalOpen(true);
+        }}
+        currentLanguage={currentLanguage}
       />
     </div>
   );

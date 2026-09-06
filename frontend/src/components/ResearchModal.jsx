@@ -1,8 +1,11 @@
 import React from 'react';
 import { BookOpen, X, Check, Shield, PhoneCall, CloudRain, MapPin, Database, Info } from 'lucide-react';
+import { getTranslation } from '../i18n';
 
-export default function ResearchModal({ isOpen, onClose }) {
+export default function ResearchModal({ isOpen, onClose, currentLanguage = 'en' }) {
   if (!isOpen) return null;
+
+  const t = (key) => getTranslation(currentLanguage, key);
 
   const citations = [
     {
@@ -53,10 +56,10 @@ export default function ResearchModal({ isOpen, onClose }) {
             </div>
             <div>
               <h3 className="font-heading font-bold text-base text-[#1C2B22]">
-                Citizen Safety Guide &amp; Technical Basis
+                {t('citizen_guide_title')}
               </h3>
               <p className="text-[11px] text-[#3E5C63]">
-                Official road safety guidance, live meteorological early warning, and Himalayan terrain models
+                {t('citizen_guide_subtitle')}
               </p>
             </div>
           </div>
@@ -81,7 +84,7 @@ export default function ResearchModal({ isOpen, onClose }) {
                 </span>
               </div>
               <div className="text-[11px] text-[#3E5C63]">
-                <strong>Methodology: </strong>{c.authors} | <span className="font-mono text-[10px]">{c.framework}</span>
+                <strong>{t('methodology')} </strong>{c.authors} | <span className="font-mono text-[10px]">{c.framework}</span>
               </div>
               <p className="text-[#1C2B22] text-[11px] leading-relaxed pt-0.5">
                 {c.description}
@@ -94,7 +97,7 @@ export default function ResearchModal({ isOpen, onClose }) {
             <div className="flex items-center gap-2">
               <Database className="w-4 h-4 text-[#1C2B22]" />
               <h4 className="font-heading font-bold text-xs text-[#1C2B22]">
-                Data Provenance &amp; National Production API Mapping
+                {t('data_provenance_title')}
               </h4>
               <span className="ml-auto text-[10px] font-mono bg-[#1C2B22] text-[#F1EDE2] px-2 py-0.5 rounded font-medium">
                 Live Weather + Real SRTM 30m + Seeded Infrastructure
@@ -148,11 +151,31 @@ export default function ResearchModal({ isOpen, onClose }) {
 
               <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
                 <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
-                  <span>Faults, Drainage &amp; Soil</span>
-                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded Geotechnical</span>
+                  <span>Pedological Soil Matrix</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Real ISRIC 250m &amp; ICAR-NBSS&amp;LUP</span>
                 </div>
                 <p className="text-[#3E5C63] leading-tight">
-                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>GSI Bhukosh</strong> (NLSM 1:50k geology) &amp; GSI Seismo-Tectonic Atlas fault lineaments.
+                  <strong className="text-[#1C2B22]">Operational:</strong> Real pedological profiles: USDA texture class, clay/sand/silt %, regolith depth (45-180cm), bulk density, soil cohesion (c'), and friction angle (&phi;') cached across all 411 coordinates.
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Historical Landslides Layer</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Real GSI Bhukosh (56 Records)</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Operational:</strong> 56 verified GSI Bhukosh / NLSM historical landslide incident points (1998-2024) with trigger rainfall, slide type, and closure duration toggleable on the map and calibrating ML predictions.
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Faults &amp; Lineament Buffers</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Seeded Geological Buffers</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>GSI Seismo-Tectonic Atlas of India</strong> (MCT, MBT, Dauki fault vector lineaments).
                 </p>
               </div>
 
@@ -175,6 +198,66 @@ export default function ResearchModal({ isOpen, onClose }) {
                   <strong className="text-[#1C2B22]">Production Target:</strong> <strong>ULIP</strong> (Unified Logistics Interface Platform v2.4 contracts) &amp; <strong>IWAI</strong> National Waterway 2 Brahmaputra Terminal APIs.
                 </p>
               </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20 sm:col-span-2">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>GPS Fleet Tracking &amp; Convoy Telematics</span>
+                  <span className="text-[#854D0E] bg-[#FEF08A] px-1.5 py-0.5 rounded text-[9px]">Simulated Fleet (7 Convoys)</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Prototype Status:</strong> Fleet movement is <strong>simulated</strong> along real OpenStreetMap highway corridors with server-side waypoint progression. Convoys dynamically become <strong>stranded</strong> when their current road segment enters High or Severe landslide risk. <em>Not from real GPS hardware.</em>
+                  <br />
+                  <strong className="text-[#1C2B22]">Production Integration Architecture:</strong> In a production deployment, vehicles would stream coordinates via a <strong>driver mobile app pinging GPS telemetry every 30 seconds</strong>, or enterprise telematics gateways such as <strong>MoRTH AIS-140 VLTD</strong> onboard units, <strong>NETC FASTag toll plaza pings</strong>, and <strong>NIC Vahan / E-Way Bill</strong> feeds.
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20 sm:col-span-2">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Logistics Bottlenecks &amp; Supply-Chain Pressure</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Derived Operational Analytics</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Operational:</strong> Aggregates stalled convoys, critical cargo priorities (medicines, PDS rations), and active road hazards into a unified 0–100 supply-chain pressure index with automated multimodal bypass mitigation advisories.
+                  <br />
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>National Logistics Portal (NLP)</strong> &amp; <strong>PM GatiShakti Unified Logistics Dashboard</strong>.
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20 sm:col-span-2">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Traffic Congestion &amp; Delay Attribution</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Diurnal + Density Model</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Operational Model:</strong> Evaluates time-of-day diurnal flow (IST morning/evening freight peaks), simulated convoy vehicle density, and narrow mountain cut geometries to compute a 0.0–1.0 congestion index and delay penalty (min/hrs). Separately attributes delays to <strong>Geotechnical Hazard</strong> vs. <strong>Traffic Congestion</strong>.
+                  <br />
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>MoRTH FASTag toll transaction density</strong>, <strong>Google Maps / MapmyIndia Traffic APIs</strong>, and <strong>State Police Highway Patrol feeds</strong>.
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20 sm:col-span-2">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Multilingual Emergency Alerts &amp; SMS/IVR Dispatch</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">4 NER Languages</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Operational:</strong> Full multi-language support for web portal navigation and localized emergency SMS/IVR alerts across English, Hindi (हिन्दी), Assamese (অসমীয়া), and Bengali (বাংলা) for low-bandwidth 2G border village reach.
+                  <br />
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>C-DoT Common Alerting Protocol (CAP)</strong>, <strong>NDMA Sachet National Disaster Alerting Portal</strong>, and state SDMA SMS gateway trunks.
+                </p>
+              </div>
+
+              <div className="bg-[#F1EDE2] p-2.5 rounded border border-[#3E5C63]/20 sm:col-span-2">
+                <div className="flex items-center justify-between font-mono font-bold text-[#1C2B22] mb-1">
+                  <span>Offline Field Reporting &amp; Automated Sync</span>
+                  <span className="text-[#15803D] bg-[#DCFCE7] px-1.5 py-0.5 rounded text-[9px]">Offline Queue + Auto-Sync</span>
+                </div>
+                <p className="text-[#3E5C63] leading-tight">
+                  <strong className="text-[#1C2B22]">Operational:</strong> Field patrols in remote cellular dead zones queue hazard reports with photo evidence locally in browser storage (`localStorage`). Once network connectivity is detected via `navigator.onLine` or window events, reports batch-synchronize automatically via `/api/reports/sync-offline`.
+                  <br />
+                  <strong className="text-[#1C2B22]">Production Target:</strong> <strong>PWA Background Sync API</strong>, <strong>IndexedDB local offline store</strong>, and <strong>Indian Army / BRO Satellite SITREP sync</strong>.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -186,7 +269,7 @@ export default function ResearchModal({ isOpen, onClose }) {
             onClick={onClose}
             className="bg-[#1C2B22] hover:bg-[#2A3F33] text-[#F1EDE2] px-4 py-1.5 rounded font-heading font-semibold transition shadow-sm"
           >
-            Close Guide
+            {t('close_guide')}
           </button>
         </div>
       </div>

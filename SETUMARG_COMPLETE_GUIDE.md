@@ -184,6 +184,112 @@ graph TD
 
 ---
 
+### Algorithm 8: GPS-Based Fleet Tracking & Hazard-Induced Stranding Engine
+* **Location in Code**: [`backend/services/fleet_service.py:FleetSimulationManager`](file:///c:/SIH%202026/backend/services/fleet_service.py) and [`backend/routers/fleet.py`](file:///c:/SIH%202026/backend/routers/fleet.py)
+* **Purpose**: Simulates real-time commercial and relief transport convoys along OSM highway corridors, continuously tracking cargo manifests, and dynamically halting (stranding) vehicles when landslides strike their active road segment.
+* **Inputs**:
+  * 7 active fleet vehicles with cargo classification (`medicines`, `food`, `construction material`, `agricultural produce`), tonnages, origins, and destinations.
+  * Corridor polyline waypoints derived from real OSM geometries.
+  * Real-time dynamic risk tiers and blockage flags from the LHASA dynamic risk engine.
+* **Method**:
+  * Position Linear Interpolation:
+    $$\text{idx}_{\text{float}} = \frac{\text{progress\_pct}}{100.0} \times (N_{\text{waypoints}} - 1)$$
+    $$\text{pos} = \mathbf{p}_{\text{base}} + \alpha \cdot (\mathbf{p}_{\text{next}} - \mathbf{p}_{\text{base}})$$
+  * Dynamic Hazard Stranding Gate:
+    $$\text{Status} = \begin{cases}
+      \text{stranded} & \text{if segment is blocked or } R_{\text{dynamic}} \in [\text{High, Very High, Severe}] \\
+      \text{delayed} & \text{if } R_{\text{dynamic}} = \text{Moderate} \\
+      \text{moving} & \text{if } R_{\text{dynamic}} = \text{Low}
+    \end{cases}$$
+  * Movement Rule: If a vehicle becomes `stranded`, its speed drops to $0\text{ km/h}$, an stranding delay ($+6\text{ hours}$) is appended to ETA, and position progression halts until the hazard clears.
+* **Output**: Vehicle coordinates $(\text{lat}, \text{lng})$, status (`moving`, `delayed`, `stranded`), speed, ETA in minutes, and hazard root cause advisory.
+
+---
+
+### Algorithm 9: Logistics Bottlenecks & Supply-Chain Pressure Ranking Engine
+* **Location in Code**: [`backend/services/fleet_service.py:FleetSimulationManager.get_bottlenecks`](file:///c:/SIH%202026/backend/services/fleet_service.py) and [`backend/routers/fleet.py`](file:///c:/SIH%202026/backend/routers/fleet.py)
+* **Purpose**: Synthesizes real-time vehicle positions, stalled critical relief payloads, and physical landslide danger across 415 segments into a normalized 0–100 supply-chain pressure index, surfacing acute logistics choke points.
+* **Inputs**:
+  * Active vehicles grouped by road segment: $V_s = \{v_1, v_2, \dots\}$.
+  * Dynamic hazard tier and blockage flag per segment from the LHASA model.
+  * Cargo priority weights ($W_{\text{med}} = 15$, $W_{\text{food}} = 10$, $W_{\text{mat}} = 6$).
+* **Method**:
+  * Pressure Score Formulation:
+    $$\text{Score}_s = \min\left(100.0, \; H_s + \sum_{v \in V_s} (25 \cdot \mathbf{1}_{\text{stranded}} + 12 \cdot \mathbf{1}_{\text{delayed}} + 4 \cdot \mathbf{1}_{\text{moving}}) + \sum_{v \in V_s} W_{\text{cargo}}(v)\right)$$
+    Where baseline hazard points $H_s \in \{5, 18, 30, 40, 45\}$ for `[Low, High, Very High, Severe, Blocked]`.
+  * Operational Priority Classification:
+    $$\text{Priority} = \begin{cases}
+      \text{CRITICAL} & \text{if } \text{is\_blocked} \lor N_{\text{stranded}} \ge 1 \lor \text{Score}_s \ge 70.0 \\
+      \text{ELEVATED} & \text{if } N_{\text{delayed}} \ge 1 \lor \text{Score}_s \ge 45.0 \\
+      \text{MONITORED} & \text{otherwise}
+    \end{cases}$$
+* **Output**: Ranked array of logistics bottlenecks, affected cargo lists, pressure level (`CRITICAL`, `ELEVATED`, `MONITORED`), and actionable multimodal bypass mitigation advisories.
+
+---
+
+### Algorithm 10: Traffic Congestion & Disruption Delay Attribution Model
+* **Location in Code**: [`backend/services/congestion_service.py:evaluate_segment_congestion`](file:///c:/SIH%202026/backend/services/congestion_service.py), [`backend/routers/risk.py`](file:///c:/SIH%202026/backend/routers/risk.py), and [`backend/routers/routing.py`](file:///c:/SIH%202026/backend/routers/routing.py)
+* **Purpose**: Disentangles structural geotechnical hazards (landslides, rockfalls) from vehicular congestion delays to satisfy PS26002 requirement (b), ensuring transport operators understand the root cause of travel time inflation.
+* **Inputs**:
+  * Indian Standard Time (IST): Current time-of-day $t_{\text{IST}}$
+  * Road segment geometry: Slope gradient, elevation, length in km, and lane characteristics
+  * Active vehicle density: Count of live tracked convoys currently traversing the segment
+* **Method**:
+  * Time-of-Day Diurnal Factor $C_{\text{diurnal}}(t_{\text{IST}})$:
+    * Morning rush ($08:00 - 11:00\text{ IST}$): $0.55 - 0.78$
+    * Evening freight surge ($17:00 - 20:30\text{ IST}$): $0.60 - 0.82$
+    * Midday intercity movement: $0.35$
+    * Late night/early morning lull ($22:00 - 05:00\text{ IST}$): $0.08$
+  * Mountain Cut Geometry Multiplier $W_{\text{geom}}$:
+    $$W_{\text{geom}} = \begin{cases} 1.25 & \text{if } \text{slope\_deg} \ge 35.0^\circ \text{ (narrow steep hill cut)} \\ 1.00 & \text{otherwise} \end{cases}$$
+  * Vehicle Density Modifier: $+0.35 \times \min(1.0, N_{\text{vehicles}} / 3.0)$
+  * Composite Congestion Index:
+    $$C = \min\left(1.0, \; \max\left(0.0, \; C_{\text{diurnal}} \times W_{\text{geom}} + 0.35 \times \frac{N_{\text{vehicles}}}{3.0}\right)\right)$$
+  * Delay Attributions:
+    $$\text{Congestion Delay (min)} = \text{round}\left(C \times 45.0 \times \frac{\text{length\_km}}{10.0}\right)$$
+    $$\text{Hazard Stranding Delay (hrs)} = \begin{cases} 14.5\text{ h} & \text{if Severe/Blocked} \\ 6.0\text{ h} & \text{if High hazard} \\ 0.0\text{ h} & \text{otherwise} \end{cases}$$
+  * Root Cause Disambiguation:
+    $$\text{Primary Cause} = \begin{cases}
+      \text{LANDSLIDE\_HAZARD} & \text{if road blocked or } R_{\text{dynamic}} \ge 0.65 \\
+      \text{TRAFFIC\_CONGESTION} & \text{if } C \ge 0.50 \text{ and } R_{\text{dynamic}} < 0.65 \\
+      \text{NOMINAL\_TRANSIT} & \text{otherwise}
+    \end{cases}$$
+* **Output**: Normalized congestion index `[0.0 - 1.0]`, congestion tier (`Low`, `Moderate`, `Heavy`, `Severe Gridlock`), separate delay values (`hazard_delay_hrs` vs `congestion_delay_hrs`), and labeled root cause factor.
+
+---
+
+### Algorithm 11: Multilingual Emergency Broadcast & Low-Bandwidth Dispatch Engine
+* **Location in Code**: [`backend/routers/accessibility.py:generate_multilingual_alert`](file:///c:/SIH%202026/backend/routers/accessibility.py) and [`frontend/src/i18n.js`](file:///c:/SIH%202026/frontend/src/i18n.js)
+* **Purpose**: Generates grammatically correct, localized emergency advisories across 4 major North Eastern languages (English, Hindi, Assamese, Bengali) to ensure life-saving alerts reach remote 2G hill village leaders and ASHA workers before road blockages isolate settlements.
+* **Inputs**:
+  * Village metadata: Name, district, state, population, and nearest medical health facility ($F_{\text{hospital}}$)
+  * Feeder road dynamic status: Current delay inflations ($T_{\text{delay}} > 120\text{ min}$) and physical blockage flags
+  * Target locale $\ell \in \{\text{en}, \text{hi}, \text{as}, \text{bn}\}$
+* **Method**:
+  * Locale Selection & Lexical Interpolation:
+    * Selects verified official administrative terminology per language (e.g., Hindi: `ग्राम आपदा राहत`, Assamese: `সম্প্ৰদায়ৰ জৰুৰীকালীন খাদ্য সাহায্য`, Bengali: `গ্রাম পঞ্চায়েত ত্রাণ ব্যবস্থা`).
+    * Formats plain-text SMS payload capped under 160 characters (or multi-part GSM 7-bit string) compatible with C-DoT / Exotel / BSNL rural cellular trunks without requiring 4G smartphone data.
+* **Output**: Formatted localized alert string, recipient SARPANCH mobile dispatch handshake, transmission timestamp, and audit record (`DISP-2026-XXXX`).
+
+---
+
+### Algorithm 12: Offline Field Incident Caching & Automated Synchronization Engine
+* **Location in Code**: [`backend/routers/reports.py:sync_offline_reports`](file:///c:/SIH%202026/backend/routers/reports.py), [`frontend/src/components/ReportModal.jsx`](file:///c:/SIH%202026/frontend/src/components/ReportModal.jsx), and [`frontend/src/App.jsx`](file:///c:/SIH%202026/frontend/src/App.jsx)
+* **Purpose**: Guarantees zero data loss for field patrols, BRO engineers, and drivers operating in remote Himalayan dead zones with complete cellular blackout by caching reports locally in browser storage and batch-synchronizing upon network recovery (PS26002 point h).
+* **Inputs**:
+  * Client network connectivity state: `navigator.onLine` and `window.addEventListener('online')`
+  * Queued reports in client storage: `localStorage.getItem('setumarg_offline_reports')` containing incident coordinates, blockage types, severity, descriptions, and photo payloads
+* **Method**:
+  * Offline Interception & Local Staging:
+    * When network is unavailable, form submissions bypass remote fetch and append an item with client timestamp and generated offline ID `OFFLINE-${timestamp}` to the device's storage queue.
+  * Reconnection Event Trigger & Idempotent Batch Sync:
+    * On `online` event, client dispatches batch payload to `POST /api/reports/sync-offline`.
+    * Backend processes all queued records, snaps nearest road segments, generates official IDs `REP-2026-XXX`, and applies immediate Severe/Blocked risk overrides for impassable reports.
+    * On receipt of `200 OK`, local queue is purged and global map telemetry refreshes.
+* **Output**: Successfully synced report count, updated official report registry, elevated road risk overrides, and restored normal online telemetry state.
+
+---
+
 ## 3. Data Breakdown: Real vs. Seeded vs. Production Mapping
 
 | Dataset / Layer | Current Prototype State | Data Source Used | Target Production Source in Full Deployment |
@@ -197,7 +303,11 @@ graph TD
 | **Villages & Coordinates** | **Real Coordinates (Snapped)** | 25 real NER settlements snapped to OSM roadways via OSRM `/nearest` API | **Survey of India** & **Census of India Village Directory** |
 | **Healthcare Facilities & Hospital Times** | **Seeded / Benchmark** | Estimated transit durations to nearest PHC/CHC based on district averages | **National Health Mission (NHM) MoHFW GIS** & PMGSY Rural Roads Geoportal |
 | **Multi-Modal Freight Network** | **Real Geometry & Seeded Tariffs** | Real Brahmaputra waterway alignment (NW-2) and rail corridors; standard CIPT / World Bank modal tariffs | **ULIP (Unified Logistics Interface Platform)** & **IWAI (Inland Waterways Authority of India)** |
-| **Ground Incident Reports** | **Real-Time Interactive** | Interactive pin-drop reporting with photo upload support (`FileReader` & URL) | **NASA LHASA Landslide Reporter** & **BRO (Border Roads Organisation) SITREPs** |
+| **GPS Fleet Telematics & Vehicle Tracking** | **Simulated Telematics** | 7 simulated transport convoys moving along OSM geometries with dynamic hazard stranding | **MoRTH AIS-140 VLTD**, **NETC FASTag**, **NIC Vahan / E-Way Bill** |
+| **Logistics Bottlenecks & Delivery Status** | **Derived Operational Analytics** | Real-time supply-chain pressure index combining convoy stalls, critical cargo urgencies, and LHASA hazard tiers | **National Logistics Portal (NLP)** & **PM GatiShakti Unified Logistics Dashboard** |
+| **Traffic Congestion & Delay Attribution** | **Diurnal + Density Model** | IST diurnal traffic curve + active vehicle density + mountain cut road geometries yielding distinct delay attributions | **MoRTH FASTag toll APIs**, **Google Maps / MapmyIndia Traffic APIs**, **State Police Highway Patrol** |
+| **Multilingual Emergency Alerts & Dispatch** | **Operational Multi-Lingual Engine** | Real i18n support across 4 NER languages (English, Hindi, Assamese, Bengali) for web UI and rural 2G SMS/IVR broadcast triggers | **C-DoT Common Alerting Protocol (CAP)**, **NDMA Sachet Portal**, **State SDMA SMS gateways** |
+| **Ground Incident Reports & Offline Sync** | **Real-Time Interactive + LocalStorage Cache** | Interactive pin-drop reporting with photo uploads; browser storage offline queue with automatic batch upload upon reconnection (`/api/reports/sync-offline`) | **NASA LHASA Landslide Reporter** & **BRO (Border Roads Organisation) SITREPs** |
 
 ---
 
@@ -216,6 +326,7 @@ graph TD
 * **`Dry Weather` Preset Button**: Sets rainfall to $0.2\times$ ($1.2 \text{ mm/hr}$). Most mountain corridors drop to Safe (Low/Moderate).
 * **`Normal Monsoon` Preset Button**: Sets rainfall to $1.0\times$ ($18.5 \text{ mm/hr}$). Simulates standard rainy season conditions.
 * **`Heavy Cloudburst` Preset Button**: Sets rainfall to $3.4\times$ ($96.0 \text{ mm/hr}$). Elevates fragile mountain passes to Severe/Blocked.
+* **`Multilingual Language Selector (Globe Dropdown)`**: Enables instantaneous UI and alert text switching across **English**, **हिन्दी (Hindi)**, **অসমীয়া (Assamese)**, and **বাংলা (Bengali)** (PS26002 point h).
 * **`Report Blocked Road` (Red Button)**: Opens the hazard reporting modal with pin-drop coordinate selection and photo attachment.
 
 ### C. Primary Navigation Tabs
@@ -231,7 +342,7 @@ graph TD
    * Summary cards: Monitored Villages, Total Population, Cut-Off Count, and RAI Compliance Percentage.
    * Search Bar: Instant filtering by village name, district, or state.
    * Sort Buttons: Sort table by `Cut-Off Risk`, `Population`, or `Hospital Travel Time`.
-   * **`Send Urgent SMS / Call`**: Dispatches an emergency broadcast payload (simulating 2G rural telecom gateways) with customized voice/SMS alerts to local Sarpanches.
+   * **`Send Urgent SMS / Call`**: Dispatches an emergency broadcast payload (simulating 2G rural telecom gateways) with customized voice/SMS alerts to local Sarpanches. Features live multilingual language tabs (**English**, **हिन्दी**, **অসমীয়া**, **বাংলা**) with auto-translated text previews.
 3. **`Safe Route Finder`**:
    * Vehicle Mode Selector: `Freight Truck`, `Light Vehicle`, `Two-Wheeler`.
    * Origin and Destination Dropdowns: Corridors between Guwahati, Silchar, Gangtok, Kohima, Imphal, etc.
@@ -249,6 +360,8 @@ graph TD
 * **`Can vehicles pass through?`**: Severity selection (`Impassable`, `Critical`, `Moderate`, `Minor`).
 * **`Describe What Happened`**: Freeform text box for field observations.
 * **`Attach Incident Photo`**: Supports both local image file upload (`FileReader` base64 conversion) and direct image URL input with live thumbnail preview and removal button.
+* **`Offline Detection & LocalStorage Queuing`**: Detects `navigator.onLine`. When offline in remote mountain terrain, reports are cached locally in device browser storage (`setumarg_offline_reports`) and displayed with an amber offline indicator badge and queue counter.
+* **`Automated Batch Sync`**: As soon as network connectivity is restored (`online` event), reports are batch-transmitted via `POST /api/reports/sync-offline` and automatically merged into central risk dispatch.
 * **Instant Map Elevation**: Submitting a `Critical` or `Impassable` report immediately overrides the nearest road segment's risk score to $0.96$ and marks it blocked.
 
 ---
@@ -257,10 +370,10 @@ graph TD
 
 ### Q1: What happens if there is zero cellular internet connectivity in a mountain gorge?
 * **Real Current Behavior**:
-  * Setumarg's frontend is a client-side bundle that operates once loaded in the browser.
-  * In the Village Hospital Access ledger, remote settlements with weak connectivity are explicitly tagged: `Zero Cellular (IVR/SMS gateway required)` or `2G Only`.
-  * Triggering alerts sends a backend POST request to `/api/accessibility/trigger-sms-ivr`, which formats localized text and automated voice payloads targeted for basic 2G feature phones via C-DoT / rural telecom PSTN trunks.
-* **Roadmap**: ServiceWorker offline tile caching (PWA) and peer-to-peer Bluetooth mesh synchronization between field vehicles.
+  * **Offline Field Reporting**: When a patrol or driver encounters a road blockage in a cellular dead zone, `ReportModal` automatically detects the lack of internet via `navigator.onLine`. The report and photo are saved directly into the browser's persistent `localStorage`.
+  * **Automated Batch Synchronization**: The moment the device detects network restoration, an event listener in `App.jsx` and `ReportModal.jsx` flushes all queued reports in batch via `POST /api/reports/sync-offline`.
+  * **2G Emergency Dispatch**: In the Village Hospital Access ledger, remote settlements with weak connectivity are explicitly tagged: `Zero Cellular (IVR/SMS gateway required)` or `2G Only`. Triggering alerts sends a backend request formatting localized text and automated voice payloads (in English, Hindi, Assamese, or Bengali) targeted for basic 2G feature phones via C-DoT / rural telecom PSTN trunks.
+* **Roadmap**: Full ServiceWorker PWA tile caching and BLE peer-to-peer vehicle mesh synchronization.
 
 ### Q2: What happens if conflicting data is submitted (e.g. user reports a road clear, but ML says severe)?
 * **Real Current Behavior**:

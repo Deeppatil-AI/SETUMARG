@@ -144,3 +144,25 @@ def submit_hazard_report(report: HazardReportCreate):
         "affected_segment": matched_segment_id,
         "instant_map_updated": is_impassable
     }
+
+
+class OfflineSyncRequest(BaseModel):
+    reports: List[HazardReportCreate]
+
+
+@router.post("/sync-offline")
+def sync_offline_reports(payload: OfflineSyncRequest):
+    """
+    Synchronizes field reports collected while offline (PS26002 point h).
+    Applies real-time hazard elevations for any impassable reports in batch.
+    """
+    synced = []
+    for rep in payload.reports:
+        res = submit_hazard_report(rep)
+        synced.append(res["report"])
+
+    return {
+        "status": "SYNC_SUCCESSFUL",
+        "synced_count": len(synced),
+        "synced_reports": synced
+    }

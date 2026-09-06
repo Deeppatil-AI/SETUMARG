@@ -130,6 +130,23 @@ export default function FreightPlannerView({ onCalculateFreight }) {
         </div>
       </div>
 
+      {/* Loading & Empty States */}
+      {isLoading && !freightData && (
+        <div className="bg-[#F1EDE2] border border-[#3E5C63]/30 rounded p-12 text-center flex flex-col items-center justify-center">
+          <div className="w-8 h-8 border-3 border-[#5C7A4E] border-t-transparent rounded-full animate-spin mb-3"></div>
+          <h3 className="font-heading font-bold text-sm text-[#1C2B22]">Comparing Multi-Modal Routes...</h3>
+          <p className="text-xs text-[#3E5C63] mt-1">Evaluating Road vs. NFR Rail vs. National Waterway 2 (NW-2) barge corridors.</p>
+        </div>
+      )}
+      {!isLoading && !freightData && (
+        <div className="bg-[#F1EDE2] border border-[#3E5C63]/30 rounded p-8 text-center">
+          <AlertTriangle className="w-7 h-7 text-[#D97706] mx-auto mb-2" />
+          <h3 className="font-heading font-bold text-sm text-[#1C2B22]">No Freight Calculations Available</h3>
+          <p className="text-xs text-[#3E5C63] mt-1">Please select an origin and destination hub above to compare options.</p>
+          <button onClick={calculate} className="mt-3 bg-[#1C2B22] text-[#F1EDE2] px-3.5 py-1 rounded text-xs font-bold">Calculate Now</button>
+        </div>
+      )}
+
       {/* AI Recommendation Banner */}
       {freightData && (
         <div className="bg-[#F1EDE2] border-l-4 border-l-[#5C7A4E] border border-[#3E5C63]/30 p-4 rounded flex flex-wrap items-center justify-between gap-4">

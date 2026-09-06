@@ -218,33 +218,54 @@ def optimize_route(request: RouteRequest):
     naive_base_duration = round(preset["naive_route"]["base_duration_hrs"] / speed_factor, 1)
     safe_base_duration = round(preset["safe_route"]["base_duration_hrs"] / speed_factor, 1)
 
-    # Delay inflation if naive route is compromised
-    expected_delay_hours = 0.0
+    # 1. Geotechnical hazard stranding delay
+    naive_hazard_delay_hours = 0.0
     if naive_has_blockage:
-        expected_delay_hours = 14.5 if any("Severe" in s or "Critical" in s for s in blocked_segment_names) else 6.0
+        naive_hazard_delay_hours = 14.5 if any("Severe" in s or "Critical" in s for s in blocked_segment_names) else 6.0
 
-    naive_effective_duration = naive_base_duration + expected_delay_hours
+    # 2. Traffic congestion delay (distinct signal from time-of-day & vehicle density)
+    naive_congestion_delay_hours = round(sum(float(s.get("congestion_delay_hrs", 0.0) or 0.0) for s in naive_segments_info), 2)
+    safe_congestion_delay_hours = round(sum(float(s.get("congestion_delay_hrs", 0.0) or 0.0) for s in safe_segments_info), 2)
+
+    naive_total_delay_hours = round(naive_hazard_delay_hours + naive_congestion_delay_hours, 2)
+    safe_total_delay_hours = safe_congestion_delay_hours
+
+    naive_effective_duration = round(naive_base_duration + naive_total_delay_hours, 1)
+    safe_effective_duration = round(safe_base_duration + safe_total_delay_hours, 1)
     distance_delta_km = round(preset["safe_route"]["distance_km"] - preset["naive_route"]["distance_km"], 1)
 
-    # Human-readable AI avoidance summary with live meteorological & disruption context
+    # Primary delay attribution
+    if naive_hazard_delay_hours >= 2.0:
+        naive_primary_delay_factor = "LANDSLIDE_HAZARD"
+    elif naive_congestion_delay_hours >= 0.5:
+        naive_primary_delay_factor = "TRAFFIC_CONGESTION"
+    else:
+        naive_primary_delay_factor = "NOMINAL_TRANSIT"
+
+    # Human-readable AI avoidance summary with live meteorological, disruption & congestion context
     if naive_has_blockage:
         avoidance_rationale = (
             f"Setumarg AI rerouted away from {', '.join(blocked_segment_names)}. "
-            f"The safe bypass adds {distance_delta_km} km, but averts an estimated {expected_delay_hours:.1f} hours "
-            f"of stranding and prevents catastrophic road hazard collapse."
+            f"The safe bypass adds {distance_delta_km} km, but averts {naive_hazard_delay_hours:.1f} hours of landslide stranding "
+            f"and avoids {naive_congestion_delay_hours:.1f} hours of traffic bottleneck queuing."
         )
     elif naive_max_disruption >= 60.0:
         avoidance_rationale = (
-            f"High near-term disruption risk ({naive_max_disruption}% chance in 24-48h) detected on direct corridor via live meteorological forecast. "
-            f"Setumarg AI proactively recommends safe valley bypass to avoid road closure delays."
+            f"High near-term disruption risk ({naive_max_disruption}% chance in 24-48h) detected on direct corridor via live weather. "
+            f"Setumarg AI proactively recommends safe valley bypass to avert impending road closure delays."
+        )
+    elif naive_congestion_delay_hours >= 1.5:
+        avoidance_rationale = (
+            f"Direct corridor experiences heavy traffic congestion (+{naive_congestion_delay_hours:.1f} hrs delay). "
+            f"Setumarg recommends bypass route for consistent commercial delivery timelines."
         )
     else:
         avoidance_rationale = (
-            f"Direct corridor is currently stable ({naive_max_risk:.2f} dynamic risk score, {naive_max_disruption}% 24-48h disruption likelihood). "
-            f"Safe for transit under continuous live Open-Meteo monitoring."
+            f"Direct corridor is currently stable ({naive_max_risk:.2f} dynamic risk score, {naive_max_disruption}% 24-48h disruption likelihood, "
+            f"{naive_congestion_delay_hours:.1f}h traffic friction). Safe for transit under continuous live monitoring."
         )
 
-    recommendation = "SAFE_BYPASS_RECOMMENDED" if (naive_has_blockage or naive_max_disruption >= 60.0) else "DIRECT_PATH_ACCEPTABLE"
+    recommendation = "SAFE_BYPASS_RECOMMENDED" if (naive_has_blockage or naive_max_disruption >= 60.0 or naive_congestion_delay_hours >= 2.5) else "DIRECT_PATH_ACCEPTABLE"
 
     return {
         "origin": request.origin,
@@ -256,7 +277,10 @@ def optimize_route(request: RouteRequest):
         "avoidance_rationale": avoidance_rationale,
         "summary_comparison": {
             "extra_distance_km": distance_delta_km,
-            "hours_saved_against_stranding": expected_delay_hours,
+            "hours_saved_against_stranding": naive_hazard_delay_hours,
+            "congestion_delay_saved_hrs": max(0.0, round(naive_congestion_delay_hours - safe_congestion_delay_hours, 2)),
+            "total_delay_hours_avoided": round(max(0.0, naive_effective_duration - safe_effective_duration), 1),
+            "primary_bottleneck_driver": naive_primary_delay_factor,
             "naive_risk_index": round(naive_max_risk * 100, 1),
             "safe_risk_index": round(safe_max_risk * 100, 1),
             "safety_gain_percent": round((1.0 - (safe_max_risk / max(0.1, naive_max_risk))) * 100, 1),
@@ -268,23 +292,45 @@ def optimize_route(request: RouteRequest):
             "distance_km": preset["naive_route"]["distance_km"],
             "duration_hrs": naive_effective_duration,
             "base_duration_hrs": naive_base_duration,
-            "delay_penalty_hrs": expected_delay_hours,
+            "delay_penalty_hrs": naive_total_delay_hours,
+            "delay_breakdown": {
+                "hazard_delay_hrs": naive_hazard_delay_hours,
+                "congestion_delay_hrs": naive_congestion_delay_hours,
+                "total_delay_hrs": naive_total_delay_hours,
+                "primary_cause": naive_primary_delay_factor
+            },
+            "hazard_delay_hrs": naive_hazard_delay_hours,
+            "congestion_delay_hrs": naive_congestion_delay_hours,
+            "primary_cause": naive_primary_delay_factor,
             "max_risk_score": round(naive_max_risk, 3),
             "disruption_likelihood_pct": naive_max_disruption,
             "disruption_prediction_text": naive_top_prediction,
             "has_active_blockage": naive_has_blockage,
             "compromised_segments": blocked_segment_names,
+            "via_segments": preset["naive_route"].get("via_segments", []),
             "coordinates": preset["naive_route"]["geometry"],
             "color": "#ef4444"
         },
         "safe_route": {
             "name": preset["safe_route"]["name"],
             "distance_km": preset["safe_route"]["distance_km"],
-            "duration_hrs": safe_base_duration,
+            "duration_hrs": safe_effective_duration,
+            "base_duration_hrs": safe_base_duration,
+            "delay_penalty_hrs": safe_total_delay_hours,
+            "delay_breakdown": {
+                "hazard_delay_hrs": 0.0,
+                "congestion_delay_hrs": safe_congestion_delay_hours,
+                "total_delay_hrs": safe_total_delay_hours,
+                "primary_cause": "NOMINAL_TRANSIT"
+            },
+            "hazard_delay_hrs": 0.0,
+            "congestion_delay_hrs": safe_congestion_delay_hours,
+            "primary_cause": "NOMINAL_TRANSIT",
             "max_risk_score": round(safe_max_risk, 3),
             "disruption_likelihood_pct": safe_max_disruption,
             "disruption_prediction_text": safe_top_prediction,
             "has_active_blockage": False,
+            "via_segments": preset["safe_route"].get("via_segments", []),
             "coordinates": preset["safe_route"]["geometry"],
             "color": "#10b981"
         }

@@ -8,9 +8,11 @@ import {
   BarChart3, 
   BookOpen, 
   Radio, 
-  AlertTriangle,
-  PhoneCall
+  AlertTriangle, 
+  PhoneCall,
+  Globe
 } from 'lucide-react';
+import { SUPPORTED_LANGUAGES, getTranslation } from '../i18n';
 
 export default function Navbar({ 
   activeTab, 
@@ -19,8 +21,12 @@ export default function Navbar({
   onScenarioChange, 
   onSliderChange,
   openReportModal,
-  openResearchModal
+  openResearchModal,
+  openAboutModal,
+  currentLanguage = 'en',
+  onLanguageChange
 }) {
+  const t = (key) => getTranslation(currentLanguage, key);
   const mult = nowcastData?.current_multiplier || 1.0;
   const intensity = nowcastData?.current_rainfall_intensity || 18.5;
   const activeScenario = nowcastData?.current_scenario || 'monsoon_moderate';
@@ -36,16 +42,16 @@ export default function Navbar({
         <div className="flex items-center gap-3">
           <span className="bg-[#1E3827] text-[#6EE7B7] border border-[#34D399]/40 font-bold px-2.5 py-0.5 rounded text-[11px] tracking-wide flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
-            PUBLIC SAFETY SERVICE
+            {t('public_safety_service')}
           </span>
           <span className="text-[#3A5644]">|</span>
           <span className="text-[#E5DEC9] font-medium text-xs hidden sm:inline">
-            North East India Mountain Road Safety &amp; Emergency Travel Portal
+            {t('portal_subtitle')}
           </span>
           <span className="text-[#3A5644] hidden md:inline">|</span>
           <span className="text-[#93C5FD] font-mono text-[11px] hidden md:flex items-center gap-1">
             <PhoneCall className="w-3 h-3 text-[#38BDF8]" />
-            Helpline: 112 / 1070
+            {t('helpline')}
           </span>
         </div>
 
@@ -53,7 +59,7 @@ export default function Navbar({
           {nowcastData?.is_live_mode ? (
             <span className="flex items-center gap-1.5 bg-[#1E3827] border border-[#34D399]/40 text-[#6EE7B7] px-2 py-0.5 rounded text-[11px] font-mono shadow-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
-              Live Open-Meteo Synced (Auto 15m)
+              {t('live_synced')}
             </span>
           ) : (
             <button 
@@ -61,21 +67,29 @@ export default function Navbar({
               className="flex items-center gap-1 bg-[#422006] border border-[#F59E0B]/50 text-[#FDE68A] px-2 py-0.5 rounded text-[10px] font-mono hover:bg-[#78350F] transition"
               title="Click to resume real live weather mode"
             >
-              <span>Scenario Mode (Click for Live)</span>
+              <span>{t('scenario_mode')}</span>
             </button>
           )}
 
           {blockedCount > 0 && (
             <span className="flex items-center gap-1.5 bg-[#5C1914] border border-[#EF4444]/60 text-[#FECACA] px-2.5 py-0.5 rounded text-xs font-bold shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#EF4444] animate-ping"></span>
-              {blockedCount} Road{blockedCount > 1 ? 's' : ''} Completely Blocked
+              {blockedCount} {t('roads_blocked')}
             </span>
           )}
+          <button 
+            onClick={openAboutModal}
+            className="text-[#93C5FD] hover:text-white underline decoration-[#38BDF8]/60 hover:decoration-[#38BDF8] text-xs font-sans transition flex items-center gap-1 font-semibold"
+            title="Overview of Setumarg for judges and new users"
+          >
+            <span>About Setumarg</span>
+          </button>
+          <span className="text-[#3A5644]">|</span>
           <button 
             onClick={openResearchModal}
             className="text-[#E2DAC7] hover:text-white underline decoration-[#4ADE80]/50 hover:decoration-[#4ADE80] text-xs font-sans transition"
           >
-            Safety Handbook &amp; Scientific Basis
+            {t('safety_handbook')}
           </button>
         </div>
       </div>
@@ -88,14 +102,14 @@ export default function Navbar({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-heading text-xl font-bold tracking-tight text-[#FFFFFF]">
-                SETUMARG
+                {t('portal_title')}
               </span>
               <span className="font-mono text-[10px] tracking-wider text-[#6EE7B7] bg-[#1E3827] px-2 py-0.5 rounded border border-[#34D399]/30 font-bold">
-                MOUNTAIN ROAD SAFETY PORTAL
+                {t('portal_badge')}
               </span>
             </div>
             <p className="text-xs text-[#E5DEC9] font-sans mt-0.5 font-normal">
-              Live Landslide Warnings, Village Hospital Access &amp; Safe Route Navigation
+              {t('portal_tagline')}
             </p>
           </div>
         </div>
@@ -106,11 +120,11 @@ export default function Navbar({
             <CloudRain className="w-4 h-4 shrink-0" style={{ color: scrubberColor }} />
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-[#E5DEC9] font-medium">Rainfall:</span>
+                <span className="text-xs text-[#E5DEC9] font-medium">{t('rainfall')}</span>
                 <span className="font-mono font-bold text-white text-sm">{intensity} mm/hr</span>
               </div>
               <span className="font-mono text-[11px] text-[#A7F3D0] block">
-                Rain Level: <strong className="font-bold text-sm" style={{ color: scrubberColor }}>{mult.toFixed(1)}x {mult > 2.0 ? '(Heavy Storm)' : mult > 1.2 ? '(Active Rain)' : '(Normal)'}</strong>
+                {t('rain_level')} <strong className="font-bold text-sm" style={{ color: scrubberColor }}>{mult.toFixed(1)}x {mult > 2.0 ? `(${t('heavy_storm')})` : mult > 1.2 ? `(${t('active_rain')})` : `(${t('normal')})`}</strong>
               </span>
             </div>
           </div>
@@ -144,7 +158,7 @@ export default function Navbar({
                   : 'bg-[#1F2937]/70 text-[#CBD5E1] hover:bg-[#374151] border-gray-600/40'
               }`}
             >
-              Dry Weather
+              {t('dry_weather')}
             </button>
             <button
               onClick={() => onScenarioChange('monsoon_moderate')}
@@ -154,7 +168,7 @@ export default function Navbar({
                   : 'bg-[#1E3A5F]/70 text-[#93C5FD] hover:bg-[#2563EB]/80 border-blue-700/40'
               }`}
             >
-              Normal Monsoon
+              {t('normal_monsoon')}
             </button>
             <button
               onClick={() => onScenarioChange('cloudburst_extreme')}
@@ -164,28 +178,48 @@ export default function Navbar({
                   : 'bg-[#7F1D1D]/70 text-[#FCA5A5] hover:bg-[#DC2626]/80 border-red-700/40'
               }`}
             >
-              Heavy Cloudburst
+              {t('heavy_cloudburst')}
             </button>
           </div>
         </div>
 
-        {/* Action Button: Citizen/Field Incident Report */}
-        <button
-          onClick={openReportModal}
-          className="flex items-center gap-2 bg-[#B91C1C] hover:bg-[#DC2626] border border-[#F87171]/50 text-white font-heading font-bold text-xs px-4 py-2 rounded-md shadow hover:shadow-md transition"
-        >
-          <Radio className="w-3.5 h-3.5 text-white" />
-          Report Blocked Road
-        </button>
+        {/* Language Selector & Action Button */}
+        <div className="flex items-center gap-3">
+          {/* Multilingual Selector (PS26002 point h) */}
+          <div className="flex items-center gap-1.5 bg-[#0F1B13] border border-[#34D399]/40 rounded-md px-2.5 py-1.5 text-xs shadow-inner">
+            <Globe className="w-3.5 h-3.5 text-[#34D399]" />
+            <select
+              value={currentLanguage}
+              onChange={(e) => onLanguageChange && onLanguageChange(e.target.value)}
+              className="bg-transparent text-[#F1EDE2] text-xs font-medium outline-none cursor-pointer"
+              title="Select Language / ভাষা নিৰ্বাচন / भाषा चुनें"
+            >
+              {SUPPORTED_LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code} className="bg-[#142319] text-[#F1EDE2]">
+                  {l.native} ({l.label})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Action Button: Citizen/Field Incident Report */}
+          <button
+            onClick={openReportModal}
+            className="flex items-center gap-2 bg-[#B91C1C] hover:bg-[#DC2626] border border-[#F87171]/50 text-white font-heading font-bold text-xs px-4 py-2 rounded-md shadow hover:shadow-md transition"
+          >
+            <Radio className="w-3.5 h-3.5 text-white" />
+            {t('report_blocked_road')}
+          </button>
+        </div>
       </div>
 
       {/* Navigation Ledger Tabs (Cartographic Tabs) */}
       <div className="max-w-7xl mx-auto px-4 border-t border-[#253A2C] bg-[#101E15] flex items-center overflow-x-auto no-scrollbar gap-1.5 py-1.5 font-sans text-xs">
         {[
-          { id: 'map', label: 'Live Road & Landslide Map', icon: MapPin },
-          { id: 'accessibility', label: 'Village Hospital Access', icon: ShieldAlert },
-          { id: 'routing', label: 'Safe Route Finder', icon: Route },
-          { id: 'dashboard', label: 'Emergency & Status Summary', icon: BarChart3 },
+          { id: 'map', labelKey: 'tab_map', defaultLabel: 'Live Road & Landslide Map', icon: MapPin },
+          { id: 'accessibility', labelKey: 'tab_accessibility', defaultLabel: 'Village Hospital Access', icon: ShieldAlert },
+          { id: 'routing', labelKey: 'tab_routing', defaultLabel: 'Safe Route Finder', icon: Route },
+          { id: 'dashboard', labelKey: 'tab_dashboard', defaultLabel: 'Emergency & Status Summary', icon: BarChart3 },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -200,7 +234,7 @@ export default function Navbar({
               }`}
             >
               <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#1C2B22]' : 'text-[#6EE7B7]'}`} />
-              {tab.label}
+              {t(tab.labelKey)}
             </button>
           );
         })}

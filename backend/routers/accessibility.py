@@ -139,33 +139,83 @@ class TriggerSMSRequest(BaseModel):
     village_id: str
     message_type: str = "Landslide Feeder Blockage Early Warning"
     custom_text: Optional[str] = None
+    language: Optional[str] = "en"  # "en", "hi", "as", "bn"
+
+
+def generate_multilingual_alert(village: dict, lang: str = "en") -> dict:
+    """
+    Generates official multi-lingual emergency dispatch alerts for North Eastern Region (PS26002 point h).
+    Supports English (en), Hindi (hi), Assamese (as), and Bengali (bn).
+    """
+    v_name = village["name"]
+    dist = village["district"]
+    facility = village.get("nearest_facility", "CHC/PHC Hospital")
+
+    templates = {
+        "en": (
+            f"[SETUMARG URGENT] Warning for {v_name} ({dist}): Feeder road is under high landslide risk/blockage. "
+            f"Emergency medical transit to {facility} currently inflated to >120m. "
+            f"Activate community emergency rations. SMS sent via C-DoT / Exotel rural gateway."
+        ),
+        "hi": (
+            f"[सेतुमार्ग आपातकालीन चेतावनी] {v_name} ({dist}) हेतु चेतावनी: मुख्य संपर्क मार्ग पर भारी भूस्खलन का जोखिम/अवरोध है। "
+            f"{facility} के लिए आपातकालीन चिकित्सा यात्रा समय 120 मिनट से अधिक हो गया है। "
+            f"ग्राम आपदा राहत सक्रिय करें। C-DoT / Exotel ग्रामीण गेटवे द्वारा प्रेषित।"
+        ),
+        "as": (
+            f"[সেতুমৰ্গ জৰুৰীকালীন সতৰ্কবাৰ্তা] {v_name} ({dist}) ৰ বাবে সতৰ্কবাৰ্তা: সংযোগকাৰী পথত ভূমিস্খলনৰ উচ্চ আশংকা/অৱৰোধ আছে। "
+            f"{facility} লৈ চিকিৎসা যাত্ৰাৰ সময় ১২০ মিনিটৰো অধিক হৈছে। "
+            f"সম্প্ৰদায়ৰ জৰুৰীকালীন খাদ্য সাহায্য সক্ৰিয় কৰক। C-DoT / Exotel গ্ৰাম্য গেটৱেৰ জৰিয়তে প্ৰেৰিত।"
+        ),
+        "bn": (
+            f"[সেতুমাৰ্গ জরুরি সতর্কতা] {v_name} ({dist})-এর জন্য সতর্কতা: সংযোগ সড়কে ভারী ভূমিধসের ঝুঁকি/অবরোধ রয়েছে। "
+            f"{facility}-তে জরুরি চিকিৎসার যাতায়াত সময় এখন ১২০ মিনিটের বেশি। "
+            f"গ্রাম পঞ্চায়েত ত্রাণ ব্যবস্থা সক্রিয় করুন। C-DoT / Exotel গ্রামীণ গেটওয়ের মাধ্যমে প্রেরিত।"
+        )
+    }
+
+    chosen_lang = lang.lower() if lang and lang.lower() in templates else "en"
+    return {
+        "language": chosen_lang,
+        "message": templates[chosen_lang],
+        "all_translations": templates
+    }
+
+
+@router.get("/alert-templates")
+def get_alert_templates(village_id: Optional[str] = "VIL-01", language: Optional[str] = "en"):
+    """
+    Returns localized SMS/IVR templates in English, Hindi, Assamese, and Bengali for a given village.
+    """
+    vil = next((v for v in VILLAGES if v["id"] == village_id), VILLAGES[0])
+    return generate_multilingual_alert(vil, language or "en")
 
 
 @router.post("/trigger-sms-ivr")
 def trigger_emergency_sms_ivr(payload: TriggerSMSRequest):
     """
     Mock emergency SMS / IVR broadcast stub for low-bandwidth 2G border villages.
-    Simulates gateway handshake via Twilio / Exotel.
+    Supports multilingual dispatch in English, Hindi, Assamese, and Bengali (PS26002 point h).
+    Simulates gateway handshake via Twilio / Exotel / C-DoT.
     """
     vil = next((v for v in VILLAGES if v["id"] == payload.village_id), None)
     if not vil:
         raise HTTPException(status_code=404, detail=f"Village {payload.village_id} not found.")
 
-    alert_text = payload.custom_text or (
-        f"[SETUMARG URGENT] Warning for {vil['name']} ({vil['district']}): Feeder road is under high landslide risk/blockage. "
-        f"Emergency medical transit to {vil['nearest_facility']} currently inflated to >120m. "
-        f"Activate community emergency rations. SMS sent via C-DoT / Exotel rural gateway."
-    )
+    chosen_lang = payload.language or "en"
+    auto_alert = generate_multilingual_alert(vil, chosen_lang)
+    alert_text = payload.custom_text or auto_alert["message"]
 
     dispatch_record = {
         "dispatch_id": f"DISP-2026-{len(DISPATCHED_ALERTS) + 1:04d}",
         "village_id": vil["id"],
         "village_name": vil["name"],
+        "language": chosen_lang,
         "recipient_role": "Gram Panchayat Head / ASHA Worker",
         "recipient_phone": vil["sarpanch_contact"],
         "connectivity_channel": vil["connectivity_type"],
         "channel_used": "IVR Voice Broadcast & C-DoT 2G SMS",
-        "gateway": "Exotel / Twilio NER Emergency Trunk",
+        "gateway": "Exotel / Twilio / C-DoT NER Emergency Trunk",
         "status": "DELIVERED (ACK Received)",
         "message": alert_text
     }

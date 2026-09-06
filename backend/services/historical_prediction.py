@@ -6,7 +6,61 @@ and short-term forecast saturation.
 """
 
 import math
-from typing import Dict, Any, Optional
+import json
+from pathlib import Path
+from typing import Dict, Any, Optional, List
+
+# Load GSI Bhukosh / NLSM Historical Landslide Inventory
+GSI_DATA_FILE = Path(__file__).resolve().parent.parent / "data" / "gsi_historical_landslides.json"
+GSI_HISTORICAL_LANDSLIDES: List[dict] = []
+if GSI_DATA_FILE.exists():
+    try:
+        with open(GSI_DATA_FILE, "r", encoding="utf-8") as f:
+            GSI_HISTORICAL_LANDSLIDES = json.load(f)
+    except Exception:
+        GSI_HISTORICAL_LANDSLIDES = []
+
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Computes great-circle distance in km between two WGS84 points."""
+    R = 6371.0
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = (math.sin(dlat / 2.0) ** 2
+         + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon / 2.0) ** 2)
+    return 2.0 * R * math.asin(math.sqrt(max(0.0, min(1.0, a))))
+
+
+_GSI_NEARBY_CACHE = {}
+
+def find_nearby_gsi_incidents(coords: list, max_dist_km: float = 8.0, seg_id: str = "") -> List[dict]:
+    """Finds all verified GSI Bhukosh historical landslides within max_dist_km of a segment."""
+    if not coords or not GSI_HISTORICAL_LANDSLIDES:
+        return []
+    if seg_id and seg_id in _GSI_NEARBY_CACHE:
+        return _GSI_NEARBY_CACHE[seg_id]
+
+    lats = [c[0] for c in coords]
+    lngs = [c[1] for c in coords]
+    # ~0.08 degrees is ~8.8 km latitude/longitude buffer
+    min_lat, max_lat = min(lats) - 0.08, max(lats) + 0.08
+    min_lng, max_lng = min(lngs) - 0.08, max(lngs) + 0.08
+
+    nearby = []
+    for inc in GSI_HISTORICAL_LANDSLIDES:
+        ilat, ilng = inc["lat"], inc["lng"]
+        if not (min_lat <= ilat <= max_lat and min_lng <= ilng <= max_lng):
+            continue
+        min_d = min(_haversine_km(c[0], c[1], ilat, ilng) for c in coords)
+        if min_d <= max_dist_km:
+            inc_copy = dict(inc)
+            inc_copy["dist_km"] = round(min_d, 2)
+            nearby.append(inc_copy)
+    nearby.sort(key=lambda x: x["dist_km"])
+    if seg_id:
+        _GSI_NEARBY_CACHE[seg_id] = nearby
+    return nearby
+
 
 # Empirical historical hotspot registry across key Northeastern Himalayan corridors
 # Grounded in GSI Bhukosh historical inventory records, BRO Project Vartak/Pushpak logs,
@@ -74,64 +128,104 @@ def get_segment_historical_profile(seg: dict) -> dict:
     mid_lat = coords[len(coords) // 2][0] if coords else 25.5
 
     # Check known landmark hotspots
+    profile = None
     if "sonapur" in name or "sonapur" in seg_id or "sonapur" in block_desc or (("nh-6" in hwy or "nh-44" in hwy) and 25.06 <= mid_lat <= 25.18):
-        return KNOWN_HOTSPOT_PROFILES["sonapur"]
-    if "nh-10" in hwy or "teesta" in name or "sevoke" in name or "gangtok" in name or "teesta" in hazard:
-        return KNOWN_HOTSPOT_PROFILES["nh10_teesta"]
-    if "nh-29" in hwy or "phesama" in name or "kohima" in name or "phesama" in hazard:
-        return KNOWN_HOTSPOT_PROFILES["nh29_phesama"]
-    if "nh-102" in hwy or "moreh" in name or "tengnoupal" in name:
-        return KNOWN_HOTSPOT_PROFILES["nh102_tengnoupal"]
-    if "nh-13" in hwy or "roing" in name or "pasighat" in name or "dibang" in hazard:
-        return KNOWN_HOTSPOT_PROFILES["nh13_roing"]
+        profile = dict(KNOWN_HOTSPOT_PROFILES["sonapur"])
+    elif "nh-10" in hwy or "teesta" in name or "sevoke" in name or "gangtok" in name or "teesta" in hazard:
+        profile = dict(KNOWN_HOTSPOT_PROFILES["nh10_teesta"])
+    elif "nh-29" in hwy or "phesama" in name or "kohima" in name or "phesama" in hazard:
+        profile = dict(KNOWN_HOTSPOT_PROFILES["nh29_phesama"])
+    elif "nh-102" in hwy or "moreh" in name or "tengnoupal" in name:
+        profile = dict(KNOWN_HOTSPOT_PROFILES["nh102_tengnoupal"])
+    elif "nh-13" in hwy or "roing" in name or "pasighat" in name or "dibang" in hazard:
+        profile = dict(KNOWN_HOTSPOT_PROFILES["nh13_roing"])
 
-    # Parametric derivation for remaining regional segments
-    slope = float(seg.get("slope_deg", 15.0))
-    dist_fault = float(seg.get("dist_to_fault_m", 3000.0))
-    base_rain = float(seg.get("base_rainfall_mm", 55.0))
-    litho = int(seg.get("lithology_class", 1))
+    if profile is None:
+        # Parametric derivation for remaining regional segments
+        slope = float(seg.get("slope_deg", 15.0))
+        dist_fault = float(seg.get("dist_to_fault_m", 3000.0))
+        base_rain = float(seg.get("base_rainfall_mm", 55.0))
+        litho = int(seg.get("lithology_class", 1))
 
-    if slope >= 32.0:
-        # High steepness mountain cut slopes
-        past_blockages = 7 + int((slope * 3 + dist_fault) % 6)
-        threshold_24h = round(max(38.0, 68.0 - (slope * 0.7)), 1)
-        threshold_rate = round(max(10.0, 20.0 - (slope * 0.2)), 1)
-        clearance_hrs = 14.0
-        mech = "Steep rockfall and regolith failure along weathered joint planes"
-        last_date = "2024-08-14"
-    elif slope >= 20.0:
-        # Moderate upland terrain
-        past_blockages = 3 + int((slope * 2) % 4)
-        threshold_24h = round(max(55.0, 85.0 - (slope * 0.8)), 1)
-        threshold_rate = round(max(14.0, 24.0 - (slope * 0.25)), 1)
-        clearance_hrs = 10.0
-        mech = "Localized embankment slumping and culvert overtopping"
-        last_date = "2023-09-02"
-    elif slope >= 10.0:
-        # Low rolling foothills
-        past_blockages = 1 + int(slope % 2)
-        threshold_24h = round(max(75.0, base_rain * 1.3), 1)
-        threshold_rate = 22.0
-        clearance_hrs = 6.0
-        mech = "Road shoulder washouts and minor silt slides"
-        last_date = "2022-07-21"
+        if slope >= 32.0:
+            # High steepness mountain cut slopes
+            past_blockages = 7 + int((slope * 3 + dist_fault) % 6)
+            threshold_24h = round(max(38.0, 68.0 - (slope * 0.7)), 1)
+            threshold_rate = round(max(10.0, 20.0 - (slope * 0.2)), 1)
+            clearance_hrs = 14.0
+            mech = "Steep rockfall and regolith failure along weathered joint planes"
+            last_date = "2024-08-14"
+        elif slope >= 20.0:
+            # Moderate upland terrain
+            past_blockages = 3 + int((slope * 2) % 4)
+            threshold_24h = round(max(55.0, 85.0 - (slope * 0.8)), 1)
+            threshold_rate = round(max(14.0, 24.0 - (slope * 0.25)), 1)
+            clearance_hrs = 10.0
+            mech = "Localized embankment slumping and culvert overtopping"
+            last_date = "2023-09-02"
+        elif slope >= 10.0:
+            # Low rolling foothills
+            past_blockages = 1 + int(slope % 2)
+            threshold_24h = round(max(75.0, base_rain * 1.3), 1)
+            threshold_rate = 22.0
+            clearance_hrs = 6.0
+            mech = "Road shoulder washouts and minor silt slides"
+            last_date = "2022-07-21"
+        else:
+            # Alluvial plains (NH-27, NH-37)
+            past_blockages = 0 if dist_fault > 4000 else 1
+            threshold_24h = round(max(110.0, base_rain * 2.2), 1)
+            threshold_rate = 30.0
+            clearance_hrs = 4.0
+            mech = "Carriageway waterlogging and riverine flood inundation"
+            last_date = "2022-06-18"
+
+        profile = {
+            "recorded_past_blockages_count": past_blockages,
+            "rainfall_trigger_mm_24h": threshold_24h,
+            "rainfall_trigger_intensity_mm_hr": threshold_rate,
+            "last_failure_date": last_date,
+            "typical_clearance_hours": clearance_hrs,
+            "primary_failure_mechanism": mech
+        }
+
+    # Calibrate against verified GSI Bhukosh historical inventory points
+    nearby_gsi = find_nearby_gsi_incidents(coords, max_dist_km=8.0, seg_id=seg_id)
+    if nearby_gsi:
+        profile["recorded_past_blockages_count"] = max(
+            profile["recorded_past_blockages_count"],
+            len(nearby_gsi)
+        )
+        latest_gsi_date = max(g.get("date", "") for g in nearby_gsi if g.get("date"))
+        if latest_gsi_date and latest_gsi_date > profile.get("last_failure_date", ""):
+            profile["last_failure_date"] = latest_gsi_date
+
+        min_gsi_trigger = min((g.get("trigger_rainfall_mm_24h", 999.0) for g in nearby_gsi), default=999.0)
+        if min_gsi_trigger < 900.0:
+            profile["rainfall_trigger_mm_24h"] = round(min(profile["rainfall_trigger_mm_24h"], max(35.0, min_gsi_trigger * 0.35)), 1)
+
+        nearest_gsi = nearby_gsi[0]
+        profile["primary_failure_mechanism"] = (
+            f"GSI {nearest_gsi['slide_type']} ({nearest_gsi['material']}) within {nearest_gsi['dist_km']}km; "
+            f"{profile['primary_failure_mechanism']}"
+        )
+        profile["gsi_nearby_count"] = len(nearby_gsi)
+        profile["gsi_incidents"] = [
+            {
+                "id": g["id"],
+                "gsi_bhukosh_id": g["gsi_bhukosh_id"],
+                "name": g["name"],
+                "year": g["year"],
+                "slide_type": g["slide_type"],
+                "dist_km": g["dist_km"]
+            }
+            for g in nearby_gsi[:3]
+        ]
     else:
-        # Alluvial plains (NH-27, NH-37)
-        past_blockages = 0 if dist_fault > 4000 else 1
-        threshold_24h = round(max(110.0, base_rain * 2.2), 1)
-        threshold_rate = 30.0
-        clearance_hrs = 4.0
-        mech = "Carriageway waterlogging and riverine flood inundation"
-        last_date = "2022-06-18"
+        profile["gsi_nearby_count"] = 0
+        profile["gsi_incidents"] = []
 
-    return {
-        "recorded_past_blockages_count": past_blockages,
-        "rainfall_trigger_mm_24h": threshold_24h,
-        "rainfall_trigger_intensity_mm_hr": threshold_rate,
-        "last_failure_date": last_date,
-        "typical_clearance_hours": clearance_hrs,
-        "primary_failure_mechanism": mech
-    }
+    return profile
 
 
 def estimate_near_term_disruption(
@@ -163,7 +257,9 @@ def estimate_near_term_disruption(
             "threshold_saturation_pct": 100.0,
             "last_failure_date": hist["last_failure_date"],
             "typical_clearance_hours": hist["typical_clearance_hours"],
-            "primary_failure_mechanism": hist["primary_failure_mechanism"]
+            "primary_failure_mechanism": hist["primary_failure_mechanism"],
+            "gsi_nearby_count": hist.get("gsi_nearby_count", 0),
+            "gsi_incidents": hist.get("gsi_incidents", [])
         }
 
     # Extract forecasted rainfall
@@ -224,5 +320,7 @@ def estimate_near_term_disruption(
         "effective_forecast_24h_mm": round(effective_fc_24h, 1),
         "last_failure_date": hist["last_failure_date"],
         "typical_clearance_hours": hist["typical_clearance_hours"],
-        "primary_failure_mechanism": hist["primary_failure_mechanism"]
+        "primary_failure_mechanism": hist["primary_failure_mechanism"],
+        "gsi_nearby_count": hist.get("gsi_nearby_count", 0),
+        "gsi_incidents": hist.get("gsi_incidents", [])
     }
