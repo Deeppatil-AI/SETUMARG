@@ -42,17 +42,27 @@ def run_tests():
     assert res.status_code == 200
     print(" Nowcast extreme scenario updated, Severe count:", res.json()["tier_summary"]["Severe"])
 
-    # 5. Accessibility villages
+    # 5. Accessibility villages (Real-time weather, RAI, Airlift Evacuation Triage)
     res = client.get("/api/accessibility/villages")
     assert res.status_code == 200
     v_data = res.json()
-    print(f" Accessibility: {len(v_data['villages'])} villages, Isolated: {v_data['summary']['currently_isolated_villages']}, RAI: {v_data['summary']['rural_access_index_percent']}%")
+    assert "regional_emergency_status" in v_data["summary"]
+    assert "airlift_required_villages_count" in v_data["summary"]
+    assert "live_rain_mm" in v_data["villages"][0]
+    print(f" Accessibility: {len(v_data['villages'])} villages, Isolated: {v_data['summary']['currently_isolated_villages']}, Status={v_data['summary']['regional_emergency_status']}, RAI: {v_data['summary']['rural_access_index_percent']}%")
 
-    # 6. Route optimizer (Propagated Live Meteorological Evaluation)
+    # 6. Route optimizer (5 Corridors, Live Weather Ingestion & Delay Attribution)
+    res_pairs = client.get("/api/routing/available-pairs")
+    assert res_pairs.status_code == 200
+    assert len(res_pairs.json()) >= 5
+    print(f" Available Corridors: {len(res_pairs.json())} routes configured across NER")
+
     res = client.post("/api/routing/optimize", json={"origin": "Guwahati", "destination": "Silchar", "vehicle_type": "heavy_truck"})
     assert res.status_code == 200
     r_data = res.json()
     assert "is_live_weather_mode" in r_data
+    assert "corridor_weather" in r_data
+    assert "origin" in r_data["corridor_weather"]
     assert "naive_disruption_likelihood_pct" in r_data["summary_comparison"]
     print(f" Route optimizer: Recommendation={r_data['ai_recommendation']}, Extra distance={r_data['summary_comparison']['extra_distance_km']}km, Hours saved={r_data['summary_comparison']['hours_saved_against_stranding']}h, Impending Naive Disruption={r_data['summary_comparison']['naive_disruption_likelihood_pct']}%")
 

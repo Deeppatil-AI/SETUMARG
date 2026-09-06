@@ -54,6 +54,31 @@ def calculate_village_accessibility(village: dict, segment_risk_map: dict) -> di
     effective_hospital_time = int(base_travel_hospital * travel_inflation_factor)
     effective_highway_time = int(base_travel_highway * travel_inflation_factor)
 
+    # Real-time weather for the village's coordinate / district
+    from backend.services.weather_service import get_weather_for_coordinate
+    w_info = get_weather_for_coordinate(village["lat"], village["lng"])
+    current_rain_mm = round(float(w_info.get("current_rain_mm", 0.0)), 1)
+    weather_desc = w_info.get("weather_description", "Clear sky")
+    forecast_24h_mm = round(float(w_info.get("forecast_next_24h_mm", 0.0)), 1)
+
+    # Emergency medical triage & evacuation criteria:
+    # 1. Airlift Required: Road physically blocked OR severe cutoff with PHC travel > 180m
+    airlift_required = bool(feeder_is_blocked or (is_cut_off and effective_hospital_time >= 180))
+    airlift_rationale = (
+        "Ground transit severed by structural road breach. IAF / Pawan Hans aerial medical evacuation recommended."
+        if airlift_required else None
+    )
+
+    # 2. Medical Triage Tier
+    if airlift_required or feeder_is_blocked:
+        medical_triage_tier = "CRITICAL_EMERGENCY"
+    elif is_cut_off or effective_hospital_time > 120:
+        medical_triage_tier = "HIGH_ISOLATION_RISK"
+    elif effective_hospital_time > 60 or feeder_alert_tier in ["High", "Very High"]:
+        medical_triage_tier = "WEATHER_SLOWDOWN"
+    else:
+        medical_triage_tier = "PASSABLE"
+
     # World Bank RAI compliance criteria:
     # Within 30 min of all-season road & 60 min of tertiary healthcare
     meets_rai_standard = (effective_highway_time <= 30) and (effective_hospital_time <= 60) and (not is_cut_off)
@@ -86,6 +111,12 @@ def calculate_village_accessibility(village: dict, segment_risk_map: dict) -> di
         "feeder_is_blocked": feeder_is_blocked,
         "is_cut_off": is_cut_off,
         "cutoff_severity": cutoff_severity,
+        "medical_triage_tier": medical_triage_tier,
+        "airlift_required": airlift_required,
+        "airlift_rationale": airlift_rationale,
+        "live_rain_mm": current_rain_mm,
+        "weather_description": weather_desc,
+        "forecast_24h_mm": forecast_24h_mm,
         "meets_rai_standard": meets_rai_standard,
         "isolation_score": round(isolation_score, 1),
         "connectivity_type": village["connectivity_type"],
@@ -115,11 +146,24 @@ def get_accessibility_index(sort_by: Optional[str] = "isolation_score", order: O
     rai_compliant_population = sum(v["population"] for v in scored_villages if v["meets_rai_standard"])
 
     cut_off_count = sum(1 for v in scored_villages if v["is_cut_off"])
+    airlift_count = sum(1 for v in scored_villages if v["airlift_required"])
+    peak_rainfall = max((v["live_rain_mm"] for v in scored_villages), default=0.0)
     rai_pct = round((rai_compliant_population / total_population) * 100, 1) if total_population else 0.0
+
+    # Distinct states represented
+    states_list = sorted(list(set(v["state"] for v in scored_villages)))
+
+    # Regional operational emergency alert level
+    if cut_off_count >= 5 or airlift_count >= 2:
+        regional_status = "CRITICAL_MASS_ISOLATION"
+    elif cut_off_count >= 1 or peak_rainfall >= 5.0:
+        regional_status = "ELEVATED_WEATHER_ALERT"
+    else:
+        regional_status = "NORMAL_OPERATIONS"
 
     # Sorting
     reverse_order = (order.lower() == "desc")
-    if sort_by in ["isolation_score", "population", "effective_travel_hospital_min"]:
+    if sort_by in ["isolation_score", "population", "effective_travel_hospital_min", "live_rain_mm"]:
         scored_villages.sort(key=lambda x: x.get(sort_by, 0), reverse=reverse_order)
 
     return {
@@ -128,6 +172,10 @@ def get_accessibility_index(sort_by: Optional[str] = "isolation_score", order: O
             "total_rural_population": total_population,
             "currently_isolated_villages": cut_off_count,
             "population_at_risk_or_cut_off": cut_off_population,
+            "airlift_required_villages_count": airlift_count,
+            "peak_district_rainfall_mm": peak_rainfall,
+            "regional_emergency_status": regional_status,
+            "states_represented": states_list,
             "rural_access_index_percent": rai_pct,
             "methodology_note": "World Bank RAI standard: % rural pop within 30 min of all-season road. Road network travel times used instead of straight-line distance (19% correction)."
         },

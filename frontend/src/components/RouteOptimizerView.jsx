@@ -44,6 +44,14 @@ const endIcon = L.divIcon({
   iconAnchor: [12, 12]
 });
 
+const QUICK_CORRIDORS = [
+  { origin: 'Guwahati', destination: 'Silchar', label: 'Guwahati ➔ Silchar', highway: 'NH-6', badge: 'Sonapur Canyon' },
+  { origin: 'Siliguri', destination: 'Gangtok', label: 'Siliguri ➔ Gangtok', highway: 'NH-10', badge: 'Teesta Canyon' },
+  { origin: 'Guwahati', destination: 'Kohima', label: 'Guwahati ➔ Kohima', highway: 'NH-29', badge: 'Dimapur Ghats' },
+  { origin: 'Dimapur', destination: 'Imphal', label: 'Dimapur ➔ Imphal', highway: 'NH-2', badge: 'Phesama Slide' },
+  { origin: 'Imphal', destination: 'Moreh', label: 'Imphal ➔ Moreh', highway: 'NH-102', badge: 'Tengnoupal Crest' }
+];
+
 export default function RouteOptimizerView({ onOptimizeRoute, currentLanguage = 'en', nowcastData }) {
   const t = (k) => getTranslation(currentLanguage, k);
   const [origin, setOrigin] = useState('Guwahati');
@@ -52,6 +60,7 @@ export default function RouteOptimizerView({ onOptimizeRoute, currentLanguage = 
   const [routeResult, setRouteResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [autoRerouteNotification, setAutoRerouteNotification] = useState(null);
+  const [mapBaseLayer, setMapBaseLayer] = useState('satellite'); // 'satellite' | 'topo'
 
   const fetchRoute = async () => {
     setIsLoading(true);
@@ -181,6 +190,38 @@ export default function RouteOptimizerView({ onOptimizeRoute, currentLanguage = 
         </div>
       </div>
 
+      {/* Quick Corridors Selection Bar */}
+      <div className="bg-[#E5DEC9] px-4 py-2.5 rounded border border-[#3E5C63]/30 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Navigation className="w-3.5 h-3.5 text-[#1C2B22]" />
+          <span className="text-[11px] font-mono font-bold text-[#1C2B22] uppercase tracking-wider">{t('quick_corridors')}:</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          {QUICK_CORRIDORS.map((c) => {
+            const isCurrent = origin === c.origin && destination === c.destination;
+            return (
+              <button
+                key={`${c.origin}-${c.destination}`}
+                onClick={() => {
+                  setOrigin(c.origin);
+                  setDestination(c.destination);
+                }}
+                className={`px-2.5 py-1 rounded text-xs font-sans transition flex items-center gap-1.5 ${
+                  isCurrent
+                    ? 'bg-[#1C2B22] text-[#F1EDE2] font-bold shadow-xs'
+                    : 'bg-[#F1EDE2] text-[#1C2B22] hover:bg-[#3E5C63]/15 border border-[#3E5C63]/20'
+                }`}
+              >
+                <span>{c.label}</span>
+                <span className={`text-[9px] px-1 rounded font-mono ${isCurrent ? 'bg-[#5C7A4E] text-white' : 'bg-[#3E5C63]/15 text-[#3E5C63]'}`}>
+                  {c.badge}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Origin/Destination Selector */}
       <div className="bg-[#F1EDE2] p-4 rounded border border-[#3E5C63]/30 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -191,16 +232,17 @@ export default function RouteOptimizerView({ onOptimizeRoute, currentLanguage = 
               onChange={(e) => {
                 const nextOrigin = e.target.value;
                 setOrigin(nextOrigin);
-                if (nextOrigin === 'Siliguri') {
-                  setDestination('Gangtok');
-                } else if (destination === 'Gangtok') {
-                  setDestination('Silchar');
-                }
+                if (nextOrigin === 'Siliguri') setDestination('Gangtok');
+                else if (nextOrigin === 'Dimapur') setDestination('Imphal');
+                else if (nextOrigin === 'Imphal') setDestination('Moreh');
+                else setDestination('Silchar');
               }}
               className="bg-[#E5DEC9] border border-[#3E5C63]/30 rounded px-3 py-1.5 text-xs font-heading font-bold text-[#1C2B22] outline-none"
             >
               <option value="Guwahati">Guwahati (Gateway City)</option>
               <option value="Siliguri">Siliguri (North Bengal Gateway)</option>
+              <option value="Dimapur">Dimapur (Nagaland Gateway)</option>
+              <option value="Imphal">Imphal (Manipur Valley)</option>
             </select>
           </div>
 
@@ -213,17 +255,39 @@ export default function RouteOptimizerView({ onOptimizeRoute, currentLanguage = 
               onChange={(e) => setDestination(e.target.value)}
               className="bg-[#E5DEC9] border border-[#3E5C63]/30 rounded px-3 py-1.5 text-xs font-heading font-bold text-[#1C2B22] outline-none"
             >
-              {origin === 'Guwahati' ? (
+              {origin === 'Guwahati' && (
                 <>
                   <option value="Silchar">Silchar (Barak Valley / NH-6)</option>
                   <option value="Kohima">Kohima (Nagaland / NH-29)</option>
                 </>
-              ) : (
-                <option value="Gangtok">Gangtok (Sikkim / NH-10)</option>
               )}
+              {origin === 'Siliguri' && <option value="Gangtok">Gangtok (Sikkim / NH-10)</option>}
+              {origin === 'Dimapur' && <option value="Imphal">Imphal (Manipur / NH-2)</option>}
+              {origin === 'Imphal' && <option value="Moreh">Moreh (Border Trade / NH-102)</option>}
             </select>
           </div>
         </div>
+
+        {/* Live Weather Telemetry along Corridor */}
+        {routeResult?.corridor_weather && (
+          <div className="flex items-center gap-2 bg-[#E5DEC9] px-3 py-2 rounded border border-[#3E5C63]/25 text-[11px] font-sans">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-[#3E5C63] font-semibold">{t('corridor_weather_origin')}:</span>
+              <span className="font-bold text-[#1C2B22]">{routeResult.corridor_weather.origin.city}</span>
+              <span className="bg-[#1C2B22] text-[#F1EDE2] px-1.5 py-0.5 rounded text-[10px] font-mono">
+                🌧️ {routeResult.corridor_weather.origin.current_rain_mm} mm/h
+              </span>
+            </div>
+            <span className="text-[#3E5C63] font-mono">➔</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-[#3E5C63] font-semibold">{t('corridor_weather_destination')}:</span>
+              <span className="font-bold text-[#1C2B22]">{routeResult.corridor_weather.destination.city}</span>
+              <span className="bg-[#1C2B22] text-[#F1EDE2] px-1.5 py-0.5 rounded text-[10px] font-mono">
+                🌧️ {routeResult.corridor_weather.destination.current_rain_mm} mm/h
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* AI Advisory Callout */}
         <div className="bg-[#E5DEC9] p-2.5 rounded border border-[#3E5C63]/25 max-w-xl text-xs">
@@ -389,19 +453,56 @@ export default function RouteOptimizerView({ onOptimizeRoute, currentLanguage = 
         </div>
       )}
 
-      {/* Topographic Dual-Route Map View */}
+      {/* Dual-Route Map View (High-Res Satellite / Topo) */}
       {routeResult && (
         <div className="h-[380px] rounded border border-[#3E5C63]/30 overflow-hidden relative shadow-sm">
+          {/* Map Base Layer Switcher in Route Optimizer */}
+          <div className="absolute top-3 right-3 z-[400] bg-[#F1EDE2]/95 backdrop-blur-xs p-1 rounded shadow-md border border-[#3E5C63]/30 flex items-center gap-1">
+            <button
+              onClick={() => setMapBaseLayer('satellite')}
+              className={`px-2 py-1 text-[11px] font-sans font-semibold rounded flex items-center gap-1 transition ${
+                mapBaseLayer === 'satellite'
+                  ? 'bg-[#1C2B22] text-[#F1EDE2] shadow-xs'
+                  : 'text-[#1C2B22] hover:bg-[#3E5C63]/10'
+              }`}
+            >
+              <span>🛰️</span>
+              <span>{t('satellite_view')}</span>
+            </button>
+            <button
+              onClick={() => setMapBaseLayer('topo')}
+              className={`px-2 py-1 text-[11px] font-sans font-semibold rounded flex items-center gap-1 transition ${
+                mapBaseLayer === 'topo'
+                  ? 'bg-[#1C2B22] text-[#F1EDE2] shadow-xs'
+                  : 'text-[#1C2B22] hover:bg-[#3E5C63]/10'
+              }`}
+            >
+              <span>🗺️</span>
+              <span>{t('topo_view')}</span>
+            </button>
+          </div>
+
           <MapContainer 
             center={naive?.coordinates?.[Math.floor((naive?.coordinates?.length || 1) / 2)] || [25.8, 92.2]} 
             zoom={8} 
             scrollWheelZoom={false}
             className="w-full h-full"
           >
-            <TileLayer
-              attribution='Tiles &copy; Esri &mdash; Topographic Relief'
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-            />
+            {mapBaseLayer === 'satellite' ? (
+              <TileLayer
+                key="route-esri-satellite"
+                attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                maxZoom={18}
+              />
+            ) : (
+              <TileLayer
+                key="route-esri-topo"
+                attribution='Tiles &copy; Esri &mdash; Topographic Relief'
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+                maxZoom={18}
+              />
+            )}
 
             {/* Auto-Fit Viewport to Both Routes */}
             <MapBoundsHandler naiveCoords={naive?.coordinates} safeCoords={safe?.coordinates} />

@@ -251,6 +251,7 @@ export default function HazardMap({
   const [showRainOverlay, setShowRainOverlay] = useState(true);
   const [historicalLandslides, setHistoricalLandslides] = useState([]);
   const [showGsiHistory, setShowGsiHistory] = useState(true);
+  const [mapBaseLayer, setMapBaseLayer] = useState('satellite'); // 'satellite' | 'topo'
 
   useEffect(() => {
     let isMounted = true;
@@ -352,12 +353,22 @@ export default function HazardMap({
         scrollWheelZoom={true}
         className="w-full h-full z-0"
       >
-        {/* Topographic Hillshade & Contour Base Layer */}
-        <TileLayer
-          attribution='Tiles &copy; Esri &mdash; National Geographic, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-          maxZoom={18}
-        />
+        {/* Dynamic Base Layer: Live High-Resolution Satellite vs Topographic Terrain */}
+        {mapBaseLayer === 'satellite' ? (
+          <TileLayer
+            key="esri-satellite"
+            attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={18}
+          />
+        ) : (
+          <TileLayer
+            key="esri-topo"
+            attribution='Tiles &copy; Esri &mdash; National Geographic, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={18}
+          />
+        )}
 
         <MapClickHandler 
           isPinDropping={isPinDropping} 
@@ -795,6 +806,36 @@ export default function HazardMap({
           <Landmark className="w-3.5 h-3.5" />
           <span>{t('gsi_history')} ({historicalLandslides.length})</span>
         </button>
+
+        <div className="h-4 w-px bg-[#3E5C63]/30 hidden sm:block"></div>
+
+        {/* Base Layer Switcher: Satellite vs Topo */}
+        <div className="flex items-center gap-1 bg-[#E5DEC9] p-0.5 rounded border border-[#3E5C63]/30">
+          <button
+            onClick={() => setMapBaseLayer('satellite')}
+            className={`px-2 py-0.5 text-[11px] font-sans font-semibold rounded flex items-center gap-1 transition ${
+              mapBaseLayer === 'satellite'
+                ? 'bg-[#1C2B22] text-[#F1EDE2] shadow-xs'
+                : 'text-[#1C2B22] hover:bg-[#3E5C63]/10'
+            }`}
+            title="Switch to ESRI High-Resolution World Imagery Satellite View"
+          >
+            <span>🛰️</span>
+            <span>{t('satellite_view')}</span>
+          </button>
+          <button
+            onClick={() => setMapBaseLayer('topo')}
+            className={`px-2 py-0.5 text-[11px] font-sans font-semibold rounded flex items-center gap-1 transition ${
+              mapBaseLayer === 'topo'
+                ? 'bg-[#1C2B22] text-[#F1EDE2] shadow-xs'
+                : 'text-[#1C2B22] hover:bg-[#3E5C63]/10'
+            }`}
+            title="Switch to Topographic Terrain Map View"
+          >
+            <span>🗺️</span>
+            <span>{t('topo_view')}</span>
+          </button>
+        </div>
       </div>
 
       {/* Floating Live Deliveries Panel */}

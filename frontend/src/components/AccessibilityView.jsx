@@ -20,10 +20,12 @@ export default function AccessibilityView({ accessibilityData, onTriggerAlert, c
   const [alertSuccess, setAlertSuccess] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const [broadcastLang, setBroadcastLang] = useState(currentLanguage || 'en');
+  const [selectedState, setSelectedState] = useState('ALL');
 
   const t = (key) => getTranslation(currentLanguage, key);
   const summary = accessibilityData?.summary || {};
   const villages = accessibilityData?.villages || [];
+  const states = summary.states_represented || Array.from(new Set(villages.map(v => v.state))).sort();
 
   if (!accessibilityData) {
     return (
@@ -45,11 +47,14 @@ export default function AccessibilityView({ accessibilityData, onTriggerAlert, c
   };
 
   const filteredVillages = villages
-    .filter(v => 
-      v.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      v.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      v.district.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    .filter(v => {
+      const matchesSearch = 
+        v.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        v.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        v.district.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesState = selectedState === 'ALL' || v.state === selectedState;
+      return matchesSearch && matchesState;
+    })
     .sort((a, b) => {
       const valA = a[sortField];
       const valB = b[sortField];
@@ -84,6 +89,57 @@ export default function AccessibilityView({ accessibilityData, onTriggerAlert, c
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 text-[#1C2B22] space-y-6">
+      {/* Regional Emergency Status Summary Bar */}
+      <div className={`p-4 rounded border shadow-sm flex flex-wrap items-center justify-between gap-3 ${
+        summary.currently_isolated_villages > 0 || summary.airlift_required_villages_count > 0
+          ? 'bg-[#FEF2F2] border-[#F87171] text-[#991B1B]'
+          : 'bg-[#F0FDF4] border-[#86EFAC] text-[#166534]'
+      }`}>
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-full font-bold text-lg ${
+            summary.currently_isolated_villages > 0 ? 'bg-[#EF4444] text-white animate-pulse' : 'bg-[#10B981] text-white'
+          }`}>
+            {summary.currently_isolated_villages > 0 ? '🚨' : '🛡️'}
+          </div>
+          <div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-mono text-xs font-bold tracking-wider uppercase">
+                {t('emergency_status_summary')}
+              </span>
+              <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                summary.currently_isolated_villages > 0 ? 'bg-[#991B1B] text-white' : 'bg-[#166534] text-white'
+              }`}>
+                {summary.regional_emergency_status ? t(summary.regional_emergency_status.toLowerCase()) : t('normal_operations')}
+              </span>
+            </div>
+            <div className="text-xs font-sans mt-1 flex flex-wrap items-center gap-x-2">
+              <span>{t('villages_cut_off')}: <strong>{summary.currently_isolated_villages || 0}</strong></span>
+              <span>&bull;</span>
+              <span>{t('isolated_citizens')}: <strong>{(summary.population_at_risk_or_cut_off || 0).toLocaleString()}</strong></span>
+              {summary.airlift_required_villages_count > 0 && (
+                <>
+                  <span>&bull;</span>
+                  <span className="text-[#DC2626] font-bold">🚁 {summary.airlift_required_villages_count} {t('airlift_required')}</span>
+                </>
+              )}
+              {summary.peak_district_rainfall_mm > 0 && (
+                <>
+                  <span>&bull;</span>
+                  <span>Peak Rain: <strong>{summary.peak_district_rainfall_mm} mm/h</strong></span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <div className="bg-white/80 px-3 py-1.5 rounded border border-current">
+            <span className="text-[10px] opacity-80 block font-sans">World Bank RAI</span>
+            <strong className="text-sm font-bold">{summary.rural_access_index_percent || 65.1}%</strong>
+          </div>
+        </div>
+      </div>
+
       {/* Top Banner: World Bank Rural Access Index Methodology */}
       <div className="bg-[#F1EDE2] p-5 rounded border border-[#3E5C63]/30 shadow-sm flex flex-wrap items-start justify-between gap-4">
         <div>
@@ -131,6 +187,39 @@ export default function AccessibilityView({ accessibilityData, onTriggerAlert, c
           <span className="font-sans text-xs text-[#C77A2E] font-semibold block mb-1">{t('people_in_danger_isolation')}</span>
           <div className="font-heading text-2xl font-bold text-[#C77A2E]">{(summary.population_at_risk_or_cut_off || 8200).toLocaleString()}</div>
           <span className="text-[10px] text-[#C77A2E] block mt-1 font-sans">{t('over_90_mins_hospital')}</span>
+        </div>
+      </div>
+
+      {/* State Filter Pills */}
+      <div className="bg-[#E5DEC9] px-4 py-2.5 rounded border border-[#3E5C63]/30 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Building2 className="w-3.5 h-3.5 text-[#1C2B22]" />
+          <span className="text-[11px] font-mono font-bold text-[#1C2B22] uppercase tracking-wider">{t('state_filter')}</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={() => setSelectedState('ALL')}
+            className={`px-2.5 py-1 rounded text-xs font-sans transition ${
+              selectedState === 'ALL'
+                ? 'bg-[#1C2B22] text-[#F1EDE2] font-bold shadow-xs'
+                : 'bg-[#F1EDE2] text-[#1C2B22] hover:bg-[#3E5C63]/15 border border-[#3E5C63]/20'
+            }`}
+          >
+            {t('all_states')} ({villages.length})
+          </button>
+          {states.map((st) => (
+            <button
+              key={st}
+              onClick={() => setSelectedState(st)}
+              className={`px-2.5 py-1 rounded text-xs font-sans transition ${
+                selectedState === st
+                  ? 'bg-[#1C2B22] text-[#F1EDE2] font-bold shadow-xs'
+                  : 'bg-[#F1EDE2] text-[#1C2B22] hover:bg-[#3E5C63]/15 border border-[#3E5C63]/20'
+              }`}
+            >
+              {st} ({villages.filter(v => v.state === st).length})
+            </button>
+          ))}
         </div>
       </div>
 
@@ -206,11 +295,21 @@ export default function AccessibilityView({ accessibilityData, onTriggerAlert, c
                 return (
                   <tr key={v.id} className={`hover:bg-[#E5DEC9]/50 transition ${isSevere ? 'bg-[#A63A32]/5' : ''}`}>
                     <td className="py-2.5 px-4 font-heading font-bold text-[#1C2B22]">
-                      <div className="flex items-center gap-1.5">
-                        {isSevere && <span className="w-2 h-2 rounded-full bg-[#A63A32]"></span>}
-                        {v.name}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {isSevere && <span className="w-2 h-2 rounded-full bg-[#A63A32] shrink-0"></span>}
+                        <span>{v.name}</span>
+                        {v.airlift_required && (
+                          <span className="text-[9px] font-mono font-bold bg-[#EF4444] text-white px-1.5 py-0.5 rounded animate-pulse" title={v.airlift_rationale}>
+                            🚁 {t('airlift_required')}
+                          </span>
+                        )}
                       </div>
                       <span className="font-mono text-[10px] text-[#3E5C63] font-normal block">Elev: {v.elevation_m}m | {v.connectivity_type}</span>
+                      {v.live_rain_mm !== undefined && (
+                        <span className="font-mono text-[9px] text-[#0284C7] bg-[#E0F2FE] px-1 py-0.5 rounded mt-0.5 inline-block border border-[#BAE6FD]">
+                          🌧️ {v.live_rain_mm} mm/h &bull; {v.weather_description || 'Clear'}
+                        </span>
+                      )}
                     </td>
                     <td className="py-2.5 px-3">
                       <div className="font-medium">{v.state}</div>
@@ -229,8 +328,13 @@ export default function AccessibilityView({ accessibilityData, onTriggerAlert, c
                       </span>
                     </td>
                     <td className="py-2.5 px-3 text-right font-mono">
-                      <div className="font-bold text-[#1C2B22]">{v.effective_travel_hospital_min} mins</div>
+                      <div className={`font-bold ${v.effective_travel_hospital_min > 120 ? 'text-[#A63A32]' : 'text-[#1C2B22]'}`}>
+                        {v.effective_travel_hospital_min} mins
+                      </div>
                       <span className="text-[10px] text-[#3E5C63] block">{t('normal')}: {v.base_travel_hospital_min} mins</span>
+                      <span className="text-[9px] text-[#3E5C63] block font-sans truncate max-w-[150px] ml-auto" title={v.nearest_facility}>
+                        🏥 {v.nearest_facility}
+                      </span>
                     </td>
                     <td className="py-2.5 px-3 text-center">
                       <span className={`font-mono text-[10px] px-2 py-0.5 rounded border ${

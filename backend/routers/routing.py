@@ -134,6 +134,51 @@ CORRIDOR_PRESETS = {
                 [26.0980, 94.2540], [25.6743, 94.1089]
             ]
         }
+    },
+    ("Dimapur", "Imphal"): {
+        "naive_route": {
+            "name": "Direct NH-2 Asian Highway (via Kohima - Phesama Choke - Mao Pass)",
+            "via_segments": ["SEG-NH-29-NH-2-20", "SEG-NH-29-NH-2-21", "SEG-NH-29-NH-2-22"],
+            "distance_km": 208.5,
+            "base_duration_hrs": 5.8,
+            "geometry": [
+                [25.9066, 93.7278], [25.7890, 93.9212], [25.6743, 94.1089],
+                [25.6120, 94.1150], [25.5020, 94.1200], [25.2680, 94.0190],
+                [25.1480, 93.9680], [24.8170, 93.9368]
+            ]
+        },
+        "safe_route": {
+            "name": "Setumarg Safe Valley Bypass (via Medziphema - Peren - Tamenglong - Imphal)",
+            "via_segments": ["SEG-NH-29-NH-2-02", "SEG-NH-29-NH-2-05"],
+            "distance_km": 278.2,
+            "base_duration_hrs": 7.2,
+            "geometry": [
+                [25.9066, 93.7278], [25.7540, 93.6120], [25.5120, 93.7380],
+                [25.1890, 93.6890], [24.9820, 93.8120], [24.8170, 93.9368]
+            ]
+        }
+    },
+    ("Imphal", "Moreh"): {
+        "naive_route": {
+            "name": "Direct NH-102 Asian Highway (via Thoubal - Kakching - Tengnoupal Ridge)",
+            "via_segments": ["SEG-NH-102-13", "SEG-NH-102-14"],
+            "distance_km": 109.4,
+            "base_duration_hrs": 3.2,
+            "geometry": [
+                [24.8170, 93.9368], [24.6380, 93.9980], [24.4920, 93.9780],
+                [24.3980, 94.1480], [24.2456, 94.3056]
+            ]
+        },
+        "safe_route": {
+            "name": "Setumarg Safe Lowland Detour (via Sugnu - Chakpikarong Valley - Moreh South)",
+            "via_segments": ["SEG-NH-102-02", "SEG-NH-102-05"],
+            "distance_km": 144.6,
+            "base_duration_hrs": 4.1,
+            "geometry": [
+                [24.8170, 93.9368], [24.6380, 93.9980], [24.3890, 93.8920],
+                [24.2120, 94.0540], [24.2456, 94.3056]
+            ]
+        }
     }
 }
 
@@ -146,7 +191,9 @@ def get_available_city_pairs():
     return [
         {"origin": "Guwahati", "destination": "Silchar", "label": "Guwahati → Silchar (Barak Valley Trunk / NH-44)"},
         {"origin": "Siliguri", "destination": "Gangtok", "label": "Siliguri → Gangtok (Sikkim Lifeline / NH-10)"},
-        {"origin": "Guwahati", "destination": "Kohima", "label": "Guwahati → Kohima (Nagaland Highway / NH-29)"}
+        {"origin": "Guwahati", "destination": "Kohima", "label": "Guwahati → Kohima (Nagaland Highway / NH-29)"},
+        {"origin": "Dimapur", "destination": "Imphal", "label": "Dimapur → Imphal (Manipur Lifeline / NH-2)"},
+        {"origin": "Imphal", "destination": "Moreh", "label": "Imphal → Moreh (Border Trade Highway / NH-102)"}
     ]
 
 
@@ -267,12 +314,37 @@ def optimize_route(request: RouteRequest):
 
     recommendation = "SAFE_BYPASS_RECOMMENDED" if (naive_has_blockage or naive_max_disruption >= 60.0 or naive_congestion_delay_hours >= 2.5) else "DIRECT_PATH_ACCEPTABLE"
 
+    # Real-time weather along corridor endpoints
+    from backend.services.weather_service import get_weather_for_coordinate
+    origin_pt = preset["naive_route"]["geometry"][0]
+    dest_pt = preset["naive_route"]["geometry"][-1]
+    origin_w = get_weather_for_coordinate(origin_pt[0], origin_pt[1])
+    dest_w = get_weather_for_coordinate(dest_pt[0], dest_pt[1])
+
+    corridor_weather = {
+        "origin": {
+            "city": request.origin,
+            "district": origin_w.get("district"),
+            "current_rain_mm": origin_w.get("current_rain_mm", 0.0),
+            "weather_description": origin_w.get("weather_description", "Clear sky"),
+            "forecast_24h_mm": origin_w.get("forecast_next_24h_mm", 0.0)
+        },
+        "destination": {
+            "city": request.destination,
+            "district": dest_w.get("district"),
+            "current_rain_mm": dest_w.get("current_rain_mm", 0.0),
+            "weather_description": dest_w.get("weather_description", "Clear sky"),
+            "forecast_24h_mm": dest_w.get("forecast_next_24h_mm", 0.0)
+        }
+    }
+
     return {
         "origin": request.origin,
         "destination": request.destination,
         "vehicle_type": request.vehicle_type,
         "is_live_weather_mode": is_live,
         "live_weather_sync_time": CURRENT_RAINFALL_STATE.get("last_recompute_time"),
+        "corridor_weather": corridor_weather,
         "ai_recommendation": recommendation,
         "avoidance_rationale": avoidance_rationale,
         "summary_comparison": {
