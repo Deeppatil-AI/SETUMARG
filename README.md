@@ -52,6 +52,10 @@ Crowdsourced Photo & Geo-Tag   │ • Turn-by-Turn OSRM-Compatible Routing  │
 
 ## ⚡ 3. Key Capabilities & Core Features
 
+### 0. Live High-Resolution Satellite Map Layer (ESRI World Imagery)
+* Seamlessly switch between **`[🛰️ Satellite]`** (ESRI World Imagery) and **`[🗺️ Topo Terrain]`** relief across both the Hazard Map and Safe Route Finder.
+* Pure natural Himalayan topography, glaciated peaks, and winding river valleys with 415 road risk polylines, 56 GSI historical landslide diamonds, 33 live district rain pins, and moving fleet convoy markers rendered cleanly on top.
+
 ### 1. Dynamic Meteorological Nowcasting & Live Rain Map Layer
 * Integrates live weather observations and 24–48h forecasts across **all 33 NER district centroids** from the Open-Meteo REST API every 15 minutes.
 * Provides a toggleable **Live Rain Overlay** directly on the Hazard Map displaying spatial precipitation intensity ($mm/hr$) with district radar markers.
@@ -60,12 +64,14 @@ Crowdsourced Photo & Geo-Tag   │ • Turn-by-Turn OSRM-Compatible Routing  │
 ### 2. NASA LHASA 12-Factor Geotechnical Susceptibility Engine
 * Implements the geotechnical conditioning methodology recommended by the **Geological Survey of India (GSI)** and published Eastern Himalaya research (e.g. Dibang Valley studies).
 * Fuses static susceptibility with dynamic rainfall:
-  $$	ext{Dynamic Risk} = 	ext{Static Vulnerability} 	imes \left(1 + lpha \cdot 	ext{Rainfall Multiplier}ight)$$
+  $$	ext{Dynamic Risk} = 	ext{Static Vulnerability} 	imes \left(1 + lpha \cdot 	ext{Rainfall Multiplier}
+ight)$$
 * Evaluates 12 physical conditioning factors per segment: **Slope inclination (SRTM 30m), Slope aspect, Elevation, Distance to thrust faults (MCT/MBT/Dauki), Lithology class, Distance to drainage, Vegetation index (NDVI), Soil texture, Regolith depth, Bulk density, Soil cohesion ($c'$), and Friction angle ($\phi'$)**.
 
 ### 3. AI Safe Mountain Route Finder & Mid-Route Automatic Rerouting
-* Generates side-by-side route comparisons: **Naive Shortest Route** (hazard-blind standard GPS) vs. **Setumarg AI Safe Detour** (proactively detouring around high-risk mountain cuts).
-* **Automatic Mid-Route Landslide Escalation Rerouting**: When a highway segment escalates to High/Severe/Blocked danger mid-transit under worsening weather or a field report, the system automatically detects the obstruction, re-optimizes the route in the background, updates the map, and displays a prominent real-time reroute alert.
+* Evaluates 5 strategic corridors across 5 NER states with side-by-side comparison: **Naive Shortest Route** (standard GPS, hazard-blind) vs. **Setumarg Safe Valley Detour** (hazard-weighted bypass saving 12–15 hours).
+* **1-Click Quick Corridors Bar**: Quick switching between Guwahati-Silchar, Siliguri-Gangtok, Guwahati-Kohima, Dimapur-Imphal, and Imphal-Moreh with live endpoint weather telemetry.
+* **Automatic Mid-Route Rerouting**: When a highway segment escalates to High/Severe/Blocked danger mid-transit under worsening weather or a field report, the system automatically detects the obstruction, re-optimizes the route in the background, updates the map, and displays a prominent real-time reroute alert.
 
 ### 4. GPS-Based Vehicle Fleet Tracking & Live Deliveries Telematics
 * Tracks a simulated logistics fleet (7 active supply convoys) transporting prioritized lifelines across Northeast highway corridors:
@@ -84,7 +90,10 @@ Crowdsourced Photo & Geo-Tag   │ • Turn-by-Turn OSRM-Compatible Routing  │
 * Synthesizes stranded convoys, network hazard density, and traffic friction into a unified **0–100 Supply-Chain Pressure Index**.
 * Highlights vulnerable regional choke points and recommends multimodal bypass alternatives (e.g. Inland Waterway NW-2 Brahmaputra barges and Northeast Frontier Railway freight rakes).
 
-### 7. Village Hospital Access & Multilingual 2G Emergency Alerts
+### 7. Village Hospital Access, Emergency Airlift Triage & Multilingual 2G Alerts
+* **Regional Emergency Operations Bar**: Real-time HUD showing regional alert tier, cut-off villages count, isolated population count, and peak rainfall.
+* **Emergency Medical Triage & Helicopter Airlift**: Evaluates dynamic drive times to Primary Health Centres (PHCs) and flags cut-off villages with `airlift_required: true` for IAF / Pawan Hans rotary-wing casualty evacuation (CASEVAC).
+* **State Filter Pills**: 1-click filtering across All States, Assam, Meghalaya, Sikkim, Nagaland, Arunachal Pradesh, and Manipur.
 * Implements the **World Bank Rural Access Index (RAI)**: computes true mountain road travel times from 25 hill settlements across 8 states to nearest Primary Health Centres (PHCs) and district hospitals.
 * Replaces misleading straight-line distance (which overestimates access by ~19% in mountains) with road-network routing.
 * Dispatches emergency SMS and automated IVR voice call templates in **4 native languages**: English, Hindi (हिन्दी), Assamese (অসমীয়া), and Bengali (বাংলা) for low-connectivity 2G feature phones.
@@ -105,6 +114,7 @@ Setumarg maintains complete honesty regarding prototype data sources:
 
 | Layer / Subsystem | Data Provider | Current Prototype Implementation | Production Integration Architecture |
 | :--- | :--- | :--- | :--- |
+| **Satellite Imagery** | ESRI World Imagery Tile Service | **Real High-Res Satellite Layer**: High-res orthophotos at `World_Imagery/MapServer` with seamless toggle between Satellite and Topo. | ISRO Bhuvan High-Resolution Indian Satellite Map Service. |
 | **Highway Geometries** | OpenStreetMap (OSM) via Overpass / OSRM | **Real Turn-by-Turn Geometries**: 415 segments (~2,100 km) across 7 major NER corridors. | MoRTH National Highway GIS Portal / PM GatiShakti NMP. |
 | **Elevation & Topography** | NASA SRTM 30m Global DEM via OpenTopoData | **Real Elevation Data**: Actual slope (deg) and aspect cached in `backend/data/elevation_cache.json`. | Survey of India 10m DEM / ISRO Cartosat-1 Stereo DEM. |
 | **Live Rainfall Data** | Open-Meteo REST API & NASA IMERG | **Live Ingestion**: Real-time rain observations and 24-48h forecast across 33 NER district centroids every 15 min. | IMD Doppler Weather Radar Network (Cherrapunji, Mohanbari, Agartala). |

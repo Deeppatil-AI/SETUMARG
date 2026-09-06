@@ -214,4 +214,114 @@ In the **Logistics Bottlenecks Dashboard** (`/api/fleet/bottlenecks`):
 
 ---
 
+---
+
+### 12. How does the high-resolution Live Satellite Layer work (ESRI World Imagery)?
+
+Setumarg incorporates real high-resolution optical Earth-observation satellite tiles from **ESRI World Imagery** (`https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}`):
+1. **Dynamic Switcher**: Both the **Hazard Map** and the **Safe Route Finder** provide dual base layer toggle buttons: `[🛰️ Satellite]` and `[🗺️ Topo Terrain]`.
+2. **Himalayan Visual Clarity**: The satellite layer reveals actual physical topography—glaciated peaks, sharp ridgelines, steep rock cliffs, and winding river valleys across the Eastern Himalaya.
+3. **SVG & Marker Overlay Integrity**: The Leaflet implementation renders all 415 dynamic road risk polylines (colored green, amber, red according to live LHASA risk), 56 GSI historical landslide diamonds, 33 live district rain pins, and moving fleet convoy markers cleanly on top of the satellite imagery without tile caching glitches.
+
+---
+
+### 13. What are the 5 strategic corridors and why were these specific detour routes chosen?
+
+In the **Safe Route Finder**, Setumarg monitors 5 vital life-lines across 5 Northeast states:
+1. **Guwahati ↔ Silchar (Assam / Meghalaya)**:
+   - *Direct Route (NH-6)*: 342.8 km, traverses the notoriously unstable Jowai-Sonapur ridge in Meghalaya. Saturated shale cuts routinely cause 14.5+ hour blockages at Sonapur Tunnel.
+   - *Setumarg Dynamic Valley Bypass*: 465.6 km via Nagaon, Lumding, and Haflong (NH-27/NH-54). Though 122 km longer, it travels through broad valley floors with gentle slopes, averting catastrophic stranding.
+2. **Siliguri ↔ Gangtok (West Bengal / Sikkim)**:
+   - *Direct Route (NH-10)*: 114.2 km through the narrow Teesta River gorge. Toe erosion by the swollen river frequently washes out entire road lanes.
+   - *Setumarg Safe Ridgeline Bypass*: 158.4 km via Lava, Reshi, and Rorathang. Runs along geologically stable ridgelines, saving ~12.5 hours of waiting.
+3. **Guwahati ↔ Kohima (Assam / Nagaland)**:
+   - *Direct Route (NH-29)*: 312.4 km via Dimapur and Chumukedima canyon, subject to rockfalls.
+   - *Setumarg Safe Foothill Bypass*: 365.1 km via Doboka, Golaghat, and Old Niuland.
+4. **Dimapur ↔ Imphal (Nagaland / Manipur)**:
+   - *Direct Route (NH-2)*: 208.5 km along the Asian Highway, passing the chronic Phesama landslide choke south of Kohima.
+   - *Setumarg Safe Valley Detour*: 278.2 km via Medziphema, Peren, and Tamenglong.
+5. **Imphal ↔ Moreh (Manipur / Myanmar Border)**:
+   - *Direct Route (NH-102)*: 109.4 km through the steep Tengnoupal ridge.
+   - *Setumarg Safe Lowland Detour*: 144.6 km via Sugnu, Chakpikarong, and Mombi along lower terrain gradients.
+
+---
+
+### 14. How does the automated Helicopter Airlift Evacuation Flag work for cut-off villages?
+
+In the **Village Hospital Access** view (`accessibility.py`):
+1. **Clinical & Physical Triage**:
+   - The system dynamically computes the driving duration from 25 mountain settlements to their designated Primary Health Centres (PHCs) or District Hospitals.
+   - If the main connecting feeder highway experiences a structural breach (`is_blocked: true`) or dynamic risk $R_{\text{dynamic}} \ge 0.82$, hospital transit duration surges past 4 to 6 hours.
+2. **Airlift Trigger Rule**:
+   $$\text{airlift\_required} = \begin{cases}
+     \text{True} & \text{if } (\text{is\_blocked} = \text{True} \lor T_{\text{actual}} \ge 300\text{ mins}) \land (\text{population} \ge 300) \\
+     \text{False} & \text{otherwise}
+   \end{cases}$$
+3. **Operational CASEVAC Protocol**:
+   - The settlement table immediately highlights the village with an urgent **`🚁 Air Evacuation Priority`** badge.
+   - It outputs an official dispatch rationale for the Indian Air Force (IAF) Eastern Air Command or Pawan Hans helicopters: e.g., *"Critical hospital isolation (>240 mins) due to active road breach under heavy rainfall. Ground ambulance transit impossible; immediate rotary-wing casualty evacuation flagged."*
+
+---
+
+### 15. How does a truck driver or fleet dispatcher use Setumarg in practice during heavy rain?
+
+1. **Pre-Trip Planning**:
+   - The logistics dispatcher opens **Safe Route Finder** and selects the origin/destination corridor.
+   - Setumarg compares the direct highway against the safe valley detour, factoring in live rainfall from Open-Meteo and 24h disruption likelihood.
+2. **Mid-Route Automatic Landslide Escalation**:
+   - If a truck is already en route and a landslide strikes or rainfall escalates a road segment to Severe risk:
+     - The route optimizer does not wait for a user refresh. It automatically recalculates the route, flips the map polyline, and triggers a crimson warning banner: *"Active Reroute: Landslide / Severe Hazard Escalation Mid-Route."*
+3. **Fleet Tracking Telematics**:
+   - In the **Dashboard / Live Deliveries** view, the fleet manager sees all 7 active convoys (medicines, PDS grain, fuel, bridge steel).
+   - Any truck trapped behind a mudslide changes status from `moving` to `stranded`, with an updated delay counter and an automated multimodal diversion suggestion (e.g. Inland Waterway NW-2 barge).
+
+---
+
+### 16. How do you present a winning 3-minute hackathon pitch of Setumarg?
+
+Follow this structured 4-step sequence:
+- **0:00 - 0:45 (The Problem & Live Satellite Map)**: Show the ESRI Satellite view over the Eastern Himalaya. Explain that standard GPS navigation leads drivers into deadly mudslides because it is blind to slope and rainfall. Show the 415 monitored segments and 33 live Open-Meteo district rain pins.
+- **0:45 - 1:30 (Safe Route Finder & Cloudburst Moment)**: Demonstrate Guwahati ↔ Silchar or Siliguri ↔ Gangtok. Show how Setumarg saves 14.5 hours of stranding. Hit the **`Heavy Cloudburst`** preset button to trigger the live mid-route auto-reroute alert!
+- **1:30 - 2:15 (Village Hospital Access & Helicopter Airlift)**: Show the Regional Emergency Operations bar and state filter pills. Highlight cut-off hamlets (e.g. Etalin Gorge) flagged for **IAF / Pawan Hans Helicopter Airlift**. Trigger a localized 2G SMS/IVR alert in Assamese/Bengali/Hindi.
+- **2:15 - 3:00 (Fleet Tracking & Multi-Modal ULIP Freight)**: Show the 7 tracked relief convoys, supply chain bottleneck rankings, and the generated `ULIP-SETU-XXXXXX` e-consignment contract diverting freight onto NW-2 Brahmaputra barges.
+
+---
+
+### 17. Why use ESRI World Imagery instead of Google Maps tiles?
+
+1. **Open Standard & Map Control**: ESRI World Imagery exposes standard OGC-compliant WMTS tile services that integrate natively with Leaflet without heavy proprietary Google JavaScript SDK wrappers.
+2. **Zero Commercial Clutter**: Google Maps satellite view is heavily cluttered with commercial business POIs, sponsored store pins, and marketing labels that distract disaster response teams. ESRI provides pure, clean orthophoto terrain.
+3. **Reliability & Licensing**: Google Maps terms strictly restrict offline caching, vector overlays on satellite basemaps, and require active billing accounts that break during government disaster relief deployments.
+
+---
+
+### 18. How does the multi-modal freight calculation integrate with Inland Waterways (NW-2) and ULIP?
+
+Under `backend/routers/freight.py`:
+- When highway corridors cross high-hazard mountain cuts, Setumarg diverts cargo onto **Inland Waterway 2 (NW-2 Brahmaputra)** between Pandu (Guwahati) and Dhubri, or Northeast Frontier Railway rakes.
+- It calculates tariff savings (₹1.15/ton-km river vs ₹4.20/ton-km road) and carbon reduction ($0.024\text{ kg CO}_2/\text{ton-km}$ river vs $0.105\text{ kg CO}_2/\text{ton-km}$ road, saving up to 74% emissions).
+- Emits an RFC-compliant e-consignment token conforming to the **Unified Logistics Interface Platform (ULIP) v2.4 API schema**.
+
+---
+
+### 19. What mathematical formulations are used across slope, ML risk, Dijkstra, and RAI?
+
+- **NASA SRTM 5-Point Slope Stencil**: $\text{slope} = \arctan\left(\sqrt{(\partial z/\partial x)^2 + (\partial z/\partial y)^2}\right) \times 180^\circ/\pi$
+- **NASA LHASA Dynamic Risk**: $R_{\text{dynamic}} = \min(1.0, \; S_{\text{static}} \cdot (0.60 + 0.40 \cdot M_{\text{rain}}))$
+- **Hazard-Weighted Routing Cost**: $\text{Cost}(e) = \text{length}(e) \times (1.0 + 8.0 \times [R_{\text{dynamic}}(e)]^2) + \delta_{\text{blocked}} \times 10^5$
+- **World Bank RAI**: $\text{RAI \%} = \frac{\sum_{v \in \text{RAI compliant}} \text{pop}_v}{\sum_{v \in \text{all villages}} \text{pop}_v} \times 100$
+
+---
+
+### 20. How are all 4 languages integrated across UI and alerts?
+
+Setumarg maintains full string tables across **English, Hindi (हिन्दी), Assamese (অসমীয়া), and Bengali (বাংলা)** in `frontend/src/i18n.js`. The language switcher dynamically updates:
+- Navigation tabs and portal title
+- Triage tiers, risk badges, and tooltips
+- Route recommendations, distance/delay metrics
+- Hospital names, cut-off warnings, and airlift notifications
+- 2G SMS and IVR voice call dispatch payloads
+
+---
+
 *Setumarg Technical Documentation — Engineering Transparency for Himalayan Public Safety.*
