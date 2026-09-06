@@ -26,13 +26,15 @@ graph TD
     B --> C["12 Conditioning Factors"]
     C --> D["Random Forest Classifier\n(train_risk_model.py)"]
     D --> E["Static Susceptibility Score S_static [0.0 - 1.0]"]
-    F["Rainfall Scrubber / IMD Radar"] --> G["Precipitation Multiplier M_rain [0.2x - 3.5x]"]
+    F["Live Open-Meteo Weather Feed\n(15-min Auto-Sync / Scrubber Override)"] --> G["Precipitation Multiplier M_rain [0.2x - 3.5x]"]
     H["Crowdsourced Hazard Reports"] --> I["Active Ground Overrides\n(reports.py)"]
+    P["Empirical Hotspot Registry\n(historical_prediction.py)"] --> Q["Disruption Likelihood % (24-48h)"]
     E --> J["NASA LHASA Dynamic Risk Engine\n(risk.py)"]
     G --> J
     I --> J
     J --> K["415 Dynamically Scored Road Segments\n(Alert Tiers: Low to Severe)"]
     K --> L["Hazard-Weighted Route Optimizer\n(routing.py)"]
+    Q --> L
     K --> M["Village Hospital Accessibility Engine\n(accessibility.py)"]
     K --> N["Multi-Modal Freight Safety Gate\n(freight.py)"]
     K --> O["Executive KPI Dashboard\n(main.py)"]
@@ -160,15 +162,38 @@ graph TD
 
 ---
 
+### Algorithm 7: Empirical Hotspot Disruption Probability Model
+* **Location in Code**: [`backend/services/historical_prediction.py:predict_segment_disruption`](file:///c:/SIH%202026/backend/services/historical_prediction.py)
+* **Purpose**: Forecasts 24-48 hour disruption probabilities for known repeat choke points by benchmarking live forecast precipitation against empirical failure triggers.
+* **Inputs**:
+  * Road segment ID and coordinates: $(\text{lat}, \text{lng})$
+  * Empirical Hotspot Registry: Historical incident records and critical 24h rainfall trigger thresholds $T_{\text{crit}}$:
+    * *Sonapur Tunnel (NH-6)*: 18 historical blockages, $T_{\text{crit}} = 45.0 \text{ mm/24h}$
+    * *Teesta Valley (NH-10)*: 24 historical blockages, $T_{\text{crit}} = 42.0 \text{ mm/24h}$
+    * *Phesama Bypass (NH-29)*: 12 historical blockages, $T_{\text{crit}} = 48.0 \text{ mm/24h}$
+    * *Tengnoupal Ridge (NH-102)*: 9 historical blockages, $T_{\text{crit}} = 52.0 \text{ mm/24h}$
+    * *Roing Choke (NH-13)*: 14 historical blockages, $T_{\text{crit}} = 50.0 \text{ mm/24h}$
+  * Live 24-48h forecast accumulation from Open-Meteo API: $P_{24-48h} \text{ (mm)}$
+* **Method**:
+  * Calibrated Logistic Failure Curve:
+    $$\Delta P = P_{24-48h} - T_{\text{crit}}$$
+    $$P_{\text{disruption}} = \text{round}\left(\frac{100.0}{1.0 + e^{-k \cdot \Delta P}}, \; 1\right) \quad \text{where } k = 0.09$$
+  * Dynamic Alert Generation:
+    * Generates human-readable advisory: *"Based on X past failures at this segment under similar conditions (critical threshold: Y mm/24h), there is an estimated Z% chance of disruption within the next 24-48 hours."*
+* **Output**: Disruption probability percentage (`0.0%` to `98.0%`), historical failure record summary, and actionable disruption advisory text.
+
+---
+
 ## 3. Data Breakdown: Real vs. Seeded vs. Production Mapping
 
 | Dataset / Layer | Current Prototype State | Data Source Used | Target Production Source in Full Deployment |
 | :--- | :--- | :--- | :--- |
 | **Highway Geometries** | **Real Data** | OpenStreetMap (OSM) via Overpass API; 415 contiguous sub-segments across 7 corridors (~2,100 km) | **MoRTH / NHAI GIS Portal** & **PM GatiShakti National Master Plan (NMP)** |
-| **Slope & Aspect** | **Real Data** | NASA SRTM 30m 5-point cross stencil via OpenTopoData API (411 unique midpoints cached in `elevation_cache.json`) | **ISRO Bhuvan** 10m/30m CartoDEM |
-| **Elevation** | **Real Data** | NASA SRTM 30m digital elevation model | **ISRO Bhuvan** 30m CartoDEM |
+| **Slope & Aspect** | **Real Satellite Data** | NASA SRTM 30m 5-point cross stencil via OpenTopoData API (411 unique midpoints cached in `elevation_cache.json`) | **ISRO Bhuvan** 10m/30m CartoDEM |
+| **Elevation** | **Real Satellite Data** | NASA SRTM 30m digital elevation model | **ISRO Bhuvan** 30m CartoDEM |
+| **Live Precipitation & Meteorology** | **Live Public API Ingestion** | **Open-Meteo API** (Current precipitation rate, WMO codes, and 48-hour hourly rain forecasts across 33 NER district centroids) with interactive simulation scrubber override | **IMD Doppler Weather Radar** (Cherrapunji, Mohanbari, Agartala) & **NASA GPM IMERG / INSAT-3DR** |
+| **Historical Hotspot Failure Models** | **Calibrated Empirical Model** | Empirical failure thresholds ($42\text{--}52\text{ mm/24h}$) for repeat choke points (Sonapur, Teesta, Phesama, Tengnoupal, Roing) producing 24-48h disruption likelihoods | **NDMA National Landslide Risk Management Strategy** & **GSI Landslide Incident Database** |
 | **Geotechnical Conditioning (Faults, Drainage, Lithology, Soil, NDVI)** | **Seeded / Literature-Calibrated** | Empirical formulas and parameter ranges calibrated against published Eastern Himalaya studies (Dibang Valley RF research) | **GSI Bhukosh** (1:50,000 National Landslide Susceptibility Mapping) & **GSI Seismo-Tectonic Atlas** |
-| **Precipitation / Nowcasting** | **Seeded Simulation** | Interactive monsoon scrubber ($0.2\times$ to $3.5\times$) using NASA LHASA fusion formulation | **IMD Doppler Weather Radar** (Cherrapunji, Mohanbari, Agartala) & **NASA GPM IMERG / INSAT-3DR** |
 | **Villages & Coordinates** | **Real Coordinates (Snapped)** | 25 real NER settlements snapped to OSM roadways via OSRM `/nearest` API | **Survey of India** & **Census of India Village Directory** |
 | **Healthcare Facilities & Hospital Times** | **Seeded / Benchmark** | Estimated transit durations to nearest PHC/CHC based on district averages | **National Health Mission (NHM) MoHFW GIS** & PMGSY Rural Roads Geoportal |
 | **Multi-Modal Freight Network** | **Real Geometry & Seeded Tariffs** | Real Brahmaputra waterway alignment (NW-2) and rail corridors; standard CIPT / World Bank modal tariffs | **ULIP (Unified Logistics Interface Platform)** & **IWAI (Inland Waterways Authority of India)** |

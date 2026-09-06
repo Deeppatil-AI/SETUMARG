@@ -231,6 +231,12 @@ export default function HazardMap({
                   <div className="text-[11px] text-[#3E5C63] mt-0.5">
                     Danger Level: <strong style={{ color: strokeColor }}>{seg.dynamic_alert_tier}</strong> (Danger Score: {Math.round(seg.dynamic_risk_score * 100)}%)
                   </div>
+                  {seg.disruption_likelihood_pct !== undefined && (
+                    <div className="text-[10px] font-semibold text-[#A63A32] mt-1 bg-[#A63A32]/10 px-1.5 py-0.5 rounded border border-[#A63A32]/20 flex items-center gap-1">
+                      <span>⚠</span>
+                      <span>Next 24-48h Disruption Risk: <strong>{seg.disruption_likelihood_pct}%</strong></span>
+                    </div>
+                  )}
                   {seg.is_blocked && (
                     <div className="text-[#A63A32] font-semibold text-[11px] mt-0.5">Road Completely Blocked by Mudslide / Debris</div>
                   )}
@@ -450,6 +456,52 @@ export default function HazardMap({
               <div className="bg-[#A63A32]/10 border-l-4 border-[#A63A32] p-2.5 mb-3 text-xs text-[#A63A32]">
                 <strong className="font-heading">Road Is Blocked: </strong>
                 {selectedSegment.blockage_reason || 'Mudslide and falling rocks across both lanes.'}
+              </div>
+            )}
+
+            {/* Historical Incident Pattern & 24-48h Disruption Forecast Banner */}
+            {selectedSegment.disruption_prediction_text && (
+              <div className="bg-[#E5DEC9]/70 border border-[#3E5C63]/30 rounded p-3 mb-3 shadow-xs">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#A63A32] animate-pulse"></span>
+                    <h4 className="font-heading font-bold text-xs text-[#1C2B22]">
+                      Historical Pattern &amp; Near-Term Disruption Outlook (Next 24-48 Hours)
+                    </h4>
+                  </div>
+                  <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded text-white ${
+                    selectedSegment.disruption_likelihood_pct >= 75 
+                      ? 'bg-[#991B1B]' 
+                      : selectedSegment.disruption_likelihood_pct >= 50 
+                        ? 'bg-[#C77A2E]' 
+                        : 'bg-[#5C7A4E]'
+                  }`}>
+                    {selectedSegment.disruption_likelihood_pct}% Disruption Likelihood
+                  </span>
+                </div>
+                <p className="text-xs text-[#1C2B22] font-medium leading-relaxed mb-2">
+                  {selectedSegment.disruption_prediction_text}
+                </p>
+                {selectedSegment.historical_incident_profile && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[10px] font-mono">
+                    <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
+                      <span className="text-[#3E5C63] block font-sans text-[9px]">Critical Failure Trigger</span>
+                      <strong className="text-xs text-[#1C2B22]">{selectedSegment.historical_incident_profile.historical_threshold_mm_24h} mm / 24h</strong>
+                    </div>
+                    <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
+                      <span className="text-[#3E5C63] block font-sans text-[9px]">Past Recorded Blockages</span>
+                      <strong className="text-xs text-[#1C2B22]">{selectedSegment.historical_incident_profile.recorded_past_blockages_count} events</strong>
+                    </div>
+                    <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
+                      <span className="text-[#3E5C63] block font-sans text-[9px]">Est. Clearance Time</span>
+                      <strong className="text-xs text-[#1C2B22]">{selectedSegment.historical_incident_profile.typical_clearance_hours} hours</strong>
+                    </div>
+                    <div className="bg-[#F1EDE2] p-1.5 rounded border border-[#3E5C63]/20">
+                      <span className="text-[#3E5C63] block font-sans text-[9px]">Threshold Saturation</span>
+                      <strong className="text-xs text-[#A63A32]">{selectedSegment.historical_incident_profile.threshold_saturation_pct}%</strong>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

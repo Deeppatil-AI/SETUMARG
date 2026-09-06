@@ -161,7 +161,11 @@ def optimize_route(request: RouteRequest):
         pair_key = ("Guwahati", "Silchar")
 
     preset = CORRIDOR_PRESETS[pair_key]
-    mult = CURRENT_RAINFALL_STATE["custom_multiplier"]
+    is_live = (
+        CURRENT_RAINFALL_STATE.get("is_live_mode", True)
+        and CURRENT_RAINFALL_STATE.get("active_scenario_key") == "live_weather"
+    )
+    mult = CURRENT_RAINFALL_STATE["custom_multiplier"] if not is_live else None
     overrides = CURRENT_RAINFALL_STATE["hazard_overrides"]
 
     # Evaluate dynamic risk along naive path segments
@@ -169,6 +173,8 @@ def optimize_route(request: RouteRequest):
     naive_max_risk = 0.0
     naive_has_blockage = False
     blocked_segment_names = []
+    naive_max_disruption = 0.0
+    naive_top_prediction = None
 
     for seg_id in preset["naive_route"]["via_segments"]:
         seg = next((s for s in ROAD_SEGMENTS if s["id"] == seg_id), None)
@@ -177,6 +183,10 @@ def optimize_route(request: RouteRequest):
             naive_segments_info.append(res)
             if res["dynamic_risk_score"] > naive_max_risk:
                 naive_max_risk = res["dynamic_risk_score"]
+            disr = res.get("disruption_likelihood_pct", 0.0)
+            if disr > naive_max_disruption:
+                naive_max_disruption = disr
+                naive_top_prediction = res.get("disruption_prediction_text")
             if res["is_blocked"] or res["dynamic_alert_tier"] in ["Very High", "Severe"]:
                 naive_has_blockage = True
                 blocked_segment_names.append(f"{seg['name']} ({res['dynamic_alert_tier']})")
@@ -184,6 +194,8 @@ def optimize_route(request: RouteRequest):
     # Evaluate dynamic risk along safe path segments
     safe_segments_info = []
     safe_max_risk = 0.0
+    safe_max_disruption = 0.0
+    safe_top_prediction = None
     for seg_id in preset["safe_route"]["via_segments"]:
         seg = next((s for s in ROAD_SEGMENTS if s["id"] == seg_id), None)
         if seg:
@@ -191,6 +203,10 @@ def optimize_route(request: RouteRequest):
             safe_segments_info.append(res)
             if res["dynamic_risk_score"] > safe_max_risk:
                 safe_max_risk = res["dynamic_risk_score"]
+            disr = res.get("disruption_likelihood_pct", 0.0)
+            if disr > safe_max_disruption:
+                safe_max_disruption = disr
+                safe_top_prediction = res.get("disruption_prediction_text")
 
     # Vehicle speed modifier
     speed_factor = 1.0
@@ -210,31 +226,42 @@ def optimize_route(request: RouteRequest):
     naive_effective_duration = naive_base_duration + expected_delay_hours
     distance_delta_km = round(preset["safe_route"]["distance_km"] - preset["naive_route"]["distance_km"], 1)
 
-    # Human-readable AI avoidance summary
+    # Human-readable AI avoidance summary with live meteorological & disruption context
     if naive_has_blockage:
         avoidance_rationale = (
             f"Setumarg AI rerouted away from {', '.join(blocked_segment_names)}. "
             f"The safe bypass adds {distance_delta_km} km, but averts an estimated {expected_delay_hours:.1f} hours "
-            f"of stranding and prevents potential vehicle rollover / cargo loss."
+            f"of stranding and prevents catastrophic road hazard collapse."
+        )
+    elif naive_max_disruption >= 60.0:
+        avoidance_rationale = (
+            f"High near-term disruption risk ({naive_max_disruption}% chance in 24-48h) detected on direct corridor via live meteorological forecast. "
+            f"Setumarg AI proactively recommends safe valley bypass to avoid road closure delays."
         )
     else:
         avoidance_rationale = (
-            f"Direct corridor is currently stable ({naive_max_risk:.2f} risk score). "
-            f"Monitoring upstream rainfall nowcast for sudden cloudburst shifts."
+            f"Direct corridor is currently stable ({naive_max_risk:.2f} dynamic risk score, {naive_max_disruption}% 24-48h disruption likelihood). "
+            f"Safe for transit under continuous live Open-Meteo monitoring."
         )
+
+    recommendation = "SAFE_BYPASS_RECOMMENDED" if (naive_has_blockage or naive_max_disruption >= 60.0) else "DIRECT_PATH_ACCEPTABLE"
 
     return {
         "origin": request.origin,
         "destination": request.destination,
         "vehicle_type": request.vehicle_type,
-        "ai_recommendation": "SAFE_BYPASS_RECOMMENDED" if naive_has_blockage else "DIRECT_PATH_ACCEPTABLE",
+        "is_live_weather_mode": is_live,
+        "live_weather_sync_time": CURRENT_RAINFALL_STATE.get("last_recompute_time"),
+        "ai_recommendation": recommendation,
         "avoidance_rationale": avoidance_rationale,
         "summary_comparison": {
             "extra_distance_km": distance_delta_km,
             "hours_saved_against_stranding": expected_delay_hours,
             "naive_risk_index": round(naive_max_risk * 100, 1),
             "safe_risk_index": round(safe_max_risk * 100, 1),
-            "safety_gain_percent": round((1.0 - (safe_max_risk / max(0.1, naive_max_risk))) * 100, 1)
+            "safety_gain_percent": round((1.0 - (safe_max_risk / max(0.1, naive_max_risk))) * 100, 1),
+            "naive_disruption_likelihood_pct": naive_max_disruption,
+            "safe_disruption_likelihood_pct": safe_max_disruption
         },
         "naive_route": {
             "name": preset["naive_route"]["name"],
@@ -243,6 +270,8 @@ def optimize_route(request: RouteRequest):
             "base_duration_hrs": naive_base_duration,
             "delay_penalty_hrs": expected_delay_hours,
             "max_risk_score": round(naive_max_risk, 3),
+            "disruption_likelihood_pct": naive_max_disruption,
+            "disruption_prediction_text": naive_top_prediction,
             "has_active_blockage": naive_has_blockage,
             "compromised_segments": blocked_segment_names,
             "coordinates": preset["naive_route"]["geometry"],
@@ -253,6 +282,8 @@ def optimize_route(request: RouteRequest):
             "distance_km": preset["safe_route"]["distance_km"],
             "duration_hrs": safe_base_duration,
             "max_risk_score": round(safe_max_risk, 3),
+            "disruption_likelihood_pct": safe_max_disruption,
+            "disruption_prediction_text": safe_top_prediction,
             "has_active_blockage": False,
             "coordinates": preset["safe_route"]["geometry"],
             "color": "#10b981"

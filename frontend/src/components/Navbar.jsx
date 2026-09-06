@@ -50,6 +50,21 @@ export default function Navbar({
         </div>
 
         <div className="flex items-center gap-3 mt-1 sm:mt-0">
+          {nowcastData?.is_live_mode ? (
+            <span className="flex items-center gap-1.5 bg-[#1E3827] border border-[#34D399]/40 text-[#6EE7B7] px-2 py-0.5 rounded text-[11px] font-mono shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
+              Live Open-Meteo Synced (Auto 15m)
+            </span>
+          ) : (
+            <button 
+              onClick={() => onScenarioChange && onScenarioChange('live_weather')}
+              className="flex items-center gap-1 bg-[#422006] border border-[#F59E0B]/50 text-[#FDE68A] px-2 py-0.5 rounded text-[10px] font-mono hover:bg-[#78350F] transition"
+              title="Click to resume real live weather mode"
+            >
+              <span>Scenario Mode (Click for Live)</span>
+            </button>
+          )}
+
           {blockedCount > 0 && (
             <span className="flex items-center gap-1.5 bg-[#5C1914] border border-[#EF4444]/60 text-[#FECACA] px-2.5 py-0.5 rounded text-xs font-bold shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#EF4444] animate-ping"></span>

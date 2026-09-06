@@ -47,6 +47,28 @@ export default function App() {
 
   useEffect(() => {
     fetchAllData();
+
+    // Auto-polling interval: check live status every 30 seconds
+    // Automatically propagates background recomputes to the UI without requiring page reload
+    const pollInterval = setInterval(async () => {
+      try {
+        const statusRes = await fetch('/api/risk/live-status').then(r => r.json());
+        if (statusRes.is_live_mode) {
+          const [segRes, accRes, dashRes] = await Promise.all([
+            fetch('/api/risk/segments').then(r => r.json()),
+            fetch('/api/accessibility/villages').then(r => r.json()),
+            fetch('/api/dashboard/stats').then(r => r.json())
+          ]);
+          setNowcastData(segRes);
+          setAccessibilityData(accRes);
+          setDashboardData(dashRes);
+        }
+      } catch (e) {
+        // Silent recovery on temporary network glitch
+      }
+    }, 30000);
+
+    return () => clearInterval(pollInterval);
   }, []);
 
   // Handler for Rainfall Scenarios (Dry, Monsoon, Cloudburst)

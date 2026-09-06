@@ -9,6 +9,10 @@ Main FastAPI Application Entrypoint.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, timezone
+from contextlib import asynccontextmanager
+from typing import Optional
+import asyncio
+import logging
 import os
 import sys
 from pathlib import Path
@@ -19,14 +23,58 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from backend.routers import risk, reports, accessibility, routing, freight
-from backend.routers.risk import CURRENT_RAINFALL_STATE, compute_segment_dynamic_risk
+from backend.routers.risk import CURRENT_RAINFALL_STATE, compute_segment_dynamic_risk, recompute_live_risks
 from backend.routers.accessibility import calculate_village_accessibility
 from backend.data.seed_ner_data import ROAD_SEGMENTS, VILLAGES
+
+logger = logging.getLogger("setumarg.main")
+_scheduler_task: Optional[asyncio.Task] = None
+
+
+async def live_weather_recompute_worker(interval_seconds: int = 900):
+    """
+    Background scheduler loop that runs every 15 minutes (900 seconds).
+    Re-fetches real-time Open-Meteo weather across NER and recomputes the risk-fusion state.
+    """
+    logger.info(f"Live weather & risk auto-recompute scheduler active (cycle: {interval_seconds}s).")
+    while True:
+        try:
+            await asyncio.sleep(interval_seconds)
+            if CURRENT_RAINFALL_STATE.get("is_live_mode", True):
+                logger.info("Executing scheduled periodic live weather ingestion & risk recompute...")
+                recompute_live_risks()
+        except asyncio.CancelledError:
+            logger.info("Live weather auto-recompute scheduler terminated cleanly.")
+            break
+        except Exception as exc:
+            logger.error(f"Error during scheduled weather recompute: {exc}")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global _scheduler_task
+    logger.info("Starting Setumarg engine with live meteorological ingestion...")
+    try:
+        recompute_live_risks()
+    except Exception as exc:
+        logger.warning(f"Initial live weather synchronization notice: {exc}")
+
+    interval = int(os.getenv("WEATHER_RECOMPUTE_INTERVAL_SECONDS", "900"))
+    _scheduler_task = asyncio.create_task(live_weather_recompute_worker(interval_seconds=interval))
+    yield
+    if _scheduler_task:
+        _scheduler_task.cancel()
+        try:
+            await _scheduler_task
+        except asyncio.CancelledError:
+            pass
+
 
 app = FastAPI(
     title="Setumarg API - NER Logistics & Accessibility Intelligence",
     description="Grounded in Eastern Himalaya Landslide Susceptibility Models, NASA LHASA Nowcasting, and World Bank Rural Access Index (RAI).",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 app.add_middleware(
@@ -97,9 +145,11 @@ def get_executive_kpi_dashboard():
     estimated_freight_savings_cr = round(1.2 + (blocked_count * 0.85), 2)
 
     return {
-        "timestamp_now": datetime.utcnow().isoformat() + "Z",
+        "timestamp_now": datetime.now(timezone.utc).isoformat(),
         "active_rainfall_scenario": CURRENT_RAINFALL_STATE["active_scenario_key"],
-        "rainfall_multiplier": mult,
+        "is_live_mode": CURRENT_RAINFALL_STATE.get("is_live_mode", True),
+        "last_recompute_time": CURRENT_RAINFALL_STATE.get("last_recompute_time"),
+        "rainfall_multiplier": CURRENT_RAINFALL_STATE["custom_multiplier"],
         "rainfall_intensity_mm_hr": CURRENT_RAINFALL_STATE["rainfall_intensity_mm_hr"],
 
         # Pillar 1: Economic

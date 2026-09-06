@@ -7,22 +7,24 @@ This document details the data engineering pipelines, geomorphic conditioning fa
 
 ---
 
-## 1. Prototype Mocked / Seed Data vs. Real Production Sources
+## 1. Prototype Live & Derived Feeds vs. Production Target Systems
 
-In this hackathon working prototype, realistic synthetic datasets are seeded for **12 monitored trunk highway segments** (NH-27, NH-37, NH-6/44, NH-10, NH-102, NH-13), **25 representative villages** across all 8 NER states, and **6 strategic multi-modal freight hubs**.
+In Setumarg, the platform operates on a hybrid architecture combining **live public meteorological feeds**, **satellite digital elevation models**, and **real OpenStreetMap geometries** with literature-calibrated geotechnical and multi-modal logistics layers across **415 monitored highway sub-segments** (~2,100 km across 7 corridors), **25 representative villages** across all 8 NER states, and **6 strategic multi-modal freight hubs**.
 
-The table below provides the 1:1 mapping between our prototype features and the corresponding national/satellite production feeds:
+The table below provides the status of each data domain and its corresponding national/satellite production feed mapping:
 
-| Data Domain | Working Prototype (Seed Data) | Production Integration Target | Resolution / Refresh Cadence |
-| :--- | :--- | :--- | :--- |
-| **Landslide Conditioning Factors** | 12 geotechnical features (slope, aspect, curvature, faults, drainage, NDVI, lithology, soil) | **GSI Bhukosh** (Geological Survey of India) + **ISRO Bhuvan** 30m CartoDEM | 30-meter spatial resolution (Static + Annual land cover updates) |
-| **Active Faults & Lineaments** | MCT, MBT, Dauki Thrust proximity buffers | **GSI Seismo-Tectonic Atlas of India** & Lineament GIS Layer | Vector lineaments layer |
-| **Live Precipitation Feed** | Interactive nowcast scrubber (0.2x to 3.5x multiplier) + IMD radar presets | **IMD Doppler Weather Radar** (Cherrapunji, Mohanbari, Agartala) + **NASA GPM IMERG** | 30-minute rolling precipitation intensity ($mm/hr$) |
-| **Road Network & Geometries** | NHAI / MoRTH highway coordinate vectors for NER arteries | **MoRTH GIS Portal** + **OpenStreetMap (OSRM)** | Real-time road geometry & topology |
-| **Rural Settlements & Health Access** | 25 villages with population, elevation, travel times to CHC/PHC | **PMGSY Rural Roads Geoportal** + **Census 2011 Village Directory** + **WorldPop** | Population-weighted village centroids |
-| **Multi-Modal Waterway Transit** | NW-2 Brahmaputra River route (Dhubri, Pandu, Neamati) | **IWAI (Inland Waterways Authority of India)** National Waterway 2 Terminal APIs | Daily terminal draft & barge tracking |
-| **Unified Logistics Interoperability** | Exportable JSON contract schema conforming to ULIP v2.4 | **ULIP (Unified Logistics Interface Platform)** & **PM GatiShakti NMP** (1,600+ GIS layers) | RESTful API webhook / Kafka event stream |
-| **Ground Incident Verification** | Crowdsourced pin-drop reporting with photo, severity, timestamp | **NASA LHASA Landslide Reporter** + **BRO (Border Roads Organisation) Project Shivalik/Pushpak SITREPs** | Sub-minute event logging |
+| Data Domain | Current Platform State | Implementation / Source Used | Production Integration Target | Refresh Cadence |
+| :--- | :--- | :--- | :--- | :--- |
+| **Live Precipitation & Meteorology** | **Live Public API Ingestion** | **Open-Meteo API** (Current precipitation rate, WMO codes, and 48-hour hourly rain forecasts across 33 NER district centroids) with interactive simulation scrubber override | **IMD Doppler Weather Radar** (Cherrapunji, Mohanbari, Agartala) + **NASA GPM IMERG** | Real-time (15-minute background auto-recompute) |
+| **Terrain Slope & Aspect** | **Real Satellite Data** | **NASA SRTM 30m** (5-point cross stencil via OpenTopoData API, cached locally in `elevation_cache.json` across 411 unique midpoints) | **ISRO Bhuvan** 10m/30m CartoDEM | Static terrain model (High resolution) |
+| **Historical Hotspot Failure Outlook** | **Calibrated Empirical Model** | Logged repeat blockage history (Sonapur: 18, Teesta: 24, Phesama: 12, Tengnoupal: 9, Roing: 14) evaluated against critical 24-48h rainfall triggers (42–52 mm) via logistic failure curves | **NDMA National Landslide Risk Management Strategy** & **GSI Landslide Incident Repository** | Dynamic (Per weather fetch) |
+| **Road Network & Geometries** | **Real Data** | **OpenStreetMap (OSRM)** Overpass API: 415 contiguous sub-segments across 7 major NER corridors | **MoRTH / NHAI GIS Portal** + **PM GatiShakti NMP** | Real-time road geometry & topology |
+| **Landslide Conditioning Factors** | **Literature-Calibrated / Seeded** | 12 geotechnical features (curvature, faults, drainage, NDVI, lithology, soil) calibrated to published Eastern Himalaya research (Dibang Valley RF study) | **GSI Bhukosh** (1:50,000 National Landslide Susceptibility Mapping) | 30-meter spatial resolution |
+| **Active Faults & Lineaments** | **Seeded Buffer Zones** | Main Central Thrust (MCT), Main Boundary Thrust (MBT), and Dauki Fault proximity buffers | **GSI Seismo-Tectonic Atlas of India** & Lineament GIS Layer | Vector lineaments layer |
+| **Rural Settlements & Health Access** | **Real Snapped Coordinates / Seeded Population** | 25 villages with population and road travel times to nearest CHC/PHC snapped to road network | **PMGSY Rural Roads Geoportal** + **Census 2011 Village Directory** + **WorldPop** | Population-weighted village centroids |
+| **Multi-Modal Waterway Transit** | **Real River Geometry / Seeded Tariffs** | NW-2 Brahmaputra River route (Dhubri, Pandu, Silghat, Neamati, Bogibeel) | **IWAI (Inland Waterways Authority of India)** National Waterway 2 Terminal APIs | Daily terminal draft & barge tracking |
+| **Unified Logistics Interoperability** | **Operational Schema** | Exportable JSON contract schema conforming to ULIP v2.4 specification | **ULIP (Unified Logistics Interface Platform)** & **PM GatiShakti NMP** (1,600+ GIS layers) | RESTful API webhook / Kafka event stream |
+| **Ground Incident Verification** | **Real-Time Interactive** | Crowdsourced pin-drop reporting with photo upload support, severity, and GPS timestamp | **NASA LHASA Landslide Reporter** + **BRO Project Shivalik/Pushpak SITREPs** | Sub-minute event logging |
 
 ---
 
@@ -53,5 +55,20 @@ $$R_{\text{dynamic}} = \min\left(1.0, \; S_{\text{static}} \times \left(0.6 + 0.
 
 Where:
 - $S_{\text{static}} \in [0.0, 1.0]$: Susceptibility score generated by the trained **Random Forest Classifier** (100 estimators, trained on 12 Himalayan factors).
-- $R_{\text{current}} / R_{\text{baseline}}$: Live precipitation intensity multiplier ($0.2\times$ in winter to $3.5\times$ during intense cloudbursts).
-- Any confirmed crowdsourced blockage instantly elevates $R_{\text{dynamic}} \ge 0.92$ (Severe / Impassable).
+- $R_{\text{current}} / R_{\text{baseline}}$: Precipitation intensity multiplier. In **Live Operation (Default Mode)**, this multiplier is computed dynamically from real-time Open-Meteo observations and 24-hour rainfall forecasts across district centroids ($M_{\text{live}} = 0.5 + 2.0 \cdot \min(1.0, P_{24h} / 60.0)$). In **Simulation Mode**, this is driven by the manual UI scrubber ($0.2\times$ in dry conditions to $3.5\times$ during simulated cloudbursts).
+- Any confirmed crowdsourced blockage instantly elevates $R_{\text{dynamic}} \ge 0.96$ (Severe / Impassable).
+
+---
+
+## 4. Empirical Hotspot Failure & Disruption Outlook
+
+For notoriously vulnerable choke points with repeated historical blockages (e.g., Sonapur Tunnel on NH-6, Teesta Corridor on NH-10, Phesama on NH-29, Tengnoupal on NH-102, Roing on NH-13), Setumarg incorporates an empirical logistic failure prediction model:
+
+$$P_{\text{disruption}} = \frac{1}{1 + e^{-k \cdot (P_{24-48h} - T_{\text{crit}})}}$$
+
+Where:
+- $T_{\text{crit}}$: Empirical critical 24-hour precipitation threshold ($42.0\text{ mm}$ to $52.0\text{ mm}$) derived from historical landslide disaster logs.
+- $P_{24-48h}$: Live forecasted 24h to 48h cumulative rainfall from Open-Meteo.
+- $k$: Logistic sensitivity slope ($0.08$ to $0.11$).
+- When $P_{\text{disruption}} \ge 60\%$, the route optimizer issues proactive diversion warnings before physical blockages strand vehicles.
+

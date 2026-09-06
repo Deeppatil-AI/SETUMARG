@@ -132,7 +132,15 @@ export default function RouteOptimizerView({ onOptimizeRoute }) {
 
         {/* AI Advisory Callout */}
         <div className="bg-[#E5DEC9] p-2.5 rounded border border-[#3E5C63]/25 max-w-xl text-xs">
-          <strong className="font-heading font-bold text-[#1C2B22] block mb-0.5">Safety Advice:</strong>
+          <div className="flex items-center justify-between mb-1">
+            <strong className="font-heading font-bold text-[#1C2B22]">Safety Advice:</strong>
+            {routeResult?.is_live_weather_mode && (
+              <span className="text-[10px] font-mono text-[#6EE7B7] bg-[#142319] px-2 py-0.5 rounded flex items-center gap-1 font-semibold border border-[#34D399]/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#34D399] animate-pulse"></span>
+                Live Open-Meteo Fused
+              </span>
+            )}
+          </div>
           <span className="text-[#3E5C63] leading-relaxed">
             {routeResult?.avoidance_rationale || 'Finding the safest travel route...'}
           </span>
@@ -175,6 +183,13 @@ export default function RouteOptimizerView({ onOptimizeRoute }) {
                 <strong className="font-heading text-xl font-bold text-[#A63A32]">{comparison?.naive_risk_index}%</strong>
               </div>
             </div>
+
+            {naive?.disruption_likelihood_pct !== undefined && (
+              <div className="mt-3 p-2 bg-[#A63A32]/10 border border-[#A63A32]/30 rounded text-xs flex items-center justify-between">
+                <span className="text-[#A63A32] font-semibold">⚡ Impending 24-48h Disruption Risk:</span>
+                <strong className="text-[#A63A32] font-mono text-xs">{naive.disruption_likelihood_pct}%</strong>
+              </div>
+            )}
 
             {naive?.has_active_blockage && (
               <div className="mt-4 p-2.5 bg-[#A63A32]/10 border border-[#A63A32]/30 rounded text-xs text-[#A63A32]">
@@ -220,6 +235,13 @@ export default function RouteOptimizerView({ onOptimizeRoute }) {
                 <strong className="font-heading text-xl font-bold text-[#5C7A4E]">+{comparison?.safety_gain_percent}% safer</strong>
               </div>
             </div>
+
+            {safe?.disruption_likelihood_pct !== undefined && (
+              <div className="mt-3 p-2 bg-[#5C7A4E]/10 border border-[#5C7A4E]/30 rounded text-xs flex items-center justify-between">
+                <span className="text-[#5C7A4E] font-semibold">✓ Impending 24-48h Disruption Risk:</span>
+                <strong className="text-[#5C7A4E] font-mono text-xs">{safe.disruption_likelihood_pct}% (Low)</strong>
+              </div>
+            )}
 
             <div className="mt-4 p-2.5 bg-[#5C7A4E]/10 border border-[#5C7A4E]/30 rounded text-xs text-[#5C7A4E]">
               <strong className="block font-heading">Why This Route is Safer:</strong>
