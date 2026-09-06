@@ -38,7 +38,7 @@ Crowdsourced Photo & Geo-Tag   │ • Turn-by-Turn OSRM-Compatible Routing  │
                                │ • World Bank Rural Access Index (RAI)   │ • Bottlenecks Dashboard
                                │ • Multilingual C-DoT SMS/IVR Dispatch   │ • ULIP / PM GatiShakti NW-2
                                └──────────────────┬──────────────────────┘
-                                                  │ REST APIs & WebSockets
+                                                  │ REST APIs (polled every 15 min via scheduled recompute)
                                                   ▼
                                [ REACT 18 + VITE INTERACTIVE FRONTEND ]
                                • Dynamic Leaflet Map with Rain & GSI Layers

@@ -397,7 +397,7 @@ graph TD
 * **Real Current Behavior**:
   * In this prototype, data updates are event-driven: moving the Monsoon Scrubber or clicking a weather preset triggers an immediate re-scoring of all 415 segments across the backend and refreshes the frontend state via `/api/risk/nowcast`.
   * Crowdsourced incident submissions trigger immediate map re-renders.
-* **Roadmap**: Background cron task polling IMD Doppler radar servers every 15 minutes and pushing updates to connected clients via WebSockets / Server-Sent Events (SSE).
+* **Roadmap**: Background cron task polling IMD Doppler radar servers every 15 minutes and pushing updates to connected clients via Server-Sent Events (SSE) / long-polling.
 
 ### Q6: Can this scale to all of India or other mountain states like Uttarakhand and Himachal Pradesh?
 * **Real Current Behavior**:
@@ -412,7 +412,7 @@ To maintain absolute technical integrity, the following simplifications in the c
 
 1. **Synthetic Training Labels**: While the 12 conditioning factors reflect real geotechnical science and slope/aspect are computed from real NASA SRTM 30m data, the Random Forest model was trained on a synthetic dataset whose labels were generated from empirical literature weights. The $91.5\%$ accuracy score is an **internal mathematical consistency check**, not a field-validated disaster inventory prediction rate.
 2. **Simplified Regional Geotechnical Factor Interpolation**: Attributes such as lithology class, soil texture, and distance to faults are currently assigned based on regional geological zones and corridor heuristics, rather than a continuous 1:1 raster overlay with GSI Bhukosh spatial GIS vector layers.
-3. **Simulated Weather Multiplier**: Rainfall is currently controlled via interactive presets and the monsoon scrubber rather than a live streaming WebSocket connection to IMD Doppler Radar stations.
+3. **Simulated Weather Multiplier**: Rainfall is currently controlled via interactive presets and the monsoon scrubber (alongside 15-minute scheduled background recomputes) rather than a live streaming direct connection to IMD Doppler Radar stations.
 4. **Mocked Telecom Gateways**: The emergency 2G SMS and IVR alert buttons generate real JSON payloads and API responses, but do not connect to a commercial paid SMS aggregator (e.g. Twilio or CDAC C-DoT gateway).
 5. **Highway Coverage Scope**: The real OSM highway paths currently cover 7 major corridors (415 segments, ~2,100 km). Secondary village link roads (PMGSY roads) are represented by snapped feeder links rather than full state-wide road vector graphs.
 
